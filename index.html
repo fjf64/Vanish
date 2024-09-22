@@ -590,7 +590,6 @@
         ]
 
         function saveGame() {
-            
             localStorage.setItem("playerData", JSON.stringify(player));
         }
 
@@ -647,6 +646,7 @@
             }
             refreshStats()
             document.getElementById("enemyStatus").innerHTML = "Coins:" + player.coins;
+            saveGame()
             //            document.getElementById("playerStatus").innerHTML = "You are currently in the Hub. The path ahead is yours to define.";
 
         }
