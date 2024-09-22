@@ -6,7 +6,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Protest+Guerrilla&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
 
 <head>
- 
+
     <link rel="icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/800px-Circle_-_black_simple.svg.png">
     <style>
         :root {
@@ -328,7 +328,7 @@
 
                 if (getRandomInt(1, 75) == 1) {
                     for (let x in [...Array(getRandomInt(1, 2)).keys()]) {
-                        createFlame();1kjhbjkbk
+                        createFlame();
                     }
                 }
                 //                document.getElementById("combatLog").innerHTML = JSON.stringify(flames);
@@ -465,20 +465,23 @@
             hub: ["|1| Enter Dungeon", "fight", "dungeon"],
             fight: ["|1| Attack", "attack"],
             distrib: ["|1| add to health", "addtohp"],
-            flightCity: ["|1| Go to shop", "goShop"]
+            flightCity: ["|1| Go to shop", "goShop"],
+            settings: ["|1| Save Data", "saveGame"],
         }
         var action2List = {
             actionid: "action2",
             hub: ["", ""],
             fight: ["|2| Strike", "strike"],
             distrib: ["|2| add to defense", "addtodef"],
-            flightCity: ["|2| investigate a strange water drain", "storyIncrement", "flightCityHarpy"]
+            flightCity: ["|2| investigate a strange water drain", "storyIncrement", "flightCityHarpy"],
+            settings: ["|2| Load Data", "loadGame"],
         }
         var action3List = {
             actionid: "action3",
             hub: ["|3| Distribute Attribute Points", "attributeDistribute"],
             fight: ["", ""],
             distrib: ["|3| add to attack", "addtoatt"],
+            settings: ["|3| Clear Data", "clearGame"],
         }
         var action4List = {
             actionid: "action4",
@@ -504,9 +507,10 @@
         }
         var action8List = {
             actionid: "action8",
-            hub: ["|8| Settings", ""],
+            hub: ["|8| Settings", "goSettings"],
             fight: ["|8| Exit Dungeon", "goHub"],
             flightCity: ["|8| Go to Hub", "goHub"],
+            settings: ["|8| Go to Hub", "goHub"],
         }
 
         var levelMilestones = {
@@ -584,6 +588,25 @@
             ["Explorer's Map", simpleAdd, "startingFloor, 5"],
             ["Hunter's Map", simpleAdd, "startingFloor, 5"],
         ]
+
+        function saveGame() {
+            
+            localStorage.setItem("playerData", JSON.stringify(player));
+        }
+
+        function loadGame() {
+            if (localStorage.getItem("playerData") !== null) {
+            player = JSON.parse(localStorage.getItem("playerData"));
+            if (player.harpy == true) {
+                action2List.flightCity = ["", ""];
+            }
+            cleanShop()
+            refreshStats() }
+        }
+
+        function clearGame() {
+            localStorage.clear();
+        }
 
         function renameAction(actionlist, location) {
 
@@ -1031,11 +1054,22 @@
         }
 
         function cleanShop() {
-            for (let item of player.items) {
-                items[item] = "";
+            if (player.items !== undefined) {
+                for (let item of player.items) {
+                    items[item] = "";
+                }
+            }
+        }
+
+        function goSettings() {
+            goArea("settings")
+            let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+            for (let x of count_to_8) {
+                renameAction(("action" + x + "List"), "settings");
             }
         }
         document.body.addEventListener("keydown", logKey);
+        loadGame()
         goHub();
 
     </script>
