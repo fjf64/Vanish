@@ -6,6 +6,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Protest+Guerrilla&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
 
 <head>
+    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
     <link rel="icon" type="image/x-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/800px-Circle_-_black_simple.svg.png">
     <style>
@@ -117,20 +118,36 @@
             text-align: center;
         }
 
+        #storyLog {
+            display: flex;
+            overflow-y: scroll;
+            overflow-x: hidden;
+            flex-direction: column-reverse;
+            margin-left: 0VW;
+            margin-right: 0VW;
+            text-align: center;
+            left: 29.75%;
+            top: 42VH;
+            width: 46.75VW;
+            height: 16.5VH;
+            padding-bottom: 1VH;
+        }
+
         .triangle {
             width: 0;
             background: transparent;
             border: transparent;
-            border-bottom: 20VH solid var(--colorTrap);
+            border-bottom: 20VH solid var(--colorText);
             border-left: 5.25VW solid transparent;
             border-right: 5.25VW solid transparent;
         }
 
         .inTriangle {
             left: 50%;
+            margin: 0;
             text-align: center;
             position: flex;
-            color: white;
+            color: var(--colorText);
         }
 
         .line {
@@ -149,6 +166,12 @@
             background: #e3ded1;
         }
 
+        .splitline {
+            border-style: solid;
+            border-width: .01VW;
+            border-color: var(--colorText);
+            width: 85%;
+        }
     </style>
 </head>
 
@@ -160,24 +183,25 @@
         Your browser does not support the HTML canvas tag.</canvas>
 
     <!--LOG-->
-    <div style="left: 25%;width: 50VW;height: 40VH;">
+    <div style="left: 23%;width: 53.5VW;height: 40VH;">
         <p id="combatLog"></p>
     </div>
 
     <!--STATUS-->
-    <div class="triangle" style="left: 29.75%;width: 30VW;height: 0VH;top:41%;color:white;">
+    <!--    <div class="triangle" style="left: 29.75%;width: 30VW;height: 0VH;top:41%;color:white;">-->
 
-    </div>
-    <div style="position: absolute;left: 34.75%;top:41VH;width: 30VW;height: 20VH;background: transparent;border: Transparent; display: block;padding-top: 4VH;position:absolute;">
+    <!--    </div>-->
+    <div style="position: absolute;left: 23%;top:42VH;width: 6VW;height: 12VH; display: inline-flex;padding-top: 0VH;overflow: hidden;justify-content: center;">
         <p id="enemyStatus" class="inTriangle" style="top: 20%;"></p>
-        <hr style="border: none;">
+
+        <hr style="" class="splitline">
 
         <p id="playerStatus" class="inTriangle" style="top: 40%;"></p>
     </div>
-    <div class="line" style="top: 10%;width:30vw;left:34.75%;"></div>
+    <!--    <div class="line" style="top: 10%;width:30vw;left:34.75%;"></div>-->
 
     <div style="left: 29.75%;top:61%;width: 40VW;height: 15VH;padding-bottom: 1VH;" id="activityLog"></div>
-
+    <div style="" id="storyLog"></div>
 
     <div style="left: 30%;top:78.75%;width: 40VW;height: 7VH;flex-direction: column;overflow: hidden;border: transparent 4px;background: transparent;">
         <div style="width: 22.5%; float:left;left: 0%;" id="action1" class="divSplit" onclick="clickall(action1List)">
@@ -245,9 +269,20 @@
 
 
     <script>
-        //        dynamic backgrounds, demon castle, new skills, save data, setting + wipe + turn off panels
+        //       demon castle, new skills, save data, setting + wipe + turn off panels, summon, sacrifice (damage buff), curse (defense debuff), The great bison(summon quest), the witch(curse quest), respec, bird colonizers
 
         var r = document.querySelector(':root');
+
+        function blurAll() {
+            var tmp = document.createElement("input");
+            document.body.appendChild(tmp);
+            tmp.focus();
+            document.body.removeChild(tmp);
+        }
+
+        function runFunction(functionName, Parameters = "") {
+            window[functionName](window[Parameters])
+        }
 
         function getRandomInt(min, max) {
             min = Math.ceil(min);
@@ -260,6 +295,16 @@
                 return true
             }
             return false;
+        }
+
+        function activityLogAdd(text) {
+            combatLog += text;
+            document.getElementById("combatLog").innerHTML = combatLog;
+        }
+
+        function combatLogAdd(text) {
+            activityLog += text;
+            document.getElementById("activityLog").innerHTML = activityLog;
         }
 
         function generateFlames(selectedCanvas) {
@@ -338,7 +383,7 @@
                 } else {
                     var fillColor = areaTraits.hub.colorText
                 }
-ctx.globalAlpha = 0.75
+                ctx.globalAlpha = 0.75
                 ctx.fillStyle = fillColor;
                 ctx.fill(region); //, "evenodd"
             }
@@ -450,8 +495,10 @@ ctx.globalAlpha = 0.75
             harpyDamage: 1,
             strikeDamage: 7.5,
             heal: 1,
+            curseStrength: 1,
 
         };
+        var playerBackup = JSON.parse(JSON.stringify(player))
 
         var enemy = {
             name: "Filler Mike",
@@ -485,25 +532,25 @@ ctx.globalAlpha = 0.75
         }
         var action4List = {
             actionid: "action4",
-            hub: ["|4| ", ""],
-            fight: ["|4| ", ""],
+            hub: [" ", ""],
+            fight: [" ", ""],
             distrib: ["|4| add to skill uses", "addtosp"],
         }
         var action5List = {
             actionid: "action5",
-            hub: ["|5| ", ""],
-            fight: ["|5| ", ""],
+            hub: [" ", ""],
+            fight: [" ", ""],
             distrib: ["|5| Exit", "goHub"],
         }
         var action6List = {
             actionid: "action6",
-            hub: ["|6| ", ""],
-            fight: ["|6| ", ""],
+            hub: [" ", ""],
+            fight: [" ", ""],
         }
         var action7List = {
             actionid: "action7",
-            hub: ["|7| ", ""],
-            fight: ["|7| ", ""]
+            hub: [" ", ""],
+            fight: [" ", ""]
         }
         var action8List = {
             actionid: "action8",
@@ -561,6 +608,7 @@ ctx.globalAlpha = 0.75
         var stories = { //1 - text displayed, 2 - increment, 3 - choice sender location, 4 - function (optional)
             // quickname:['text',yes,no] if in "here" do not run as function
             flightCityHarpy: { //   :["",["",""]],
+                onclear: 'harpyClear',
                 currentStoryPosition: "start",
                 start: ["You find a suspicious water drain in the floating city, elevated, and serving no purpose. [y/n to continue]", ["firstQuestion", "firstQuestion"]],
                 firstQuestion: ["Do you choose to enter it?", ["enterGutter", "leave"]],
@@ -595,16 +643,27 @@ ctx.globalAlpha = 0.75
 
         function loadGame() {
             if (localStorage.getItem("playerData") !== null) {
-            player = JSON.parse(localStorage.getItem("playerData"));
-            if (player.harpy == true) {
-                action2List.flightCity = ["", ""];
+                player = JSON.parse(localStorage.getItem("playerData"));
+                for (let x of player.completedStories) {
+                    //                    runFunction(stories[x].onclear)
+                    window[stories[x].onclear]()
+                    console.log(stories[x].onclear)
+                }
+                for (let x of Object.keys(levelMilestones)) {
+                    if (player.level >= parseInt(x)) { // && Object.keys(levelMilestones).includes(player.level.toString())
+                        //                        activityLog += "<br> You've unlocked " + levelMilestones[player.level][0];
+                        window[levelMilestones[x][1]]()
+
+                    }
+                }
+                cleanShop()
+                refreshStats()
             }
-            cleanShop()
-            refreshStats() }
         }
 
         function clearGame() {
             localStorage.clear();
+            location.reload();
         }
 
         function renameAction(actionlist, location) {
@@ -659,7 +718,7 @@ ctx.globalAlpha = 0.75
                     if (actionlist[y].length >= 3) {
                         window[funcname](actionlist[y][2]);
                     } else {
-                        window[funcname]()
+                        runFunction(funcname)
                     }
                 }
             } else {
@@ -682,6 +741,8 @@ ctx.globalAlpha = 0.75
                 } else {
                     child.innerHTML = idname + ": " + player[idname];
                 }
+
+
             }
             myElement = document.getElementById("enemyStats");
             for (let child of myElement.children) {
@@ -699,6 +760,9 @@ ctx.globalAlpha = 0.75
                 }
             }
             document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
+            if (player.location == 'fight') {
+                document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
+            }
         }
 
         function fight(loc) {
@@ -783,6 +847,33 @@ ctx.globalAlpha = 0.75
                     document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
                     combatLog += "<br>You've healed " + Math.floor(player.defense * 2.5 * player.heal) + " health!";
                     document.getElementById("combatLog").innerHTML = combatLog;
+                    player.skillUses -= 1
+                    refreshStats()
+                    enemyTurn()
+                } else {
+                    refreshStats()
+                    enemyDeath()
+                }
+            } else {
+                if (enemy.status !== "dead" && enemy.health > 0) {
+                    combatLog += "<br>not enough skill points, defaulting to basic attack.";
+                    attack()
+                    document.getElementById("combatLog").innerHTML = combatLog;
+                    refreshStats()
+                } else {
+                    refreshStats()
+                    enemyDeath()
+                }
+            }
+
+        }
+
+        function curse() {
+            if (player.skillUses > 0) {
+                if (enemy.status !== "dead" && enemy.health > 0) {
+                    enemy.defense = (Math.floor((enemy.defense / player.curse * player.attack) * 100) / 100);
+                    refreshStats()
+                    combatLogAdd("<br>The enemy's defense is " + enemy.defense + "!")
                     player.skillUses -= 1
                     refreshStats()
                     enemyTurn()
@@ -927,7 +1018,7 @@ ctx.globalAlpha = 0.75
                     choiceNo();
                 }
             } else if (String.fromCharCode(e.keyCode) in [1, 2, 3, 4, 5, 6, 7, 8, 9].map(String) && player.choice == false && player.location !== "shop") {
-                if (player.location == "distrib") {
+                if (player.location == "hub") {
                     if (e.repeat) {
                         return
                     }
@@ -966,9 +1057,13 @@ ctx.globalAlpha = 0.75
         function addHarpy() {
             player.harpy = true;
             action2List.flightCity = ["", ""];
+            player.completedStories.push('flightCityHarpy')
             goHub()
         }
 
+        function harpyClear() {
+            action2List.flightCity = ["", ""];
+        }
 
 
         function choiceYes() {
@@ -984,8 +1079,8 @@ ctx.globalAlpha = 0.75
             player.choice = true;
             stories[story].currentStoryPosition;
             if (typeof stories[story][stories[story].currentStoryPosition] !== 'string') {
-                activityLog += "<br><br>" + stories[story][stories[story].currentStoryPosition][0];
-                document.getElementById("activityLog").innerHTML = activityLog;
+                //                activityLog += "<br><br>" + stories[story][stories[story].currentStoryPosition][0];
+                document.getElementById("storyLog").innerHTML = stories[story][stories[story].currentStoryPosition][0];
                 if (choice == "none") {
                     stories[story].currentStoryPosition = stories[story][stories[story].currentStoryPosition][1][0]
                 } else if (choice == "y") {
@@ -1005,8 +1100,17 @@ ctx.globalAlpha = 0.75
             goHub()
         }
 
-        function goShop() {
+        function resolveAfterSeconds(sec) {
+            return new Promise((resolve) => {
+                setTimeout(() => {
+                    resolve('resolved');
+                }, sec);
+            });
+        }
+
+        async function goShop() {
             cleanShop()
+
 
             let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
             for (let x of count_to_8) {
@@ -1028,6 +1132,8 @@ ctx.globalAlpha = 0.75
             };
             document.getElementById("inputBox").placeholder = "-|-|-";
             document.getElementById("inputBox").innerHTML = "";
+            const result = await resolveAfterSeconds(1);
+            document.getElementById("inputBox").focus();
         }
 
         function buyShopItem() {
@@ -1050,7 +1156,7 @@ ctx.globalAlpha = 0.75
                 }
             }
 
-
+            blurAll()
         }
 
         function cleanShop() {
@@ -1070,8 +1176,8 @@ ctx.globalAlpha = 0.75
         }
         document.body.addEventListener("keydown", logKey);
         loadGame()
-        goHub();
-
+        //        goHub();
+        runFunction('goHub')
     </script>
 
 </body>
