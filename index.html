@@ -122,15 +122,18 @@
             display: flex;
             overflow-y: scroll;
             overflow-x: hidden;
-            flex-direction: column-reverse;
+            flex-direction: column;
             margin-left: 0VW;
             margin-right: 0VW;
             text-align: center;
             left: 29.75%;
             top: 42VH;
-            width: 46.75VW;
-            height: 16.5VH;
+            width: 44.75VW;
+            height: 14.5VH;
+            padding-top: 2VH;
             padding-bottom: 1VH;
+            padding-left: 1vw;
+            padding-right: 1vw;
         }
 
         .triangle {
@@ -172,6 +175,7 @@
             border-color: var(--colorText);
             width: 85%;
         }
+
     </style>
 </head>
 
@@ -269,7 +273,7 @@
 
 
     <script>
-        //       demon castle, new skills, save data, setting + wipe + turn off panels, summon, sacrifice (damage buff), curse (defense debuff), The great bison(summon quest), the witch(curse quest), respec, bird colonizers
+        //       demon castle, new skills, save data fixer, setting + turn off panels, summon, sacrifice (damage buff), curse (defense debuff), The great bison(summon quest), the witch(curse quest), respec, bird colonizers, feather icon for harpy unlock
 
         var r = document.querySelector(':root');
 
@@ -647,7 +651,6 @@
                 for (let x of player.completedStories) {
                     //                    runFunction(stories[x].onclear)
                     window[stories[x].onclear]()
-                    console.log(stories[x].onclear)
                 }
                 for (let x of Object.keys(levelMilestones)) {
                     if (player.level >= parseInt(x)) { // && Object.keys(levelMilestones).includes(player.level.toString())
@@ -704,14 +707,14 @@
                 renameAction(("action" + x + "List"), "hub");
             }
             refreshStats()
-            document.getElementById("enemyStatus").innerHTML = "Coins:" + player.coins;
+            //            document.getElementById("enemyStatus").innerHTML = "Coins:" + player.coins;
             saveGame()
             //            document.getElementById("playerStatus").innerHTML = "You are currently in the Hub. The path ahead is yours to define.";
 
         }
 
         function clickall(actionlist) {
-            if (actionlist !== undefined) {
+            if (actionlist !== undefined && actionlist[player.location] !== undefined) {
                 y = player.location;
                 let funcname = (actionlist[y])[1];
                 if (funcname !== "") {
@@ -721,9 +724,10 @@
                         runFunction(funcname)
                     }
                 }
-            } else {
-                console.log("whoops the button that didn't exist was clicked :/")
             }
+            //            else {
+            //               console.log("whoops the button that didn't exist was clicked :/")
+            //            }
         }
 
         function refreshStats() {
@@ -1090,6 +1094,9 @@
                 }
             } else {
                 window[stories[story][stories[story].currentStoryPosition]]()
+                if (stories[story].currentStoryPosition == 'finale') {
+                    document.getElementById("storyLog").innerHTML = '';
+                }
             }
         }
 
@@ -1178,6 +1185,7 @@
         loadGame()
         //        goHub();
         runFunction('goHub')
+
     </script>
 
 </body>
