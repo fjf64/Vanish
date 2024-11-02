@@ -648,6 +648,14 @@
         function loadGame() {
             if (localStorage.getItem("playerData") !== null) {
                 player = JSON.parse(localStorage.getItem("playerData"));
+                //PLAYER:DEFAULT-PLAYER CROSS CHECKER
+                for (let x of Object.keys(playerBackup)) {
+                    if (!(Object.keys(player).includes(x)))
+                        player.x = playerBackup[x]
+                }
+                
+                
+                
                 for (let x of player.completedStories) {
                     //                    runFunction(stories[x].onclear)
                     window[stories[x].onclear]()
