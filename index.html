@@ -239,33 +239,28 @@
 
     <div style="left: 23%;top:61%;width: 6VW;height: 28VH;padding-bottom: 1VH;padding-top: 1VH;flex-direction: column;" id="playerStats">
         <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="SP" class="stats">
-            0
         </div>
         <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="attack" class="stats">
-            0
         </div>
         <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="maxHealth" class="stats">
-            0
         </div>
         <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="defense" class="stats">
-            0
         </div>
         <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="AP" class="stats">
-            0
         </div>
+        <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="coins" class="stats"></div>
         <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="level" class="stats">
-            0
         </div>
-        <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="floor" class="stats">
-            0
-        </div>
+
+
     </div>
     <input style="left: 23%;top:58.25%;width: 6VW;height: 2VH;padding-bottom: 1VH;padding-top: 1VH;position: absolute; padding:0;padding-top: 1VH;padding-bottom: 1VH;" class="divSplit" type="text" id="inputBox" name="inputBox" onkeypress="return true;" placeholder="">
 
     <div style="left: 70.5%;top:61%;width: 6VW;height: 29VH;padding-bottom: 1VH;" id="enemyStats">
-        <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="coins" class="stats">
-            0
-        </div>
+        <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="player:floor" class="stats"></div>
+        <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="enemy:attack" class="stats"></div>
+        <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="enemy:defense" class="stats"></div>
+        <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" class="stats">Enemy Stats:</div>
     </div>
 
 
@@ -273,7 +268,7 @@
 
 
     <script>
-        //       demon castle, new skills, save data fixer, setting + turn off panels, summon, sacrifice (damage buff), curse (defense debuff), The great bison(summon quest), the witch(curse quest), respec, bird colonizers, feather icon for harpy unlock
+        //       demon castle, new skills, save data fixer, setting + turn off panels, summon, sacrifice (damage buff), curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, feather icon for harpy unlock, hall of statistics, logs cap
 
         var r = document.querySelector(':root');
 
@@ -301,12 +296,12 @@
             return false;
         }
 
-        function activityLogAdd(text) {
+        function combatLogAdd(text) {
             combatLog += text;
             document.getElementById("combatLog").innerHTML = combatLog;
         }
 
-        function combatLogAdd(text) {
+        function activityLogAdd(text) {
             activityLog += text;
             document.getElementById("activityLog").innerHTML = activityLog;
         }
@@ -407,16 +402,18 @@
                         acceleration: 0,
                         acceleration_scalar: 2,
                         maxHeight: 0,
-                        limit: 100,
+                        limit: 75,
                         death: false,
-                        decayCount: 30,
+                        decayCount: 10,
                     })
                 }
             }
 
             function moveFlame(index) {
                 //                flames[index].acceleration = getRandomInt(0, flames[index].acceleration_scalar) - (flames[index].acceleration_scalar / 2.5);
-                flames[index].acceleration += getRandomInt((flames[index].acceleration_scalar * -1), (flames[index].acceleration_scalar * 1))
+                if (getRandomInt(1, 3) == 3) {
+                    flames[index].acceleration += getRandomInt((flames[index].acceleration_scalar * -1), (flames[index].acceleration_scalar * 1))
+                }
                 flames[index].speedx += flames[index].acceleration;
 
                 if (flames[index].speedx >= flames[index].limit || flames[index].speedx <= -1 * (flames[index].limit)) {
@@ -448,9 +445,9 @@
             c.height = window.innerHeight;
             createFlame()
             var ctx = c.getContext("2d");
-            let updateIntervalId_b = setInterval(flameRefresh, 50);
+            flameIntervals.push(setInterval(flameRefresh, 50));
         }
-
+        var flameIntervals = []
         generateFlames("canvaLeft")
         generateFlames("canvaRight")
 
@@ -473,6 +470,7 @@
         var combatLog = "";
         var activityLog = "";
         var player = {
+            panelsToggle: true,
             abilities: [1, 2],
             xp: 0,
             neededXp: 5,
@@ -483,6 +481,7 @@
             skillUsesMax: 3,
             skillUses: 3,
             attributePoints: 3,
+            attributePointsUsed: [],
             location: "hub",
             subArea: "",
             fightLocation: "",
@@ -521,7 +520,7 @@
         }
         var action2List = {
             actionid: "action2",
-            hub: ["", ""],
+            hub: ["|2| Distribute Attribute Points", "attributeDistribute"],
             fight: ["|2| Strike", "strike"],
             distrib: ["|2| add to defense", "addtodef"],
             flightCity: ["|2| investigate a strange water drain", "storyIncrement", "flightCityHarpy"],
@@ -529,7 +528,7 @@
         }
         var action3List = {
             actionid: "action3",
-            hub: ["|3| Distribute Attribute Points", "attributeDistribute"],
+            hub: [" ", ""],
             fight: ["", ""],
             distrib: ["|3| add to attack", "addtoatt"],
             settings: ["|3| Clear Data", "clearGame"],
@@ -537,19 +536,21 @@
         var action4List = {
             actionid: "action4",
             hub: [" ", ""],
-            fight: [" ", ""],
+            fight: ["", ""],
             distrib: ["|4| add to skill uses", "addtosp"],
         }
         var action5List = {
             actionid: "action5",
             hub: [" ", ""],
             fight: [" ", ""],
-            distrib: ["|5| Exit", "goHub"],
+            //            distrib: ["|5| respec", "respecAttributes"],
+            settings: ["|5| Toggle Decorative Panels", "togglePanels"],
         }
         var action6List = {
             actionid: "action6",
             hub: [" ", ""],
             fight: [" ", ""],
+
         }
         var action7List = {
             actionid: "action7",
@@ -562,6 +563,7 @@
             fight: ["|8| Exit Dungeon", "goHub"],
             flightCity: ["|8| Go to Hub", "goHub"],
             settings: ["|8| Go to Hub", "goHub"],
+            distrib: ["|8| Exit", "goHub"],
         }
 
         var levelMilestones = {
@@ -653,9 +655,9 @@
                     if (!(Object.keys(player).includes(x)))
                         player.x = playerBackup[x]
                 }
-                
-                
-                
+
+
+
                 for (let x of player.completedStories) {
                     //                    runFunction(stories[x].onclear)
                     window[stories[x].onclear]()
@@ -704,6 +706,7 @@
             player.storyLocation = "";
             player.fightLocation = "";
             player.subArea = "";
+            document.getElementById("storyLog").innerHTML = '';
             document.getElementById("inputBox").onkeypress = function() {
                 return false
             };
@@ -758,17 +761,9 @@
             }
             myElement = document.getElementById("enemyStats");
             for (let child of myElement.children) {
-                let idname = child.id;
-                if (idname == "SP") {
-                    child.innerHTML = idname + ": " + player.skillUses;
-                } else if (idname == "AP") {
-                    child.innerHTML = idname + ": " + player.attributePoints;
-                } else if (idname == "AP") { // uh, filler
-                    child.innerHTML = idname + ": " + player.attributePoints;
-                } else if (idname == "maxHealth") {
-                    child.innerHTML = "Max Hp: " + player.maxHealth * 5;
-                } else {
-                    child.innerHTML = idname + ": " + Math.floor(player[idname]);
+                if (child.id !== '') {
+                    let idname = child.id.split(':');
+                    child.innerHTML = idname[1] + ": " + Math.floor(window[idname[0]][idname[1]]);
                 }
             }
             document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
@@ -883,9 +878,9 @@
         function curse() {
             if (player.skillUses > 0) {
                 if (enemy.status !== "dead" && enemy.health > 0) {
-                    enemy.defense = (Math.floor((enemy.defense / player.curse * player.attack) * 100) / 100);
+                    enemy.defense = (Math.floor((enemy.defense * 2 / (player.curseStrength * player.attack)) * 100) / 100);
                     refreshStats()
-                    combatLogAdd("<br>The enemy's defense is " + enemy.defense + "!")
+                    combatLogAdd("<br>The enemy's defense is now " + enemy.defense + "!")
                     player.skillUses -= 1
                     refreshStats()
                     enemyTurn()
@@ -926,6 +921,8 @@
                     levelUpCheck()
                     goHub()
                 }
+            } else {
+                enemyDeath()
             }
         }
 
@@ -963,7 +960,7 @@
 
         function attributeDistribute() {
             goArea("distrib")
-            if (player.attributePoints > 0) {
+            if (player.attributePoints > 0 || action5List !== undefined) {
                 let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
                 for (let x of count_to_8) {
                     renameAction(("action" + x + "List"), "distrib");
@@ -984,6 +981,7 @@
                 player.attributePoints -= 1;
                 player.skillUsesMax += 1;
                 player.skillUses = player.skillUsesMax;
+                player.attributePointsUsed.push('skillUses')
                 refreshStats();
             } else {
                 goHub()
@@ -994,6 +992,7 @@
             if (player.attributePoints > 0) {
                 player.attributePoints -= 1;
                 player.attack += 1;
+                player.attributePointsUsed.push('attack')
                 refreshStats();
             } else {
                 goHub()
@@ -1004,6 +1003,7 @@
             if (player.attributePoints > 0) {
                 player.attributePoints -= 1;
                 player.maxHealth += 1;
+                player.attributePointsUsed.push('maxHealth')
                 refreshStats();
             } else {
                 goHub()
@@ -1014,6 +1014,7 @@
             if (player.attributePoints > 0) {
                 player.attributePoints -= 1;
                 player.defense += 1;
+                player.attributePointsUsed.push('defense')
                 refreshStats();
             } else {
                 goHub()
@@ -1102,9 +1103,6 @@
                 }
             } else {
                 window[stories[story][stories[story].currentStoryPosition]]()
-                if (stories[story].currentStoryPosition == 'finale') {
-                    document.getElementById("storyLog").innerHTML = '';
-                }
             }
         }
 
@@ -1182,11 +1180,37 @@
             }
         }
 
+        function respecAttributes() {
+            console.log(JSON.stringify(player.attributePointsUsed))
+            for (let x of player.attributePointsUsed) {
+                player[x] -= 1
+                player.attributePoints += 1
+            }
+            player.attributePointsUsed = []
+            refreshStats()
+        }
+
         function goSettings() {
             goArea("settings")
             let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
             for (let x of count_to_8) {
                 renameAction(("action" + x + "List"), "settings");
+            }
+        }
+
+        function togglePanels() {
+            if (player.panelsToggle) {
+                console.log(flameIntervals)
+                clearInterval(flameIntervals[0])
+                clearInterval(flameIntervals[1])
+                flameIntervals = []
+                player.panelsToggle = false
+                document.getElementById('canvaLeft').getContext("2d").clearRect(0, 0, window.innerWidth, window.innerHeight);
+                document.getElementById('canvaRight').getContext("2d").clearRect(0, 0, window.innerWidth, window.innerHeight);
+            } else {
+                generateFlames("canvaLeft")
+                generateFlames("canvaRight")
+                player.panelsToggle = true
             }
         }
         document.body.addEventListener("keydown", logKey);
