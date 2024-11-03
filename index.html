@@ -1207,16 +1207,35 @@
                 player.panelsToggle = false
                 document.getElementById('canvaLeft').getContext("2d").clearRect(0, 0, window.innerWidth, window.innerHeight);
                 document.getElementById('canvaRight').getContext("2d").clearRect(0, 0, window.innerWidth, window.innerHeight);
+                document.getElementById('canvaLeft').style.display = 'none';
+                document.getElementById('canvaRight').style.display = 'none';
             } else {
                 generateFlames("canvaLeft")
                 generateFlames("canvaRight")
                 player.panelsToggle = true
+                document.getElementById('canvaLeft').style.display = 'block';
+                document.getElementById('canvaRight').style.display = 'block';
             }
+            goHub()
+        }
+        function panelsStart() {
+            if (!player.panelsToggle) {
+                console.log(flameIntervals)
+                clearInterval(flameIntervals[0])
+                clearInterval(flameIntervals[1])
+                flameIntervals = []
+                document.getElementById('canvaLeft').getContext("2d").clearRect(0, 0, window.innerWidth, window.innerHeight);
+                document.getElementById('canvaRight').getContext("2d").clearRect(0, 0, window.innerWidth, window.innerHeight);
+                document.getElementById('canvaLeft').style.display = 'none';
+                document.getElementById('canvaRight').style.display = 'none';
+            } 
         }
         document.body.addEventListener("keydown", logKey);
         loadGame()
         //        goHub();
         runFunction('goHub')
+        console.log(player.panelsToggle)
+        panelsStart()
 
     </script>
 
