@@ -268,7 +268,7 @@
 
 
     <script>
-        //       demon castle, new skills, save data fixer, setting + turn off panels, summon, sacrifice (damage buff), curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, feather icon for harpy unlock, hall of statistics, logs cap
+        //       demon castle, new skills, save data fixer, setting + turn off panels, summon, sacrifice unlock, curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, feather icon for harpy unlock, hall of statistics
 
         var r = document.querySelector(':root');
 
@@ -279,8 +279,10 @@
             document.body.removeChild(tmp);
         }
 
-        function runFunction(functionName, Parameters = "") {
-            window[functionName](window[Parameters])
+        function runFunction(functio) {
+            functio = functio.split('(')
+            let params = functio[1].split(')')
+            window[functio[0]](params[0])
         }
 
         function getRandomInt(min, max) {
@@ -499,6 +501,8 @@
             strikeDamage: 7.5,
             heal: 1,
             curseStrength: 1,
+            sacrificeStrength: 1,
+            quickEffects: [],
 
         };
         var playerBackup = JSON.parse(JSON.stringify(player))
@@ -536,7 +540,8 @@
         var action4List = {
             actionid: "action4",
             hub: [" ", ""],
-            fight: ["", ""],
+//            fight: ["|4| Sacrifice", "sacrifice"],
+                        fight: ["", ""],
             distrib: ["|4| add to skill uses", "addtosp"],
         }
         var action5List = {
@@ -653,13 +658,12 @@
                 //PLAYER:DEFAULT-PLAYER CROSS CHECKER
                 for (let x of Object.keys(playerBackup)) {
                     if (!(Object.keys(player).includes(x)))
-                        player.x = playerBackup[x]
+                        player[x] = playerBackup[x]
                 }
 
 
 
                 for (let x of player.completedStories) {
-                    //                    runFunction(stories[x].onclear)
                     window[stories[x].onclear]()
                 }
                 for (let x of Object.keys(levelMilestones)) {
@@ -707,6 +711,14 @@
             player.fightLocation = "";
             player.subArea = "";
             document.getElementById("storyLog").innerHTML = '';
+            if (combatLog.split("<br>").length > 20) {
+                combatLog = combatLog.split("<br>").splice(combatLog.split("<br>").length - 20, combatLog.split("<br>").length).join('<br>')
+            }
+            if (activityLog.split("<br>").length > 8) {
+                activityLog = activityLog.split("<br>").splice(activityLog.split("<br>").length - 8, activityLog.split("<br>").length).join('<br>')
+            }
+            document.getElementById("activityLog").innerHTML = activityLog;
+            document.getElementById("combatLog").innerHTML = combatLog;
             document.getElementById("inputBox").onkeypress = function() {
                 return false
             };
@@ -732,13 +744,10 @@
                     if (actionlist[y].length >= 3) {
                         window[funcname](actionlist[y][2]);
                     } else {
-                        runFunction(funcname)
+                        window[funcname]()
                     }
                 }
             }
-            //            else {
-            //               console.log("whoops the button that didn't exist was clicked :/")
-            //            }
         }
 
         function refreshStats() {
@@ -783,6 +792,9 @@
             player.skillUses = player.skillUsesMax;
             enemy.status = "alive";
             enemy.health = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)) * 5
+            if (enemy.health == 0) {
+                enemy.health = 1
+            }
             enemy.attack = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10))
             enemy.defense = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10))
             if (enemy.defense == 0) {
@@ -834,7 +846,7 @@
                 }
             } else {
                 if (enemy.status !== "dead" && enemy.health > 0) {
-                    combatLog += "<br>not enough skill points, defaulting to basic attack.";
+                    combatLog += "<br>Not enough skill points, defaulting to basic attack.";
                     attack()
                     document.getElementById("combatLog").innerHTML = combatLog;
                     refreshStats()
@@ -863,7 +875,7 @@
                 }
             } else {
                 if (enemy.status !== "dead" && enemy.health > 0) {
-                    combatLog += "<br>not enough skill points, defaulting to basic attack.";
+                    combatLog += "<br>Not enough skill points, defaulting to basic attack.";
                     attack()
                     document.getElementById("combatLog").innerHTML = combatLog;
                     refreshStats()
@@ -890,7 +902,39 @@
                 }
             } else {
                 if (enemy.status !== "dead" && enemy.health > 0) {
-                    combatLog += "<br>not enough skill points, defaulting to basic attack.";
+                    combatLog += "<br>Not enough skill points, defaulting to basic attack.";
+                    attack()
+                    document.getElementById("combatLog").innerHTML = combatLog;
+                    refreshStats()
+                } else {
+                    refreshStats()
+                    enemyDeath()
+                }
+            }
+
+        }
+
+        function sacrifice() {
+            if (player.skillUses > 0 && player.health >= 2) {
+                if (enemy.status !== "dead" && enemy.health > 0) {
+                    player.health = Math.floor(player.health / 2);
+                    let buff = player.health * player.sacrificeStrength;
+                    player.attack += buff;
+                    player.quickEffects.push('simpleAdd(attack, '+ (-buff) +')');
+                    document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
+                    document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
+                    combatLog += "<br>You've lost " + Math.floor(player.health / 2) + " health, and gained "+buff+" attack!";
+                    document.getElementById("combatLog").innerHTML = combatLog;
+                    player.skillUses -= 1
+                    refreshStats()
+                    enemyTurn()
+                } else {
+                    refreshStats()
+                    enemyDeath()
+                }
+            } else {
+                if (enemy.status !== "dead" && enemy.health > 0) {
+                    combatLog += "<br>Not enough, defaulting to basic attack.";
                     attack()
                     document.getElementById("combatLog").innerHTML = combatLog;
                     refreshStats()
@@ -919,6 +963,10 @@
                 document.getElementById("combatLog").innerHTML = combatLog;
                 if (player.health <= 0) {
                     levelUpCheck()
+                    for (let x of player.quickEffects) {
+                        runFunction(x)
+                    }
+                    player.quickEffects = []
                     goHub()
                 }
             } else {
@@ -934,7 +982,11 @@
                 combatLog += "<br>You have " + Math.floor(player.xp) + " / " + player.neededXp + " Needed experience!";
                 document.getElementById("combatLog").innerHTML = combatLog;
                 levelUpCheck()
-
+                for (let x of player.quickEffects) {
+                    runFunction(x)
+                }
+                player.quickEffects = []
+                
                 player.floor += 1
                 fight(player.fightLocation)
 
@@ -970,8 +1022,6 @@
 
         function simpleAdd(params) {
             params = params.split(", ")
-            //            combatLog += "<br>"+params;
-            //                document.getElementById("combatLog").innerHTML = combatLog; //test
             player[params[0]] += parseInt(params[1])
             refreshStats();
         }
@@ -1181,7 +1231,6 @@
         }
 
         function respecAttributes() {
-            console.log(JSON.stringify(player.attributePointsUsed))
             for (let x of player.attributePointsUsed) {
                 player[x] -= 1
                 player.attributePoints += 1
@@ -1200,7 +1249,6 @@
 
         function togglePanels() {
             if (player.panelsToggle) {
-                console.log(flameIntervals)
                 clearInterval(flameIntervals[0])
                 clearInterval(flameIntervals[1])
                 flameIntervals = []
@@ -1218,9 +1266,9 @@
             }
             goHub()
         }
+
         function panelsStart() {
             if (!player.panelsToggle) {
-                console.log(flameIntervals)
                 clearInterval(flameIntervals[0])
                 clearInterval(flameIntervals[1])
                 flameIntervals = []
@@ -1228,13 +1276,12 @@
                 document.getElementById('canvaRight').getContext("2d").clearRect(0, 0, window.innerWidth, window.innerHeight);
                 document.getElementById('canvaLeft').style.display = 'none';
                 document.getElementById('canvaRight').style.display = 'none';
-            } 
+            }
         }
         document.body.addEventListener("keydown", logKey);
         loadGame()
-        //        goHub();
-        runFunction('goHub')
-        console.log(player.panelsToggle)
+        goHub();
+        //        runFunction('goHub')
         panelsStart()
 
     </script>
