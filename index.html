@@ -268,7 +268,7 @@
 
 
     <script>
-        //       demon castle, new skills, save data fixer, setting + turn off panels, summon, sacrifice unlock, curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, feather icon for harpy unlock, hall of statistics
+        //       demon castle, new skills, summon unlock, sacrifice unlock, curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, feather icon for harpy unlock, hall of statistics, auto-fight, are you sure double press for respec and data wipe
 
         var r = document.querySelector(':root');
 
@@ -503,6 +503,9 @@
             curseStrength: 1,
             sacrificeStrength: 1,
             quickEffects: [],
+            longEffects: [],
+            summonStrength: 1,
+            summonDuration: 10,
 
         };
         var playerBackup = JSON.parse(JSON.stringify(player))
@@ -540,14 +543,15 @@
         var action4List = {
             actionid: "action4",
             hub: [" ", ""],
-//            fight: ["|4| Sacrifice", "sacrifice"],
-                        fight: ["", ""],
+            //            fight: ["|4| Sacrifice", "sacrifice"],
+            fight: ["", ""],
             distrib: ["|4| add to skill uses", "addtosp"],
         }
         var action5List = {
             actionid: "action5",
             hub: [" ", ""],
-            fight: [" ", ""],
+            //            fight: [" ", ""],
+            fight: ["|5| summon", "summon"],
             //            distrib: ["|5| respec", "respecAttributes"],
             settings: ["|5| Toggle Decorative Panels", "togglePanels"],
         }
@@ -710,6 +714,8 @@
             player.storyLocation = "";
             player.fightLocation = "";
             player.subArea = "";
+            player.longEffects = [];
+            player.quickEffects = [];
             document.getElementById("storyLog").innerHTML = '';
             if (combatLog.split("<br>").length > 20) {
                 combatLog = combatLog.split("<br>").splice(combatLog.split("<br>").length - 20, combatLog.split("<br>").length).join('<br>')
@@ -817,10 +823,10 @@
 
         function attack() {
             if (enemy.status !== "dead" && enemy.health > 0) {
-                enemy.health -= Math.floor((player.attack * 3) / enemy.defense);
+                enemy.health -= Math.ceil((player.attack * 3) / enemy.defense);
                 document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
                 document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
-                combatLog += "<br>You've done " + Math.floor((player.attack * 3) / enemy.defense) + " damage!";
+                combatLog += "<br>You've done " + Math.ceil((player.attack * 3) / enemy.defense) + " damage!";
                 document.getElementById("combatLog").innerHTML = combatLog;
                 enemyTurn()
             } else {
@@ -832,10 +838,10 @@
         function strike() {
             if (player.skillUses > 0) {
                 if (enemy.status !== "dead" && enemy.health > 0) {
-                    enemy.health -= Math.floor((player.attack * player.strikeDamage) / enemy.defense);
+                    enemy.health -= Math.ceil((player.attack * player.strikeDamage) / enemy.defense);
                     document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
                     document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
-                    combatLog += "<br>You've done " + Math.floor((player.attack * player.strikeDamage) / enemy.defense) + " damage!";
+                    combatLog += "<br>You've done " + Math.ceil((player.attack * player.strikeDamage) / enemy.defense) + " damage!";
                     document.getElementById("combatLog").innerHTML = combatLog;
                     player.skillUses -= 1
                     refreshStats()
@@ -920,10 +926,10 @@
                     player.health = Math.floor(player.health / 2);
                     let buff = player.health * player.sacrificeStrength;
                     player.attack += buff;
-                    player.quickEffects.push('simpleAdd(attack, '+ (-buff) +')');
+                    player.quickEffects.push('simpleAdd(attack, ' + (-buff) + ')');
                     document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
                     document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
-                    combatLog += "<br>You've lost " + Math.floor(player.health / 2) + " health, and gained "+buff+" attack!";
+                    combatLog += "<br>You've lost " + Math.floor(player.health / 2) + " health, and gained " + buff + " attack!";
                     document.getElementById("combatLog").innerHTML = combatLog;
                     player.skillUses -= 1
                     refreshStats()
@@ -946,6 +952,48 @@
 
         }
 
+        function summon() {
+            if (player.skillUses > 0) {
+                if (enemy.status !== "dead" && enemy.health > 0) {
+                    player.longEffects.push(['summonAttack()', player.summonDuration]);
+                    document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
+                    document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
+                    combatLog += "<br>You've summoned a ___!";
+                    document.getElementById("combatLog").innerHTML = combatLog;
+                    player.skillUses -= 1
+                    refreshStats()
+                    enemyTurn()
+                } else {
+                    refreshStats()
+                    enemyDeath()
+                }
+            } else {
+                if (enemy.status !== "dead" && enemy.health > 0) {
+                    combatLog += "<br>Not enough skill points, defaulting to basic attack.";
+                    attack()
+                    document.getElementById("combatLog").innerHTML = combatLog;
+                    refreshStats()
+                } else {
+                    refreshStats()
+                    enemyDeath()
+                }
+            }
+
+        }
+
+        function summonAttack() {
+            if (enemy.status !== "dead" && enemy.health > 0) {
+                enemy.health -= Math.ceil((player.attack * 4 * player.summonStrength) / enemy.defense);
+                player.health += Math.floor(player.defense * player.summonStrength)
+                document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
+                document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
+                combatLog += "<br>Your summons have done " + Math.ceil((player.attack * 3 * player.summonStrength) / enemy.defense) + " damage, and healed " + Math.floor(player.defense * player.summonStrength) + " health!";
+                document.getElementById("combatLog").innerHTML = combatLog;
+            } else if (enemy.status !== 'dead') {
+                enemyDeath()
+            }
+        }
+
         function Harpyturn() {
             enemy.health -= Math.floor((player.coins * player.harpyDamage) / enemy.defense)
             combatLog += "<br>Your harpy has done " + Math.floor((player.coins * player.harpyDamage) / enemy.defense) + " damage!";
@@ -953,6 +1001,16 @@
         }
 
         function enemyTurn() {
+            for (let x in player.longEffects) {
+                if (player.longEffects[x][0] == 'summonAttack()') {
+                    if (player.longEffects[x][1] >= 1) {
+                        runFunction(player.longEffects[x][0])
+                        player.longEffects[x][1] -= 1
+                    } else {
+                        player.longEffects.splice(x, 1)
+                    }
+                }
+            }
             if (player.harpy == true) {
                 Harpyturn()
             }
@@ -967,6 +1025,7 @@
                         runFunction(x)
                     }
                     player.quickEffects = []
+                    player.longEffects = []
                     goHub()
                 }
             } else {
@@ -986,7 +1045,7 @@
                     runFunction(x)
                 }
                 player.quickEffects = []
-                
+
                 player.floor += 1
                 fight(player.fightLocation)
 
