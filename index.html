@@ -268,7 +268,7 @@
 
 
     <script>
-        //       demon castle, new skills, summon unlock, sacrifice unlock, curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, feather icon for harpy unlock, hall of statistics, auto-fight, are you sure double press for respec and data wipe
+        //       demon castle, new skills, summon unlock, sacrifice unlock, curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, feather icon for harpy unlock, hall of statistics, auto-fight
 
         var r = document.querySelector(':root');
 
@@ -509,6 +509,7 @@
 
         };
         var playerBackup = JSON.parse(JSON.stringify(player))
+        var doubleClickCheck = false
 
         var enemy = {
             name: "Filler Mike",
@@ -538,7 +539,7 @@
             hub: [" ", ""],
             fight: ["", ""],
             distrib: ["|3| add to attack", "addtoatt"],
-            settings: ["|3| Clear Data", "clearGame"],
+            settings: ["|3| Clear Data", "doubleClickClearGame"],
         }
         var action4List = {
             actionid: "action4",
@@ -550,9 +551,8 @@
         var action5List = {
             actionid: "action5",
             hub: [" ", ""],
-            //            fight: [" ", ""],
-            fight: ["|5| summon", "summon"],
-            //            distrib: ["|5| respec", "respecAttributes"],
+            fight: [" ", ""],
+            //            fight: ["|5| summon", "summon"],
             settings: ["|5| Toggle Decorative Panels", "togglePanels"],
         }
         var action6List = {
@@ -710,7 +710,10 @@
 
         function goHub() {
             goArea("hub")
-            player.choice = false;
+            action3List.settings = ["|3| Clear Data", "doubleClickClearGame"],
+                //action_List.settings = ["|5| Respec_", "doubleClickRespec"],
+                player.choice = false;
+            doubleClickCheck = false
             player.storyLocation = "";
             player.fightLocation = "";
             player.subArea = "";
@@ -1335,6 +1338,33 @@
                 document.getElementById('canvaRight').getContext("2d").clearRect(0, 0, window.innerWidth, window.innerHeight);
                 document.getElementById('canvaLeft').style.display = 'none';
                 document.getElementById('canvaRight').style.display = 'none';
+            }
+        }
+
+        function doubleClickClearGame() {
+            if (doubleClickCheck == false) {
+                action3List.settings = ["|3| Are you sure?", "doubleClickClearGame"]
+                doubleClickCheck = true
+                let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+                for (let x of count_to_8) {
+                    renameAction(("action" + x + "List"), player.location);
+                }
+            } else {
+                clearGame()
+
+            }
+        }
+
+        function doubleClickRespec() {
+            if (doubleClickCheck == false) {
+                action3List.settings = ["|_| Are you sure?", "doubleClickClearGame"]
+                doubleClickCheck = true
+                let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+                for (let x of count_to_8) {
+                    renameAction(("action" + x + "List"), player.location);
+                }
+            } else {
+                respecAttributes()
             }
         }
         document.body.addEventListener("keydown", logKey);
