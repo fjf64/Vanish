@@ -176,6 +176,34 @@
             width: 85%;
         }
 
+        .tooltip {
+            /*
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+*/
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+
+            /* Position the tooltip */
+            position: absolute;
+            z-index: 1;
+            top: -5px;
+            left: 105%;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+
     </style>
 </head>
 
@@ -189,6 +217,17 @@
     <!--LOG-->
     <div style="left: 23%;width: 53.5VW;height: 40VH;">
         <p id="combatLog"></p>
+    </div>
+    <div style="position: absolute;left:.25%;top:80VH;max-width: 1VW;height: 4.5VW; display: none;padding-top: 0VH;overflow: hidden;justify-content: left;text-align: left;" id='feather'>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1"  style="float:left; margin-left: auto;margin-right;max-width: 100%;height: auto">
+            <defs>
+                <filter id="colorMask1">
+                    <feFlood flood-color="var(--colorText)" result="flood" />
+                    <feComposite in="SourceGraphic" in2="flood" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" />
+                </filter>
+            </defs>
+            <image width="100%"  xlink:href="https://fjf64.github.io/Defile/Feather.png" filter="url(#colorMask1)" />
+        </svg>
     </div>
 
     <!--STATUS-->
@@ -508,7 +547,7 @@
             summonDuration: 10,
             AutoAttackQueue: [],
             fightStalemateMax: 25,
-            maxFightRecursion:100,
+            maxFightRecursion: 100,
 
         };
         var playerBackup = JSON.parse(JSON.stringify(player))
@@ -856,8 +895,8 @@
             } catch (e) {
                 console.log(e)
                 if (!(combatLog.includes('Your time has run short at floor'))) {
-                combatLog += "<br> Your time has run short at floor " + player.floor + ", grow stronger.";
-                    }
+                    combatLog += "<br> Your time has run short at floor " + player.floor + ", grow stronger.";
+                }
                 document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
                 document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
                 document.getElementById("combatLog").innerHTML = combatLog;
@@ -1143,19 +1182,19 @@
                     fightRecursionCounter = 0
                     goArea("dungeonRest")
                     document.getElementById("activityLog").innerHTML = activityLog;
-            document.getElementById("combatLog").innerHTML = combatLog;
+                    document.getElementById("combatLog").innerHTML = combatLog;
                     document.getElementById("playerStatus").innerHTML = "Your Health:" + player.maxHealth * 5;
-            saveGame()
+                    saveGame()
                     let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
-            for (let x of count_to_8) {
-                renameAction(("action" + x + "List"), "dungeonRest");
-                document.getElementById("storyLog").innerHTML = "You enter a resting area and see {random generated prompt}"
-            }
+                    for (let x of count_to_8) {
+                        renameAction(("action" + x + "List"), "dungeonRest");
+                        document.getElementById("storyLog").innerHTML = "You enter a resting area and see {random generated prompt}"
+                    }
                     refreshStats()
                     // Dungeon Rest //
                 } else {
                     fightRecursionCounter += 1
-                fight(player.fightLocation)
+                    fight(player.fightLocation)
                 }
             }
             return
@@ -1296,11 +1335,13 @@
         function addHarpy() {
             player.harpy = true;
             action2List.flightCity = ["", ""];
+            document.getElementById('feather').style.display = "inline-flex";
             player.completedStories.push('flightCityHarpy')
             goHub()
         }
 
         function harpyClear() {
+            document.getElementById('feather').style.display = "inline-flex";
             action2List.flightCity = ["", ""];
         }
 
