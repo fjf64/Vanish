@@ -175,6 +175,7 @@
             border-color: var(--colorText);
             width: 85%;
         }
+
     </style>
 </head>
 
@@ -267,7 +268,7 @@
 
 
     <script>
-        //       demon castle, new skills, summon unlock, sacrifice unlock, curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, feather icon for harpy unlock, hall of statistics, auto-fight, toggle oneclick only hub,autoattack max
+        //       demon castle, new skills, summon unlock, sacrifice unlock, curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, feather icon for harpy unlock, hall of statistics, auto-fight, toggle oneclick only hub, finish extra settings, autoattack unlock
 
         var r = document.querySelector(':root');
 
@@ -505,14 +506,16 @@
             longEffects: [],
             summonStrength: 1,
             summonDuration: 10,
-            AutoAttackQueue: [1,2],
+            AutoAttackQueue: [],
             fightStalemateMax: 25,
+            maxFightRecursion:100,
 
         };
         var playerBackup = JSON.parse(JSON.stringify(player))
         var doubleClickCheck = false
         var currentAutoAttack = 0
         var fightStalemateCouter = 0
+        var fightRecursionCounter = 0
 
         var enemy = {
             name: "Filler Mike",
@@ -528,6 +531,7 @@
             distrib: ["|1| add to health", "addtohp"],
             flightCity: ["|1| Go to shop", "goShop"],
             settings: ["|1| Save Data", "saveGame"],
+            dungeonRest: ["|1| Continue", "fight", "dungeon"],
         }
         var action2List = {
             actionid: "action2",
@@ -550,6 +554,7 @@
             //            fight: ["|4| Sacrifice", "sacrifice"],
             fight: ["", ""],
             distrib: ["|4| add to skill uses", "addtosp"],
+            settings: ["|4| Extra Settings", "extraSettings"],
         }
         var action5List = {
             actionid: "action5",
@@ -576,6 +581,7 @@
             flightCity: ["|8| Go to Hub", "goHub"],
             settings: ["|8| Go to Hub", "goHub"],
             distrib: ["|8| Exit", "goHub"],
+            dungeonRest: ["|8| Exit Dungeon", "goHub"],
         }
 
         var levelMilestones = {
@@ -713,7 +719,7 @@
 
         function goHub() {
             goArea("hub")
-            console.log('hubed')
+            //            console.log('hubed')
             action3List.settings = ["|3| Clear Data", "doubleClickClearGame"],
                 //action_List.settings = ["|5| Respec_", "doubleClickRespec"],
                 player.choice = false;
@@ -724,14 +730,17 @@
             player.longEffects = [];
             currentAutoAttack = 0
             fightStalemateCouter = 0
+            fightRecursionCounter = 0
             player.quickEffects = [];
-  
+            player.skillUses = player.skillUsesMax
+            document.getElementById("storyLog").innerHTML = ''
             if (combatLog.split("<br>").length > 20) {
                 combatLog = combatLog.split("<br>").splice(combatLog.split("<br>").length - 20, combatLog.split("<br>").length).join('<br>')
             }
             if (activityLog.split("<br>").length > 8) {
                 activityLog = activityLog.split("<br>").splice(activityLog.split("<br>").length - 8, activityLog.split("<br>").length).join('<br>')
             }
+
             document.getElementById("activityLog").innerHTML = activityLog;
             document.getElementById("combatLog").innerHTML = combatLog;
             document.getElementById("inputBox").onkeypress = function() {
@@ -739,15 +748,16 @@
             };
             document.getElementById("inputBox").placeholder = " X X X X X X X X ";
             document.getElementById("inputBox").innerHTML = "";
+            document.getElementById("inputBox").value = "";
             player.floor = player.startingFloor;
             let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
             for (let x of count_to_8) {
                 renameAction(("action" + x + "List"), "hub");
             }
             refreshStats()
-              document.getElementById("playerStatus").innerHTML = "Your Health:" + player.maxHealth * 5;
+            document.getElementById("playerStatus").innerHTML = "Your Health:" + player.maxHealth * 5;
             saveGame()
-            
+
             //            document.getElementById("playerStatus").innerHTML = "You are currently in the Hub. The path ahead is yours to define.";
 
         }
@@ -798,50 +808,75 @@
         }
 
         function fight(loc) {
-            player.fightLocation = loc;
-            player.xp += 0.2;
-            //            let bounds = [8, 12]
-            var bounds = [fightAreas[player.fightLocation][1][0], fightAreas[player.fightLocation][1][1]]
-            enemy.name = fightAreas[player.fightLocation][0][Math.floor(Math.random() * fightAreas[player.fightLocation][0].length)];
-            player.health = player.maxHealth * 5;
-            player.fightLocation = loc;
-            player.skillUses = player.skillUsesMax;
-            enemy.status = "alive";
-            currentAutoAttack = 0
-            fightStalemateCouter = 0
-            enemy.health = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)) * 5
-            if (enemy.health == 0) {
-                enemy.health = 1
-            }
-            enemy.attack = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10))
-            enemy.defense = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10))
-            if (enemy.defense == 0) {
-                enemy.defense = 1
-            }
-            goArea("fight")
-            refreshStats()
-            let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8, ].map(String);
-            for (let x of count_to_8) {
+            try {
+                player.fightLocation = loc;
+                player.xp += 0.2;
+                //            let bounds = [8, 12]
+                var bounds = [fightAreas[player.fightLocation][1][0], fightAreas[player.fightLocation][1][1]]
+                enemy.name = fightAreas[player.fightLocation][0][Math.floor(Math.random() * fightAreas[player.fightLocation][0].length)];
+                player.health = player.maxHealth * 5;
+                player.fightLocation = loc;
+                player.skillUses = player.skillUsesMax;
+                enemy.status = "alive";
+                currentAutoAttack = 0
+                fightStalemateCouter = 0
+                enemy.health = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)) * 3
+                if (enemy.health == 0) {
+                    enemy.health = 1
+                }
+                enemy.attack = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)) ** 2
+                enemy.defense = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10))
+                if (enemy.defense == 0) {
+                    enemy.defense = 1
+                }
+                goArea("fight")
 
-                renameAction(("action" + x + "List"), "fight");
+                if (combatLog.split("<br>").length > 20) {
+                    combatLog = combatLog.split("<br>").splice(combatLog.split("<br>").length - 20, combatLog.split("<br>").length).join('<br>')
+                }
+                if (activityLog.split("<br>").length > 8) {
+                    activityLog = activityLog.split("<br>").splice(activityLog.split("<br>").length - 8, activityLog.split("<br>").length).join('<br>')
+                }
+                combatLog += "<br> You've encountered " + enemy.name + " on floor " + player.floor + "!";
+                if (player.AutoAttackQueue.length == 0) {
+                    refreshStats()
+                    document.getElementById("combatLog").innerHTML = combatLog;
+                    document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
+                    document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
+                    let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8, ].map(String);
+                    for (let x of count_to_8) {
+
+                        renameAction(("action" + x + "List"), "fight");
+                    }
+                }
+                if (player.AutoAttackQueue.length !== 0) {
+                    autoQueue()
+                }
+                return
+            } catch (e) {
+                console.log(e)
+                if (!(combatLog.includes('Your time has run short at floor'))) {
+                combatLog += "<br> Your time has run short at floor " + player.floor + ", grow stronger.";
+                    }
+                document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
+                document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
+                document.getElementById("combatLog").innerHTML = combatLog;
+                goHub()
+                return
             }
-            combatLog += "<br> You've encountered " + enemy.name + " on floor " + player.floor + "!";
-            document.getElementById("combatLog").innerHTML = combatLog;
-            document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
-            document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
-            autoQueue()
+
         }
 
         function attack() {
             if (enemy.status !== "dead" && enemy.health > 0) {
                 enemy.health -= Math.ceil((player.attack * 3) / enemy.defense);
-                document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
-                document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
                 combatLog += "<br>You've done " + Math.ceil((player.attack * 3) / enemy.defense) + " damage!";
                 //                document.getElementById("combatLog").innerHTML = combatLog;
                 enemyTurn()
+                return
             } else {
                 enemyDeath()
+                return
             }
 
         }
@@ -850,26 +885,28 @@
             if (player.skillUses > 0) {
                 if (enemy.status !== "dead" && enemy.health > 0) {
                     enemy.health -= Math.ceil((player.attack * player.strikeDamage) / enemy.defense);
-                    document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
-                    document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
                     combatLog += "<br>You've done " + Math.ceil((player.attack * player.strikeDamage) / enemy.defense) + " damage!";
                     //                    document.getElementById("combatLog").innerHTML = combatLog;
                     player.skillUses -= 1
 
                     enemyTurn()
+                    return
                 } else {
 
                     enemyDeath()
+                    return
                 }
             } else {
                 if (enemy.status !== "dead" && enemy.health > 0) {
                     combatLog += "<br>Not enough skill points, defaulting to basic attack.";
                     attack()
+                    return
                     //                    document.getElementById("combatLog").innerHTML = combatLog;
 
                 } else {
 
                     enemyDeath()
+                    return
                 }
             }
 
@@ -879,26 +916,27 @@
             if (player.skillUses > 0) {
                 if (enemy.status !== "dead" && enemy.health > 0) {
                     player.health += Math.floor(player.defense * 2.5 * player.heal);
-                    document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
-                    document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
                     combatLog += "<br>You've healed " + Math.floor(player.defense * 2.5 * player.heal) + " health!";
-                    //                    document.getElementById("combatLog").innerHTML = combatLog;
                     player.skillUses -= 1
 
                     enemyTurn()
+                    return
                 } else {
 
                     enemyDeath()
+                    return
                 }
             } else {
                 if (enemy.status !== "dead" && enemy.health > 0) {
                     combatLog += "<br>Not enough skill points, defaulting to basic attack.";
                     attack()
+                    return
                     //                    document.getElementById("combatLog").innerHTML = combatLog;
 
                 } else {
 
                     enemyDeath()
+                    return
                 }
             }
 
@@ -913,19 +951,23 @@
                     player.skillUses -= 1
 
                     enemyTurn()
+                    return
                 } else {
 
                     enemyDeath()
+                    return
                 }
             } else {
                 if (enemy.status !== "dead" && enemy.health > 0) {
                     combatLog += "<br>Not enough skill points, defaulting to basic attack.";
                     attack()
+                    return
                     //                    document.getElementById("combatLog").innerHTML = combatLog;
 
                 } else {
 
                     enemyDeath()
+                    return
                 }
             }
 
@@ -938,16 +980,16 @@
                     let buff = player.health * player.sacrificeStrength;
                     player.attack += buff;
                     player.quickEffects.push('simpleAdd(attack, ' + (-buff) + ')');
-                    document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
-                    document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
                     combatLog += "<br>You've lost " + Math.floor(player.health / 2) + " health, and gained " + buff + " attack!";
                     //                    document.getElementById("combatLog").innerHTML = combatLog;
                     player.skillUses -= 1
 
                     enemyTurn()
+                    return
                 } else {
 
                     enemyDeath()
+                    return
                 }
             } else {
                 if (enemy.status !== "dead" && enemy.health > 0) {
@@ -958,6 +1000,7 @@
                 } else {
 
                     enemyDeath()
+                    return
                 }
             }
 
@@ -967,26 +1010,28 @@
             if (player.skillUses > 0) {
                 if (enemy.status !== "dead" && enemy.health > 0) {
                     player.longEffects.push(['summonAttack()', player.summonDuration]);
-                    document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
-                    document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
                     combatLog += "<br>You've summoned a ___!";
                     //                    document.getElementById("combatLog").innerHTML = combatLog;
                     player.skillUses -= 1
 
                     enemyTurn()
+                    return
                 } else {
 
                     enemyDeath()
+                    return
                 }
             } else {
                 if (enemy.status !== "dead" && enemy.health > 0) {
                     combatLog += "<br>Not enough skill points, defaulting to basic attack.";
                     attack()
+                    return
                     //                    document.getElementById("combatLog").innerHTML = combatLog;
 
                 } else {
 
                     enemyDeath()
+                    return
                 }
             }
 
@@ -996,19 +1041,16 @@
             if (enemy.status !== "dead" && enemy.health > 0) {
                 enemy.health -= Math.ceil((player.attack * 4 * player.summonStrength) / enemy.defense);
                 player.health += Math.floor(player.defense * player.summonStrength)
-                document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
-                document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
                 combatLog += "<br>Your summons have done " + Math.ceil((player.attack * 3 * player.summonStrength) / enemy.defense) + " damage, and healed " + Math.floor(player.defense * player.summonStrength) + " health!";
-                document.getElementById("combatLog").innerHTML = combatLog;
             } else if (enemy.status !== 'dead') {
                 enemyDeath()
+                return
             }
         }
 
         function Harpyturn() {
             enemy.health -= Math.floor((player.coins * player.harpyDamage) / enemy.defense)
-            combatLog += "<br>Your harpy has done " + Math.floor((player.coins * player.harpyDamage) / enemy.defense) + " damage!";
-            document.getElementById("combatLog").innerHTML = combatLog;
+            combatLog += "<br>Your harpy has done " + Math.floor((((player.coins) ** .25) * player.harpyDamage) / enemy.defense) + " damage!";
         }
 
         function enemyTurn() {
@@ -1026,10 +1068,13 @@
                 Harpyturn()
             }
             if (enemy.status !== "dead" && enemy.health > 0) {
-                player.health -= Math.floor(enemy.attack / player.defense)
-                document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
-                combatLog += "<br>Your opponent has done " + Math.floor(Math.floor(enemy.attack / player.defense)) + " damage!";
-                document.getElementById("combatLog").innerHTML = combatLog;
+                player.health -= Math.floor(enemy.attack / (player.defense * .5))
+                if (player.AutoAttackQueue.length == 0) {
+                    document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
+                    document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
+                    combatLog += "<br>Your opponent has done " + Math.floor(Math.floor(enemy.attack / player.defense)) + " damage!";
+                    document.getElementById("combatLog").innerHTML = combatLog;
+                }
                 if (player.health <= 0) {
                     levelUpCheck()
                     for (let x of player.quickEffects) {
@@ -1037,44 +1082,55 @@
                     }
                     player.quickEffects = []
                     player.longEffects = []
+                    combatLog += '<br>You died on floor ' + player.floor + '!'
                     goHub()
                 } else {
                     if (player.AutoAttackQueue.length !== 0) {
                         if (fightStalemateCouter > player.fightStalemateMax) {
                             player.health = 0
-                            console.log('escape')
                         }
                         autoQueue()
-                        
+
                     } else {
                         refreshStats()
                     }
                 }
             } else {
+                if (player.AutoAttackQueue.length == 0) {
+                    document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
+                    document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
+                }
                 enemyDeath()
+                return
             }
         }
 
         function autoQueue() {
-//            logKey(player.AutoAttackQueue[(currentAutoAttack - 1).toString()])
+            //            logKey(player.AutoAttackQueue[(currentAutoAttack - 1).toString()])
             if (currentAutoAttack >= player.AutoAttackQueue.length - 1) {
                 currentAutoAttack = 0
             } else {
                 currentAutoAttack += 1
             }
             fightStalemateCouter += 1
-            console.log(fightStalemateCouter)
-            logKey(player.AutoAttackQueue[(currentAutoAttack)].toString()) //make sure list items are string, and test order
+            //                        console.log(fightStalemateCouter)
+            logKey(player.AutoAttackQueue[(currentAutoAttack)].toString());
+            return
         }
 
         function enemyDeath() {
             if (player.fightLocation == "dungeon") {
                 enemy.status = "dead"
+
                 player.coins += Math.floor(getRandomInt(0, player.floor))
                 player.xp += Math.floor(getRandomInt(player.floor * 1, player.floor * 2))
                 currentAutoAttack = 0
-                combatLog += "<br>You have " + Math.floor(player.xp) + " / " + player.neededXp + " Needed experience!";
-                document.getElementById("combatLog").innerHTML = combatLog;
+                combatLog += "<br>You have " + Math.floor(player.xp) + " / " + player.neededXp + " xp!";
+                if (player.AutoAttackQueue.length == 0) {
+                    document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
+                    document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
+                    document.getElementById("combatLog").innerHTML = combatLog;
+                }
                 levelUpCheck()
                 for (let x of player.quickEffects) {
                     runFunction(x)
@@ -1082,9 +1138,27 @@
                 player.quickEffects = []
 
                 player.floor += 1
-                fight(player.fightLocation)
-
+                if (fightRecursionCounter > player.maxFightRecursion) {
+                    //Dungeon Rest
+                    fightRecursionCounter = 0
+                    goArea("dungeonRest")
+                    document.getElementById("activityLog").innerHTML = activityLog;
+            document.getElementById("combatLog").innerHTML = combatLog;
+                    document.getElementById("playerStatus").innerHTML = "Your Health:" + player.maxHealth * 5;
+            saveGame()
+                    let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+            for (let x of count_to_8) {
+                renameAction(("action" + x + "List"), "dungeonRest");
+                document.getElementById("storyLog").innerHTML = "You enter a resting area and see {random generated prompt}"
             }
+                    refreshStats()
+                    // Dungeon Rest //
+                } else {
+                    fightRecursionCounter += 1
+                fight(player.fightLocation)
+                }
+            }
+            return
         }
 
         function levelUpCheck() {
@@ -1186,6 +1260,7 @@
                     }
                 }
                 clickall(window["action" + String.fromCharCode(e.keyCode) + "List"])
+                return
             } else { // CHEAT
                 player.xp += 1000;
                 player.coins += 1000;
@@ -1200,7 +1275,9 @@
         });
 
         function unlockHeal() {
-            player.abilities.push(3)
+            if (!(player.abilities.includes(3))) {
+                player.abilities.push(3)
+            }
             action3List.fight = ["|3| Heal", "heal"]
         }
 
@@ -1258,8 +1335,18 @@
         function inputEnter() { //push inputbox value
             player.input = document.getElementById("inputBox").value;
             document.getElementById("inputBox").value = "";
-            buyShopItem()
-            goHub()
+            if (player.location == 'shop') {
+                buyShopItem()
+                blurAll()
+                goHub()
+            }
+            if (player.location == 'extra settings') {
+                //change stuff function
+                editExtraSettings()
+                blurAll()
+                goHub()
+            }
+
         }
 
         function resolveAfterSeconds(sec) {
@@ -1272,14 +1359,12 @@
 
         async function goShop() {
             cleanShop()
-
-
             let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
             for (let x of count_to_8) {
                 renameAction(("action" + x + "List"), "shop");
             }
             goArea("shop")
-            activityLog += "<br>" + "Buyable Items 50 Coins each, use Input Box)";
+            activityLog += "<br>" + "Buy Items 50 Coins each, use Input Box";
             document.getElementById("activityLog").innerHTML = activityLog;
 
             combatLog += '<hr style="border: none;">'
@@ -1296,6 +1381,53 @@
             document.getElementById("inputBox").innerHTML = "";
             const result = await resolveAfterSeconds(1);
             document.getElementById("inputBox").focus();
+        }
+
+        async function extraSettings() {
+            let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+            for (let x of count_to_8) {
+                renameAction(("action" + x + "List"), "extra settings");
+            }
+            goArea("extra settings")
+            activityLog += "<br>" + 'Enter requests with "{Setting number} : {Value}"';
+            document.getElementById("activityLog").innerHTML = activityLog;
+
+            combatLog += '<hr style="border: none;">'
+            combatLog += "<br>" + '{1} : Auto Attack Queue (ie. {1 : 3,2,2})';
+            combatLog += "<br>" + '{1} : toggle autoqueue WIP';
+            combatLog += "<br>" + '{1} : auto death gate WIP';
+            combatLog += "<br>" + '{1} : set floor range(1,current) WIP';
+            document.getElementById("combatLog").innerHTML = combatLog;
+            //            for (let index of items) {
+            //                if (index !== "") {
+            //                    combatLog += "<br>" + (items.indexOf(index) + 1) + ": " + index[0];
+            //                    document.getElementById("combatLog").innerHTML = combatLog;
+            //                }
+            //            }
+            document.getElementById("inputBox").onkeypress = function() {
+                return true
+            };
+            document.getElementById("inputBox").placeholder = "-|-|-";
+            document.getElementById("inputBox").innerHTML = "";
+            const result = await resolveAfterSeconds(1);
+            document.getElementById("inputBox").focus();
+        }
+
+        function editExtraSettings() {
+            let settingChange = player.input.split(' : ')
+            if (settingChange[0] == 1) { //attack queue
+                player.AutoAttackQueue = []
+                for (x of settingChange[1].split(',')) {
+                    if (isInteger(x)) {
+                        if (player.abilities.includes(parseInt(x))) {
+                            player.AutoAttackQueue.push(parseInt(x))
+                        }
+                    }
+                }
+                combatLog += "<br>" + 'Your auto attack queue is: ' + JSON.stringify(player.AutoAttackQueue);
+                document.getElementById("combatLog").innerHTML = combatLog;
+            }
+
         }
 
         function buyShopItem() {
@@ -1318,7 +1450,7 @@
                 }
             }
 
-            blurAll()
+
         }
 
         function cleanShop() {
@@ -1410,6 +1542,7 @@
 
         //        runFunction('goHub')
         panelsStart()
+
     </script>
 
 </body>
