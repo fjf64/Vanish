@@ -229,6 +229,17 @@
             <image width="100%"  xlink:href="https://fjf64.github.io/Defile/Feather.png" filter="url(#colorMask1)" />
         </svg>
     </div>
+    <div style="position: absolute;left:98.1%;top:85VH;max-width: 1.25VW;height: 2VW; display: none;padding-top: 0VH;overflow: hidden;justify-content: left;text-align: left;" id='healShield'>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1"  style="float:left; margin-left: auto;margin-right;max-width: 100%;height: auto">
+            <defs>
+                <filter id="colorMask2">
+                    <feFlood flood-color="var(--colorText)" result="flood" />
+                    <feComposite in="SourceGraphic" in2="flood" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" />
+                </filter>
+            </defs>
+            <image width="100%"  xlink:href="https://fjf64.github.io/Defile/Shield1.png" filter="url(#colorMask2)" />
+        </svg>
+    </div>
 
     <!--STATUS-->
     <!--    <div class="triangle" style="left: 29.75%;width: 30VW;height: 0VH;top:41%;color:white;">-->
@@ -1318,6 +1329,8 @@
                 player.abilities.push(3)
             }
             action3List.fight = ["|3| Heal", "heal"]
+            document.getElementById('healShield').style.display = "inline-flex";
+            
         }
 
         function unlockFlightCity() {
