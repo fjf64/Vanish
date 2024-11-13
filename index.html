@@ -1108,8 +1108,8 @@
         }
 
         function Harpyturn() {
-            enemy.health -= Math.floor((player.coins * player.harpyDamage) / enemy.defense)
-            combatLog += "<br>Your harpy has done " + Math.floor((((player.coins) ** .25) * player.harpyDamage) / enemy.defense) + " damage!";
+            enemy.health -= Math.floor((((player.coins) ** .8) * player.harpyDamage) / enemy.defense)
+            combatLog += "<br>Your harpy has done " + Math.floor((((player.coins) ** .8) * player.harpyDamage) / enemy.defense) + " damage!";
         }
 
         function enemyTurn() {
@@ -1293,7 +1293,7 @@
                 player.neededXp += 10;
                 player.level += 1;
                 player.attributePoints += 3;
-                activityLog += "<br> You've levelled up!";
+                activityLog += "<br> You've leveled up to level "+ player.level +"!";
                 for (let x of Object.keys(levelMilestones)) {
                     if (player.level.toString() == x) {
                         activityLog += "<br> You've unlocked " + levelMilestones[player.level][0];
@@ -1518,11 +1518,11 @@
                 renameAction(("action" + x + "List"), "extra settings");
             }
             goArea("extra settings")
-            activityLog += "<br>" + 'Enter requests with "{Setting number} : {Value}"';
+            activityLog += "<br>" + 'Enter requests with "{Setting number}:{Value}"';
             document.getElementById("activityLog").innerHTML = activityLog;
 
             combatLog += '<hr style="border: none;">'
-            combatLog += "<br>" + '{1} : Auto Attack Queue (ie. {1 : 3,2,2})';
+            combatLog += "<br>" + '{1} : Auto Attack Queue (ie. {1:3,2,2})';
             combatLog += "<br>" + '{1} : toggle autoqueue WIP';
             combatLog += "<br>" + '{1} : auto death gate WIP';
             combatLog += "<br>" + '{1} : set startingfloor range(1,current) WIP';
@@ -1537,7 +1537,7 @@
         }
 
         function editExtraSettings() {
-            let settingChange = player.input.split(' : ')
+            let settingChange = player.input.split(':')
             if (settingChange[0] == 1) { //attack queue
                 player.AutoAttackQueue = []
                 for (x of settingChange[1].split(',')) {
