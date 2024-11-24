@@ -203,9 +203,6 @@
         .tooltip:hover .tooltiptext {
             visibility: visible;
         }
-
-
-
     </style>
 </head>
 
@@ -290,7 +287,7 @@
 
 
     <div style="left: 23%;top:61%;width: 6VW;height: 28VH;padding-bottom: 1VH;padding-top: 1VH;flex-direction: column;" id="playerStats">
-        <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="SP" class="stats">
+        <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="SU" class="stats">
         </div>
         <div style="width: 100%;height:4VH; float:left;left: 0%;border:none;position:relative;" id="attack" class="stats">
         </div>
@@ -320,7 +317,7 @@
 
 
     <script>
-        //       demon castle, new skills, summon unlock, sacrifice unlock, curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, feather icon for harpy unlock, hall of statistics, auto-fight, toggle oneclick only hub, finish extra settings, autoattack unlock
+        //       demon castle, new skills, summon unlock, sacrifice unlock, curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, feather icon for harpy unlock, hall of statistics, auto-fight, toggle oneclick only hub, finish extra settings, autoattack unlock floor 50, secret names, floor 500 new names, heal can't go below 1 (???)
 
         var r = document.querySelector(':root');
 
@@ -348,6 +345,10 @@
                 return true
             }
             return false;
+        }
+
+        function clamp(number, min, max) {
+            return Math.max(min, Math.min(number, max));
         }
 
         function combatLogAdd(text) {
@@ -542,7 +543,8 @@
             coins: 0,
             floor: 1,
             level: 1,
-            startingFloor: 1,
+            startingFloor: 0,
+            startingFloorMax: 1,
             choice: false,
             completedStories: [],
             storyLocation: "",
@@ -561,6 +563,8 @@
             AutoAttackQueue: [],
             fightStalemateMax: 25,
             maxFightRecursion: 100,
+            loadFunctions: [],
+            unlocks: [], // 'autoAttack', 
 
         };
         var playerBackup = JSON.parse(JSON.stringify(player))
@@ -693,14 +697,13 @@
             flightCityHarpy: { //   :["",["",""]],
                 onclear: 'harpyClear',
                 currentStoryPosition: "start",
-                start: ["You find a suspicious water drain in the floating city, elevated, and serving no purpose. [y/n to continue]", ["firstQuestion", "firstQuestion"]],
-                firstQuestion: ["Do you choose to enter it?", ["enterGutter", "leave"]],
+                start: ["You find a suspicious water drain in the floating city, elevated, and serving no purpose. Do you choose to enter it? [y/n to continue]", ["enterGutter", "leave"]],
                 enterGutter: ["You crawl into the drain. It opens up into a larger tunnel. walking through it, the air feels heavy. Eventually you approach an opening, a large space with a shrine to a harpy, wings folded over its eyes. Do you kneel to it?", ["kneel", "dontkneel"]],
                 dontkneel: ["You do nothing, and leave the way you came. ", ["leave", "leave"]],
-                leave: "gohub",
+                leave: "goHub",
                 dontEnterGutter: "goHub",
                 kneel: ["You kneel, and it feels as if the shrine to the harpy, it's massive stone carvings, become alive, breathing. It is suffering, and wants to be released, yet it cannot feel, and knows not of pain. The wings open, revealing a cage within its skull. Hidden in a dark corner, lays a feeble adolescent harpy, malnourished and dying. Do you choose to help it?", ["helpharpy", "donthelpharpy"]],
-                donthelpharpy: ["You do not help the harpy. You leave, feeling nothing. Have you felt guilt over this void of empathy?", ["leave", "leave"]],
+                donthelpharpy: ["You do not help the harpy. You leave, feeling nothing. Have you ever felt guilt over this void of empathy?", ["leave", "leave"]],
                 helpharpy: ["You climb the statue of the large shrine, tearing out the rusted bars of the cage. Grabbing the harpy, you return to your domain, and nurse it back to health.", ["finale", "finale"]],
                 finale: "addHarpy"
             },
@@ -713,11 +716,11 @@
             ["Charm of Skill", simpleAdd, "skillUsesMax, 1"],
             ["Perch", simpleAdd, "harpyDamage, 1"],
             ["Striking Blade", simpleAdd, "strikeDamage, 2.5"],
-            ["Healing Charm", simpleAdd, "heal, .5"],
+            ["Healing Charm", simpleAdd, "heal, 1"],
             ["Motivating Tonic", simpleAdd, "attributePoints, 1"],
-            ["Compass", simpleAdd, "startingFloor, 4"],
-            ["Explorer's Map", simpleAdd, "startingFloor, 5"],
-            ["Hunter's Map", simpleAdd, "startingFloor, 5"],
+            ["Compass", simpleAdd, "startingFloorMax, 4"],
+            ["Explorer's Map", simpleAdd, "startingFloorMax, 5"],
+            ["Hunter's Map", simpleAdd, "startingFloorMax, 5"],
         ]
 
         function saveGame() {
@@ -744,6 +747,9 @@
                         window[levelMilestones[x][1]]()
 
                     }
+                }
+                for (let x of player.loadFunctions) {
+                    runFunction(x)
                 }
                 cleanShop()
                 refreshStats()
@@ -791,6 +797,9 @@
             fightStalemateCouter = 0
             fightRecursionCounter = 0
             player.quickEffects = [];
+            for (x in stories) {
+                stories[x]['currentStoryPosition'] = 'start'
+            }
             player.skillUses = player.skillUsesMax
             document.getElementById("storyLog").innerHTML = ''
             if (combatLog.split("<br>").length > 20) {
@@ -808,7 +817,11 @@
             document.getElementById("inputBox").placeholder = " X X X X X X X X ";
             document.getElementById("inputBox").innerHTML = "";
             document.getElementById("inputBox").value = "";
-            player.floor = player.startingFloor;
+            if (player.startingFloor !== 0) {
+                player.floor = player.startingFloor;
+            } else {
+                player.floor = player.startingFloorMax;
+            }
             let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
             for (let x of count_to_8) {
                 renameAction(("action" + x + "List"), "hub");
@@ -839,7 +852,7 @@
             let myElement = document.getElementById("playerStats");
             for (let child of myElement.children) {
                 let idname = child.id;
-                if (idname == "SP") {
+                if (idname == "SU") {
                     child.innerHTML = idname + ": " + player.skillUses;
                 } else if (idname == "AP") {
                     child.innerHTML = idname + ": " + player.attributePoints;
@@ -883,7 +896,7 @@
                 if (enemy.health == 0) {
                     enemy.health = 1
                 }
-                enemy.attack = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)) ** 2
+                enemy.attack = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)) ** 1.2
                 enemy.defense = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10))
                 if (enemy.defense == 0) {
                     enemy.defense = 1
@@ -975,6 +988,7 @@
             if (player.skillUses > 0) {
                 if (enemy.status !== "dead" && enemy.health > 0) {
                     player.health += Math.floor(player.defense * 2.5 * player.heal);
+                    console.log(player.heal)
                     combatLog += "<br>You've healed " + Math.floor(player.defense * 2.5 * player.heal) + " health!";
                     player.skillUses -= 1
 
@@ -1218,6 +1232,7 @@
                         'reach a cliff',
                         'come across a mirror',
                         'come across long brick hallway',
+                        'find a wall made of flesh and bone'
                     ]
                     let restPrompt2 = [
                         'you do nothing',
@@ -1236,7 +1251,7 @@
                         'you sleep for two eternities',
                         'you fly',
                         'you ingore it',
-                        
+
                     ]
                     let restPrompt3 = [
                         'leaving unburdened. ',
@@ -1275,7 +1290,7 @@
                     let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
                     for (let x of count_to_8) {
                         renameAction(("action" + x + "List"), "dungeonRest");
-                        document.getElementById("storyLog").innerHTML = "You "+restPrompt1[getRandomInt(0,restPrompt1.length - 1)]+" "+restPrompt4[getRandomInt(0,restPrompt4.length - 1)]+" "+restPrompt2[getRandomInt(0,restPrompt2.length - 1)]+", "+restPrompt3[getRandomInt(0,restPrompt3.length - 1)];
+                        document.getElementById("storyLog").innerHTML = "You " + restPrompt1[getRandomInt(0, restPrompt1.length - 1)] + " " + restPrompt4[getRandomInt(0, restPrompt4.length - 1)] + " " + restPrompt2[getRandomInt(0, restPrompt2.length - 1)] + ", " + restPrompt3[getRandomInt(0, restPrompt3.length - 1)];
                     }
                     refreshStats()
                     // Dungeon Rest //
@@ -1293,7 +1308,7 @@
                 player.neededXp += 10;
                 player.level += 1;
                 player.attributePoints += 3;
-                activityLog += "<br> You've leveled up to level "+ player.level +"!";
+                activityLog += "<br> You've leveled up to level " + player.level + "!";
                 for (let x of Object.keys(levelMilestones)) {
                     if (player.level.toString() == x) {
                         activityLog += "<br> You've unlocked " + levelMilestones[player.level][0];
@@ -1373,7 +1388,7 @@
                 e = {}
                 e.keyCode = keycodesub
             }
-            if ((String.fromCharCode(e.keyCode) == "Y" || String.fromCharCode(e.keyCode) == "n") && player.choice == true && player.location !== "shop") {
+            if ((String.fromCharCode(e.keyCode) == "Y" || String.fromCharCode(e.keyCode) == "N") && player.choice == true && player.location !== "shop") {
                 if (String.fromCharCode(e.keyCode) == "Y") {
                     choiceYes()
                 } else {
@@ -1446,16 +1461,21 @@
         function storyIncrement(story, choice = "none") {
             player.storyLocation = story;
             player.choice = true;
-            stories[story].currentStoryPosition;
+            //            stories[story].currentStoryPosition;
             if (typeof stories[story][stories[story].currentStoryPosition] !== 'string') {
 
-                document.getElementById("storyLog").innerHTML = stories[story][stories[story].currentStoryPosition][0];
                 if (choice == "none") {
-                    stories[story].currentStoryPosition = stories[story][stories[story].currentStoryPosition][1][0]
+                    document.getElementById("storyLog").innerHTML = stories[story][stories[story].currentStoryPosition][0];
+                    //                    stories[story].currentStoryPosition = stories[story][stories[story].currentStoryPosition][1][0]
                 } else if (choice == "y") {
                     stories[story].currentStoryPosition = stories[story][stories[story].currentStoryPosition][1][0]
                 } else if (choice == "n") {
                     stories[story].currentStoryPosition = stories[story][stories[story].currentStoryPosition][1][1]
+                }
+                if (typeof stories[story][stories[story].currentStoryPosition] !== 'string') {
+                    document.getElementById("storyLog").innerHTML = stories[story][stories[story].currentStoryPosition][0];
+                } else {
+                    window[stories[story][stories[story].currentStoryPosition]]()
                 }
             } else {
                 window[stories[story][stories[story].currentStoryPosition]]()
@@ -1468,7 +1488,7 @@
             if (player.location == 'shop') {
                 buyShopItem()
                 blurAll()
-                goHub()
+                goFlightCity()
             }
             if (player.location == 'extra settings') {
                 editExtraSettings()
@@ -1522,10 +1542,11 @@
             document.getElementById("activityLog").innerHTML = activityLog;
 
             combatLog += '<hr style="border: none;">'
-            combatLog += "<br>" + '{1} : Auto Attack Queue (ie. {1:3,2,2})';
-            combatLog += "<br>" + '{1} : toggle autoqueue WIP';
+            if (player.unlocks.includes('autoAttack')) {
+                combatLog += "<br>" + '{1} : Auto Attack Queue (ie. {1:3,2,2})';
+            }
+            combatLog += "<br>" + '{2} : Set Starting Floor (range: 1, ' + player.StartingFloorMax + ') (set to 0 for highest floor) ie. {2:2}';
             combatLog += "<br>" + '{1} : auto death gate WIP';
-            combatLog += "<br>" + '{1} : set startingfloor range(1,current) WIP';
             document.getElementById("combatLog").innerHTML = combatLog;
             document.getElementById("inputBox").onkeypress = function() {
                 return true
@@ -1537,20 +1558,35 @@
         }
 
         function editExtraSettings() {
-            let settingChange = player.input.split(':')
-            if (settingChange[0] == 1) { //attack queue
-                player.AutoAttackQueue = []
-                for (x of settingChange[1].split(',')) {
-                    if (isInteger(x)) {
-                        if (player.abilities.includes(parseInt(x))) {
-                            player.AutoAttackQueue.push(parseInt(x))
+            try {
+                let settingChange = player.input.split(':')
+                if (settingChange[0] == 1 && player.unlocks.includes('autoAttack')) { //attack queue
+                    player.AutoAttackQueue = []
+                    for (x of settingChange[1].split(',')) {
+                        if (isInteger(x)) {
+                            if (player.abilities.includes(parseInt(x))) {
+                                player.AutoAttackQueue.push(parseInt(x))
+                            }
                         }
                     }
+                    combatLog += "<br>" + 'Your auto attack queue is: ' + JSON.stringify(player.AutoAttackQueue);
+                    document.getElementById("combatLog").innerHTML = combatLog;
                 }
-                combatLog += "<br>" + 'Your auto attack queue is: ' + JSON.stringify(player.AutoAttackQueue);
-                document.getElementById("combatLog").innerHTML = combatLog;
-            }
-
+                if (settingChange[0] == 2) { //starting floor
+                    console.log(settingChange)
+                    if (isInteger(settingChange[1])) {
+                        if (clamp(parseInt(settingChange[1]), 0, player.startingFloorMax) == player.startingFloorMax) {
+                            player.startingFloor = 0
+                        } else {
+                            player.startingFloor = clamp(parseInt(settingChange[1]), 0, player.startingFloorMax)
+                        }
+                    }
+            combatLog += "<br>" + 'Your Starting Floor: ' + (player.startingFloor);
+            document.getElementById("combatLog").innerHTML = combatLog;
+        }
+        } finally {
+            return
+        }
         }
 
         function buyShopItem() {
@@ -1664,7 +1700,6 @@
         goHub();
 
         panelsStart()
-
     </script>
 
 </body>
