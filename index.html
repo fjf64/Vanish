@@ -217,7 +217,8 @@
     <div style="left: 23%;width: 53.5VW;height: 40VH;">
         <p id="combatLog"></p>
     </div>
-    <div style="position: absolute;left:.25%;top:80VH;max-width: 1VW;height: 4.5VW; display: none;padding-top: 0VH;overflow: hidden;justify-content: left;text-align: left;" id='feather'>
+    <!--ICONS-->
+    <div style="position: absolute;left:.25%;top:77.5VH;max-width: 1VW;height: 4.5VW; display: none;padding-top: 0VH;overflow: hidden;justify-content: left;text-align: left;min-height: 7VH;" id='feather'>
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="float:left; margin-left: auto;margin-right;max-width: 100%;height: auto">
             <defs>
                 <filter id="colorMask1">
@@ -228,7 +229,7 @@
             <image width="100%" xlink:href="https://fjf64.github.io/Defile/Feather.png" filter="url(#colorMask1)" />
         </svg>
     </div>
-    <div style="position: absolute;left:98.1%;top:85VH;max-width: 1.25VW;height: 2VW; display: none;padding-top: 0VH;overflow: hidden;justify-content: left;text-align: left;" id='healShield'>
+    <div style="position: absolute;left:98.1%;top:82.5VH;max-width: 1.25VW;height: 2VW; display: none;padding-top: 0VH;overflow: hidden;justify-content: left;text-align: left;" id='healShield'>
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="float:left; margin-left: auto;margin-right;max-width: 100%;height: auto">
             <defs>
                 <filter id="colorMask2">
@@ -239,11 +240,19 @@
             <image width="100%" xlink:href="https://fjf64.github.io/Defile/Shield1.png" filter="url(#colorMask2)" />
         </svg>
     </div>
-
+    <div style="position: absolute;left:.25%;top:65VH;max-width: 1VW;height: 4.5VW;min-height: 7VH; display:none;padding-top: 0VH;overflow: hidden;justify-content: left;text-align: left;" id='autoAttack'>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="float:left; margin-left: auto;margin-right;max-width: 100%;height: auto">
+            <defs>
+                <filter id="colorMask3">
+                    <feFlood flood-color="var(--colorText)" result="flood" />
+                    <feComposite in="SourceGraphic" in2="flood" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" />
+                </filter>
+            </defs>
+            <image width="100%" xlink:href="https://fjf64.github.io/Defile/Sword-Icon.png" filter="url(#colorMask3)" />
+        </svg>
+    </div>
+    
     <!--STATUS-->
-    <!--    <div class="triangle" style="left: 29.75%;width: 30VW;height: 0VH;top:41%;color:white;">-->
-
-    <!--    </div>-->
     <div style="position: absolute;left: 23%;top:42VH;width: 6VW;height: 12VH; display: inline-flex;padding-top: 0VH;overflow: hidden;justify-content: center;">
         <p id="enemyStatus" class="inTriangle" style="top: 20%;"></p>
 
@@ -317,7 +326,7 @@
 
 
     <script>
-        //       demon castle, new skills, summon unlock, sacrifice unlock, curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, feather icon for harpy unlock, hall of statistics, auto-fight, toggle oneclick only hub, finish extra settings, autoattack unlock floor 50, secret names, floor 500 new names, heal can't go below 1 (???)
+        //       demon castle, new skills, summon unlock, sacrifice unlock, curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, feather icon for harpy unlock, hall of statistics, toggle oneclick only hub, finish extra settings, autoattack unlock floor 50, secret names, floor 500 new names, heal can't go below 1 (???), autoattack icon
 
         var r = document.querySelector(':root');
 
@@ -564,7 +573,7 @@
             fightStalemateMax: 25,
             maxFightRecursion: 100,
             loadFunctions: [],
-            unlocks: [], // 'autoAttack', 
+            unlocks: [], 
 
         };
         var playerBackup = JSON.parse(JSON.stringify(player))
@@ -642,8 +651,11 @@
 
         var levelMilestones = {
             3: ["Heal! This ability heals you based on your defense, and ignores your max health!", "unlockHeal"],
-            6: ["Caelum Civitatem, Holy City of Flight!", "unlockFlightCity"]
+            6: ["Caelum Civitatem, Holy City of Flight!", "unlockFlightCity"],
             //            12:sacrifice = damage
+        }
+        var floorMilestones = {
+            75:["You've unlocked auto attacking, found in the extra settings.", 'unlockAutoAttack()'],
         }
         var fightAreas = {
             "dungeon": [dungeonNameList, [8, 12]]
@@ -784,7 +796,6 @@
 
         function goHub() {
             goArea("hub")
-            //            console.log('hubed')
             action3List.settings = ["|3| Clear Data", "doubleClickClearGame"],
                 //action_List.settings = ["|5| Respec_", "doubleClickRespec"],
                 player.choice = false;
@@ -896,7 +907,7 @@
                 if (enemy.health == 0) {
                     enemy.health = 1
                 }
-                enemy.attack = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)) ** 1.2
+                enemy.attack = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)) ** 1.5
                 enemy.defense = Math.floor(player.floor * (getRandomInt(bounds[0], bounds[1]) / 10))
                 if (enemy.defense == 0) {
                     enemy.defense = 1
@@ -988,7 +999,6 @@
             if (player.skillUses > 0) {
                 if (enemy.status !== "dead" && enemy.health > 0) {
                     player.health += Math.floor(player.defense * 2.5 * player.heal);
-                    console.log(player.heal)
                     combatLog += "<br>You've healed " + Math.floor(player.defense * 2.5 * player.heal) + " health!";
                     player.skillUses -= 1
 
@@ -1186,7 +1196,6 @@
                 currentAutoAttack += 1
             }
             fightStalemateCouter += 1
-            //                        console.log(fightStalemateCouter)
             logKey(player.AutoAttackQueue[(currentAutoAttack)].toString());
             return
         }
@@ -1209,7 +1218,12 @@
                     runFunction(x)
                 }
                 player.quickEffects = []
-
+                if (Object.keys(floorMilestones).includes(player.floor.toString()) && !(player.unlocks.includes('floor '+player.floor+' unlock'))) {
+                    activityLog += "<br>"+floorMilestones[player.floor][0]
+                    player.unlocks.push('floor '+player.floor+' unlock')
+                    runFunction(floorMilestones[player.floor][1])
+                    document.getElementById("activityLog").innerHTML = activityLog;
+                }
                 player.floor += 1
                 if (fightRecursionCounter > player.maxFightRecursion) {
                     //Dungeon Rest
@@ -1427,7 +1441,16 @@
         function unlockFlightCity() {
             action6List.hub = ["|6| Caelum Civitatem, Holy City of Flight", "goFlightCity"]
         }
-
+        
+        function unlockAutoAttack() {
+            player.unlocks.push('autoAttack')
+            player.loadFunctions.push('loadAutoAttackIcon()')
+            loadAutoAttackIcon()
+        }
+        function loadAutoAttackIcon() {
+            //icon
+            document.getElementById('autoAttack').style.display = "inline-flex";
+        }
         function goFlightCity() {
             goArea("flightCity")
             let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
@@ -1573,7 +1596,6 @@
                     document.getElementById("combatLog").innerHTML = combatLog;
                 }
                 if (settingChange[0] == 2) { //starting floor
-                    console.log(settingChange)
                     if (isInteger(settingChange[1])) {
                         if (clamp(parseInt(settingChange[1]), 0, player.startingFloorMax) == player.startingFloorMax) {
                             player.startingFloor = 0
@@ -1581,12 +1603,12 @@
                             player.startingFloor = clamp(parseInt(settingChange[1]), 0, player.startingFloorMax)
                         }
                     }
-            combatLog += "<br>" + 'Your Starting Floor: ' + (player.startingFloor);
-            document.getElementById("combatLog").innerHTML = combatLog;
-        }
-        } finally {
-            return
-        }
+                    combatLog += "<br>" + 'Your Starting Floor: ' + (player.startingFloor);
+                    document.getElementById("combatLog").innerHTML = combatLog;
+                }
+            } finally {
+                return
+            }
         }
 
         function buyShopItem() {
@@ -1698,7 +1720,7 @@
         document.body.addEventListener("keydown", logKey);
         loadGame()
         goHub();
-
+//        unlockAutoAttack()//cheat
         panelsStart()
     </script>
 
