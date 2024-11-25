@@ -728,7 +728,7 @@
             ["Charm of Skill", simpleAdd, "skillUsesMax, 1"],
             ["Perch", simpleAdd, "harpyDamage, 1"],
             ["Striking Blade", simpleAdd, "strikeDamage, 2.5"],
-            ["Healing Charm", simpleAdd, "heal, 1"],
+            ["Healing Charm", simpleAdd, "heal, .5"],
             ["Motivating Tonic", simpleAdd, "attributePoints, 1"],
             ["Compass", simpleAdd, "startingFloorMax, 4"],
             ["Explorer's Map", simpleAdd, "startingFloorMax, 5"],
@@ -1345,7 +1345,7 @@
 
         function simpleAdd(params) {
             params = params.split(", ")
-            player[params[0]] += parseInt(params[1])
+            player[params[0]] += parseFloat(params[1])
             refreshStats();
         }
 
