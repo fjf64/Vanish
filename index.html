@@ -251,7 +251,7 @@
             <image width="100%" xlink:href="https://fjf64.github.io/Defile/Sword-Icon.png" filter="url(#colorMask3)" />
         </svg>
     </div>
-    
+
     <!--STATUS-->
     <div style="position: absolute;left: 23%;top:42VH;width: 6VW;height: 12VH; display: inline-flex;padding-top: 0VH;overflow: hidden;justify-content: center;">
         <p id="enemyStatus" class="inTriangle" style="top: 20%;"></p>
@@ -326,7 +326,7 @@
 
 
     <script>
-        //       demon castle, new skills, summon unlock, sacrifice unlock, curse unlock, The great bison(summon quest), the witch(curse quest), respec unlock, bird colonizers, hall of statistics, finish extra settings, secret names, floor 500 new names, 
+        //       respec unlock, new skills, sacrifice unlock, curse unlock, great bison death rework, the witch(curse quest), respec unlock, bird colonizers, hall of statistics, finish extra settings, secret names, floor 500 new names, change gold color in hall, floor 100 great bison
 
         var r = document.querySelector(':root');
 
@@ -347,6 +347,18 @@
             min = Math.ceil(min);
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function removeItemAll(arr, value) {
+            var i = 0;
+            while (i < arr.length) {
+                if (arr[i] === value) {
+                    arr.splice(i, 1);
+                } else {
+                    ++i;
+                }
+            }
+            return arr;
         }
 
         function isInteger(value) {
@@ -572,8 +584,19 @@
             AutoAttackQueue: [],
             fightStalemateMax: 25,
             maxFightRecursion: 100,
+            summonName: '',
             loadFunctions: [],
-            unlocks: [], 
+            unlocks: [],
+
+
+            stats: {
+                highestFloor: ['Highest floor', 0],
+                totalHarpy: ['Highest attack damage done', 0],
+                totalAttack: ['Total attack damage done', 0],
+                highestHealth: ['Highest health value reached', 0],
+                healTotal: ['Total health healed', 0],
+                totalPlaytime: ['Total playtime', 0],
+            },
 
         };
         var playerBackup = JSON.parse(JSON.stringify(player))
@@ -636,7 +659,7 @@
         }
         var action7List = {
             actionid: "action7",
-            hub: [" ", ""],
+            //            hub: ["Enter the Singing Mountains, "storyIncrement", "flightCityHarpy"],
             fight: [" ", ""]
         }
         var action8List = {
@@ -656,10 +679,11 @@
             //            12:sacrifice = damage
         }
         var floorMilestones = {
-            2:["You've unlocked The Great Hall.", 'unlockHall()'],
-            75:["You've unlocked auto attacking, found in the extra settings.", 'unlockAutoAttack()'],
+            2: ["You've unlocked The Great Hall.", 'unlockHall()'],
+            5: ["You've unlocked The Singing Mountains.", 'unlockBison()', 'harpy'],
+            75: ["You've unlocked auto attacking, found in the extra settings.", 'unlockAutoAttack()'],
         }
-        
+
         var fightAreas = {
             "dungeon": [dungeonNameList, [8, 12]]
         }
@@ -717,20 +741,70 @@
         var stories = { //1 - text displayed, 2 - increment, 3 - choice sender location, 4 - function (optional)
             // quickname:['text',yes,no] if in "here" do not run as function
             flightCityHarpy: { //   :["",["",""]],
-                onclear: 'harpyClear',
+                onclear: 'harpyClear()',
                 currentStoryPosition: "start",
                 start: ["You find a suspicious water drain in the floating city, elevated, and serving no purpose. Do you choose to enter it? [y/n to continue]", ["enterGutter", "leave"]],
                 enterGutter: ["You crawl into the drain. It opens up into a larger tunnel. walking through it, the air feels heavy. Eventually you approach an opening, a large space with a shrine to a harpy, wings folded over its eyes. Do you kneel to it?", ["kneel", "dontkneel"]],
                 dontkneel: ["You do nothing, and leave the way you came. ", ["leave", "leave"]],
-                leave: "goHub",
-                dontEnterGutter: "goHub",
-                kneel: ["You kneel, and it feels as if the shrine to the harpy, it's massive stone carvings, become alive, breathing. It is suffering, and wants to be released, yet it cannot feel, and knows not of pain. The wings open, revealing a cage within its skull. Hidden in a dark corner, lays a feeble adolescent harpy, malnourished and dying. Do you choose to help it?", ["helpharpy", "donthelpharpy"]],
+                leave: "goHub()",
+                kneel: ["You kneel, and it feels as if the shrine to the harpy, it's massive stone carvings, become alive, breathing. It is suffering, and wants to be released, yet it cannot feel, and knows not of pain. The wings open, revealing a cage within its skull. Hidden in a dark corner, lays a feeble adolescent harpy with clipped wings, malnourished and dying. Do you choose to help it?", ["helpharpy", "donthelpharpy"]],
                 donthelpharpy: ["You do not help the harpy. You leave, feeling nothing. Have you ever felt guilt over this void of empathy?", ["leave", "leave"]],
                 helpharpy: ["You climb the statue of the large shrine, tearing out the rusted bars of the cage. Grabbing the harpy, you return to your domain, and nurse it back to health.", ["finale", "finale"]],
-                finale: "addHarpy"
+                finale: "addHarpy()"
             },
-        }
 
+
+            bisonStory: {
+                onclear: 'loadClearBison()',
+                currentStoryPosition: "start",
+
+                start: ["You the singing mountains. True to their namesake, a sound can be heard. From afar, it is a dull roar, one that could be heard many miles away. The closer you get, the more you can decern the sound. It is made of animal calls, hundreds upon hundreds of different animals all alien to your ears. You track the sound to a single ridge, oddly shaped, as if it is leaning on another mountain. Do you choose to investigate? [y/n to continue]", ["investigate", "noInvestigate"]],
+
+                noInvestigate: ["You do not investigate. There is nothing else special about this mountain range, just dull hills and gravel filled canyons, so you leave.", ["leave", "leave"]],
+                investigate: ["As you begin to approach the mountain with your harpy companion, it shifts. The entire ridge moves into the form of a bison, towering above you. The shadows it casts are so great it blots out the sun, its form so mighty its breath alone moved boulders. It speaks, in a great and bellowing tone, \"Who are you, to tame an endling of mine, the last of her kind. You have her on a leash and make her spill blood for your own sake? Your feathered slave is the only one left of her kind. Release her.\" [y: discuss the harpy's free will. | n: challenge the bison's dominion.]", ["freeWill", "challengeDominion"]],
+
+                freeWill: ["You explain The bison's mistake. The harpy is free, and could leave anytime. She chooses to help, and could go her own way anytime. The bison doubts this. \"And yet her pinions are pruned, feathers trimmed like hedges. Who am I to assume that wasn't your doing?\" [y: explain how you found the harpy. | n: run]", ["explainHarpy", "run"]],
+                challengeDominion: ["You tell The bison he has no say over the harpy. He responds, angrier. \"And who is to say you do? You have no control over her, every bit of connection between you is fleeting. Nothing holds you together but the glint of the coins in your purse. Let her choose.\" [y/n]", ["harpychoice", "run"]],
+                
+                explainHarpy: ["You explain how you met the harpy, deep within the floating city. The bison donned a look of understanding. \"The history of harpies is long indeed. The floating city was originally made by the harpies, as a safe haven in the sky. But people saw it as a place of riches, and it was raided again and again, until there was nothing left. The harpies that remained after ran, but were either captured or killed. It was to my understanding that they were extinct, to see one with my old eyes is a blessing.\"", ["endlingExplination", "endlingExplination"]], 
+ 
+                harpychoice: ["You throw the coins you have toward the bison and signal the harpy to come over. She decides to go to the coin purse. Before the titanic bison could retort, the harpy returns to you, handing the coin purse to you. \"Curious, Maybe you aren't what I thought you were.\"", ["endlingExplination", "endlingExplination"]], // finish
+                
+                run: ["With a short signal to the harpy, you run. The bison begins to move behind you, a the sound of thunder following closely behind. The animal calls get louder. Looking back, the bison exposed the cliff face, and from it, hundreds of coves are seen, each filled with unique animals. You escape, as the large beast struggles to pass the bends of the mountain valleys without complete destruction of its hiding place. After you escape, you find a nearby town. There, a hunting party looking for the source of the mountain's calls buys information. Do you decide to join their discussion? [y/n]", ["joinDiscussion", "noDiscussion"]],
+                
+                endlingExplination:["\"I had better explain myself, to make up for the rude introduction. I am a singing auroch, the last of my kind. We were hunted for our meat and horns, as titans of the lands, we were like a treasure trove to the humans. It didn't last long. Soon, we went into hiding. I had found other endlings, those who may have the last of their kind, and decided to use my strength, to call for those who couldn't, to try and save their species. We terminarchs are alone, so we might as well live out the rest of our days together, hiding in caves my body shields.\" [y: agree | n: disagree]", ["leaveEndlings", "runEndlings"]],
+                // connect colonisation with harpychoice for endling expanation
+                
+                leaveEndlings:["You agree. The last members of their species should be protected, with at least a surrogate family to surround them. The beast looks peaceful, and seems to have decided on something. \"I would like to grant you a scroll, to help protect you and your companion. It will summon lost souls, in the form of the deceased harpies, to protect you two. Farewell on your journey, I hope you keep the harpy company, she'll need it.\"", ["finale_futile", "finale_futile"]],
+                
+                runEndlings:["You disagree. The endlings should be free to roam, to live out their last days among the skies and fresh meadows if they so choose, not trapped within caves, cowering in fear until they die and rot. The beast thinks, and lets out a sigh. \"You might be right, in some way of thinking. I'm in my older years, and I can't protect my penultimate kin forever. If there's nothing left for them, they might as well live life to their best ability.\"", ["runEndlings_b", "runEndlings_b"]],
+                runEndlings_b:["\"I can seek the endlings that are in peril then, in the meantime. For your help, I'll gift you an old scroll. It summons the spirits of the dead, taking the form of the last members of their respective species. With it, you can protect what is alive, now. Go, I hope you make good use of it.\"", ["finale_pacifist", "finale_pacifist"]],
+                
+                
+                joinDiscussion: ["You walk up to the table and tell them what you saw. One hunter gives you an explanation as to why they are hunting the beast. \"These bisons, who have named themselves singing aurochs, create earthquakes that can level towns by the mere act of walking. their singing frightens game away, making food scarce. They kill on sight, and while intelligent, they are arrogant, and difficult to reason with. But their meat is plentiful due to their size, and their horns are incredibly sturdy. Since you're guiding us tomorrow, you can watch us take it down!\"", ["joinDiscussion_b", "joinDiscussion_b"]],
+                joinDiscussion_b: ["The next day, they bring together weapons, to kill the bison, and the animals it hides.  Will you take action to save the helpless beasts that hide behind the great bison? [y/n]", ["saveAnimals", "abandonAnimals"]],
+                noDiscussion: ["You do not join the discussion. There isn't much you can do other than that, so you leave the mountains, with the knowledge that the chorus that echoes against its walls is hidden by The Great Bison.", ["leave", "leave"]],
+
+                abandonAnimals: ["You choose inaction. The hunters reach the bison, and you follow. The beast awakens, and roars with a thousand calls. It is no match for the hunters, their weapons designed for big game, hammers and large machinery in tow. It falls, and the animals who cowered behind its corpse try to escape. ", ["abandonAnimals_b", "abandonAnimals_b"]],
+                saveAnimals: ["You sneak away from the hunters while the they make camp. Awakening the bison, it chases after you to bring you further from the defenseless animals. You make sure to keep it in sight, and soon enough you reach the hunting party. They fight, and the bison stands no chance. The hunters quickly dispatch the titan with powerful explosives embedded in their blades and projectiles, downing it. They process the body, chopping off its huge horns that could fit a house, removing its hoves that could crush tens of people in one step. The beast's great hide is defiled with blood and metal, as it lays to rest in a bed of crimson gravel. ", ["saveAnimals_b", "saveAnimals_b"]],
+
+                abandonAnimals_b: ["Mercilessly, they are slaughtered. There is a vibrance of feathers, the dark maroon blood of a horned deer, the severed limbs of now extinct beasts littering the valley. No beast survived. The party of hunters has laid waste to the endlings of their species, and now nothing remains of them, the beasts slaughtered in the same ways as their anscestors. Blood drips down the gravel valley as a hunter approaches you. \"Thanks for the tip. We found some treasures among the corpse-loot. There's a scroll we don't care much for, we'd like you to have it, as payback.\"", ["abandonAnimals_c", "abandonAnimals_c"]],
+                abandonAnimals_c: ["The hunter hands you the scroll and walks away. The magic enscribed summons souls to fight and protect you, taking the form of a grotesque river of malformed bodies, a mixture of wings, legs, horns, guts, and much more the farther you look. You leave, bloodshed trailing behind you. ", ["finale_genocide", "finale_genocide"]],
+                
+                saveAnimals_b: ["You sneak off again process the great bison, back to the animals. They are distressed, and the sound of their calls is quiet. At the sight of you, they begin to flee. Stampedes of animals of every size, shape, and color flock out, migrating to somewhere distant. They go somewhere far, away from the killer of their protector. Deep within the cave which held them, you find a scroll, markings of souls carved on it. ", ["saveAnimals_c", "saveAnimals_c"]],
+                saveAnimals_c: ["The scroll summons a small bison, back shaped like a mountain range. It'll protect and defend you for the time it has left. ", ["finale_liberty", "finale_liberty"]],
+                
+                
+                
+
+                leave: "goHub()",
+                finale_genocide: "clearBison(river of blood)",
+                finale_liberty: "clearBison('bison's soul)",
+                finale_pacifist: "clearBison(endling's soul)",
+                finale_futile: "clearBison(harpy's soul)",
+
+            }
+        }
         var items = [
             ["Charm of Attack", simpleAdd, "attack, 1"],
             ["Charm of Defense", simpleAdd, "defense, 1"],
@@ -761,7 +835,7 @@
 
 
                 for (let x of player.completedStories) {
-                    window[stories[x].onclear]()
+                    runFunction(stories[x].onclear)
                 }
                 for (let x of Object.keys(levelMilestones)) {
                     if (player.level >= parseInt(x)) { // && Object.keys(levelMilestones).includes(player.level.toString())
@@ -1103,7 +1177,7 @@
             if (player.skillUses > 0) {
                 if (enemy.status !== "dead" && enemy.health > 0) {
                     player.longEffects.push(['summonAttack()', player.summonDuration]);
-                    combatLog += "<br>You've summoned a ___!";
+                    combatLog += "<br>You've summoned a " + player.summonName + "!";
                     //                    document.getElementById("combatLog").innerHTML = combatLog;
                     player.skillUses -= 1
 
@@ -1157,7 +1231,7 @@
                     }
                 }
             }
-            if (player.harpy == true) {
+            if (player.unlocks.includes('harpy')) {
                 Harpyturn()
             }
             if (enemy.status !== "dead" && enemy.health > 0) {
@@ -1228,9 +1302,9 @@
                     runFunction(x)
                 }
                 player.quickEffects = []
-                if (Object.keys(floorMilestones).includes(player.floor.toString()) && !(player.unlocks.includes('floor '+player.floor+' unlock'))) {
-                    activityLog += "<br>"+floorMilestones[player.floor][0]
-                    player.unlocks.push('floor '+player.floor+' unlock')
+                if (Object.keys(floorMilestones).includes(player.floor.toString()) && !(player.unlocks.includes(floorMilestones[player.floor][1])) && (player.unlocks.includes(floorMilestones[player.floor][2]) || floorMilestones[player.floor][2] == undefined)) {
+                    activityLog += "<br>" + floorMilestones[player.floor][0]
+                    player.unlocks.push(floorMilestones[player.floor][1])
                     runFunction(floorMilestones[player.floor][1])
                     document.getElementById("activityLog").innerHTML = activityLog;
                 }
@@ -1451,16 +1525,18 @@
         function unlockFlightCity() {
             action6List.hub = ["|6| Caelum Civitatem, Holy City of Flight", "goFlightCity"]
         }
-        
+
         function unlockAutoAttack() {
             player.unlocks.push('autoAttack')
             player.loadFunctions.push('loadAutoAttackIcon()')
             loadAutoAttackIcon()
         }
+
         function loadAutoAttackIcon() {
             //icon
             document.getElementById('autoAttack').style.display = "inline-flex";
         }
+
         function goFlightCity() {
             goArea("flightCity")
             let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
@@ -1470,7 +1546,7 @@
         }
 
         function addHarpy() {
-            player.harpy = true;
+            player.unlocks.push('harpy');
             action2List.flightCity = ["", ""];
             document.getElementById('feather').style.display = "inline-flex";
             player.completedStories.push('flightCityHarpy')
@@ -1508,10 +1584,10 @@
                 if (typeof stories[story][stories[story].currentStoryPosition] !== 'string') {
                     document.getElementById("storyLog").innerHTML = stories[story][stories[story].currentStoryPosition][0];
                 } else {
-                    window[stories[story][stories[story].currentStoryPosition]]()
+                    runFunction(stories[story][stories[story].currentStoryPosition])
                 }
             } else {
-                window[stories[story][stories[story].currentStoryPosition]]()
+                runFunction(stories[story][stories[story].currentStoryPosition])
             }
         }
 
@@ -1579,7 +1655,7 @@
                 combatLog += "<br>" + '{1} : Auto Attack Queue (ie. {1:3,2,2})';
             }
             combatLog += "<br>" + '{2} : Set Starting Floor (range: 1, ' + player.StartingFloorMax + ') (set to 0 for highest floor) ie. {2:2}';
-//            combatLog += "<br>" + '{1} : auto death gate WIP';
+            //            combatLog += "<br>" + '{1} : auto death gate WIP';
             document.getElementById("combatLog").innerHTML = combatLog;
             document.getElementById("inputBox").onkeypress = function() {
                 return true
@@ -1727,18 +1803,48 @@
                 respecAttributes()
             }
         }
+
         function unlockHall() {
             action5List.hub = ["|5| Enter The Great Hall", "goHall"]
             player.loadFunctions.push('loadHall()')
         }
+
         function loadHall() {
             action5List.hub = ["|5| Enter The Great Hall", "goHall"]
         }
+
         function goHall() {
             goArea('greatHall')
             remapKeys('greatHall')
             refreshStats()
         }
+
+        function unlockBison() {
+            action7List.hub = ["|7| Enter the Singing Mountains", "storyIncrement", "bisonStory"]
+            player.loadFunctions.push('loadBison()')
+        }
+
+        function loadBison() {
+            action7List.hub = ["|7| Enter the Singing Mountains", "storyIncrement", "bisonStory"]
+        }
+
+        function clearBison(summonName) {
+            //            document.getElementById('feather').style.display = "inline-flex";
+            removeItemAll(player.loadFunctions, "loadBison()")
+            player.unlocks.push('BisonClear')
+            action7List.hub = ["", ""];
+            action5List.fight = ["|5| summon", "summon"]
+            player.completedStories.push('bisonStory')
+            player.summonName = summonName
+            goHub()
+        }
+
+        function loadClearBison() {
+            //                document.getElementById('feather').style.display = "inline-flex";
+            action7List.hub = ["", ""];
+            action5List.fight = ["|5| summon", "summon"]
+        }
+
         function remapKeys(loc) {
             let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
             for (let x of count_to_8) {
@@ -1748,7 +1854,7 @@
         document.body.addEventListener("keydown", logKey);
         loadGame()
         goHub();
-//        unlockAutoAttack()//cheat
+        //        unlockAutoAttack()//cheat
         panelsStart()
     </script>
 
