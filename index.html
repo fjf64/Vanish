@@ -251,6 +251,17 @@
             <image width="100%" xlink:href="https://fjf64.github.io/Defile/Sword-Icon.png" filter="url(#colorMask3)" />
         </svg>
     </div>
+    <div style="position: absolute;left:97.96%;top:74.5VH;max-width: 1.5VW;height: 2.1VW;min-height: 4.25VH; display:none;padding-top: 0VH;overflow: hidden;justify-content: left;text-align: left;" id='horns-icon'>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="float:left; margin-left: auto;margin-right;max-width: 100%;height: auto">
+            <defs>
+                <filter id="colorMask4">
+                    <feFlood flood-color="var(--colorText)" result="flood" />
+                    <feComposite in="SourceGraphic" in2="flood" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" />
+                </filter>
+            </defs>
+            <image width="100%" xlink:href="https://fjf64.github.io/Defile/horns.png" filter="url(#colorMask4)" />
+        </svg>
+    </div>
 
     <!--STATUS-->
     <div style="position: absolute;left: 23%;top:42VH;width: 6VW;height: 12VH; display: inline-flex;padding-top: 0VH;overflow: hidden;justify-content: center;">
@@ -765,22 +776,22 @@
 
                 freeWill: ["You explain The bison's mistake. The harpy is free, and could leave anytime. She chooses to help, and could go her own way anytime. The bison doubts this. \"And yet her pinions are pruned, feathers trimmed like hedges. Who am I to assume that wasn't your doing?\" [y: explain how you found the harpy. | n: run]", ["explainHarpy", "run"]],
                 challengeDominion: ["You tell The bison he has no say over the harpy. He responds, angrier. \"And who is to say you do? You have no control over her, every bit of connection between you is fleeting. Nothing holds you together but the glint of the coins in your purse. Let her choose.\" [y/n]", ["harpychoice", "run"]],
-                
-                explainHarpy: ["You explain how you met the harpy, deep within the floating city. The bison donned a look of understanding. \"The history of harpies is long indeed. The floating city was originally made by the harpies, as a safe haven in the sky. But people saw it as a place of riches, and it was raided again and again, until there was nothing left. The harpies that remained after ran, but were either captured or killed. It was to my understanding that they were extinct, to see one with my old eyes is a blessing.\"", ["endlingExplination", "endlingExplination"]], 
- 
+
+                explainHarpy: ["You explain how you met the harpy, deep within the floating city. The bison donned a look of understanding. \"The history of harpies is long indeed. The floating city was originally made by the harpies, as a safe haven in the sky. But people saw it as a place of riches, and it was raided again and again, until there was nothing left. The harpies that remained after ran, but were either captured or killed. It was to my understanding that they were extinct, to see one with my old eyes is a blessing.\"", ["endlingExplination", "endlingExplination"]],
+
                 harpychoice: ["You throw the coins you have toward the bison and signal the harpy to come over. She decides to go to the coin purse. Before the titanic bison could retort, the harpy returns to you, handing the coin purse to you. \"Curious, Maybe you aren't what I thought you were.\"", ["endlingExplination", "endlingExplination"]], // finish
-                
+
                 run: ["With a short signal to the harpy, you run. The bison begins to move behind you, a the sound of thunder following closely behind. The animal calls get louder. Looking back, the bison exposed the cliff face, and from it, hundreds of coves are seen, each filled with unique animals. You escape, as the large beast struggles to pass the bends of the mountain valleys without complete destruction of its hiding place. After you escape, you find a nearby town. There, a hunting party looking for the source of the mountain's calls buys information. Do you decide to join their discussion? [y/n]", ["joinDiscussion", "noDiscussion"]],
-                
-                endlingExplination:["\"I had better explain myself, to make up for the rude introduction. I am a singing auroch, the last of my kind. We were hunted for our meat and horns, as titans of the lands, we were like a treasure trove to the humans. It didn't last long. Soon, we went into hiding. I had found other endlings, those who may have the last of their kind, and decided to use my strength, to call for those who couldn't, to try and save their species. We terminarchs are alone, so we might as well live out the rest of our days together, hiding in caves my body shields.\" [y: agree | n: disagree]", ["leaveEndlings", "runEndlings"]],
+
+                endlingExplination: ["\"I had better explain myself, to make up for the rude introduction. I am a singing auroch, the last of my kind. We were hunted for our meat and horns, as titans of the lands, we were like a treasure trove to the humans. It didn't last long. Soon, we went into hiding. I had found other endlings, those who may have the last of their kind, and decided to use my strength, to call for those who couldn't, to try and save their species. We terminarchs are alone, so we might as well live out the rest of our days together, hiding in caves my body shields.\" [y: agree | n: disagree]", ["leaveEndlings", "runEndlings"]],
                 // connect colonisation with harpychoice for endling expanation
-                
-                leaveEndlings:["You agree. The last members of their species should be protected, with at least a surrogate family to surround them. The beast looks peaceful, and seems to have decided on something. \"I would like to grant you a scroll, to help protect you and your companion. It will summon lost souls, in the form of the deceased harpies, to protect you two. Farewell on your journey, I hope you keep the harpy company, she'll need it.\"", ["finale_futile", "finale_futile"]],
-                
-                runEndlings:["You disagree. The endlings should be free to roam, to live out their last days among the skies and fresh meadows if they so choose, not trapped within caves, cowering in fear until they die and rot. The beast thinks, and lets out a sigh. \"You might be right, in some way of thinking. I'm in my older years, and I can't protect my penultimate kin forever. If there's nothing left for them, they might as well live life to their best ability.\"", ["runEndlings_b", "runEndlings_b"]],
-                runEndlings_b:["\"I can seek the endlings that are in peril then, in the meantime. For your help, I'll gift you an old scroll. It summons the spirits of the dead, taking the form of the last members of their respective species. With it, you can protect what is alive, now. Go, I hope you make good use of it.\"", ["finale_pacifist", "finale_pacifist"]],
-                
-                
+
+                leaveEndlings: ["You agree. The last members of their species should be protected, with at least a surrogate family to surround them. The beast looks peaceful, and seems to have decided on something. \"I would like to grant you a scroll, to help protect you and your companion. It will summon lost souls, in the form of the deceased harpies, to protect you two. Farewell on your journey, I hope you keep the harpy company, she'll need it.\"", ["finale_futile", "finale_futile"]],
+
+                runEndlings: ["You disagree. The endlings should be free to roam, to live out their last days among the skies and fresh meadows if they so choose, not trapped within caves, cowering in fear until they die and rot. The beast thinks, and lets out a sigh. \"You might be right, in some way of thinking. I'm in my older years, and while I can still live to watch kingdoms rise and fall, and I can't protect my penultimate kin forever. If there's nothing left for them, they might as well live life to their best ability.\"", ["runEndlings_b", "runEndlings_b"]],
+                runEndlings_b: ["\"I can turn my attention to endlings that are in peril then, in the meantime. For your help, I'll gift you an old scroll. It summons the spirits of the dead, taking the form of the last members of their respective species. With it, you can protect what is alive, now. Go, I hope you make good use of it.\"", ["finale_pacifist", "finale_pacifist"]],
+
+
                 joinDiscussion: ["You walk up to the table and tell them what you saw. One hunter gives you an explanation as to why they are hunting the beast. \"These bisons, who have named themselves singing aurochs, create earthquakes that can level towns by the mere act of walking. their singing frightens game away, making food scarce. They kill on sight, and while intelligent, they are arrogant, and difficult to reason with. But their meat is plentiful due to their size, and their horns are incredibly sturdy. Since you're guiding us tomorrow, you can watch us take it down!\"", ["joinDiscussion_b", "joinDiscussion_b"]],
                 joinDiscussion_b: ["The next day, they bring together weapons, to kill the bison, and the animals it hides.  Will you take action to save the helpless beasts that hide behind the great bison? [y/n]", ["saveAnimals", "abandonAnimals"]],
                 noDiscussion: ["You do not join the discussion. There isn't much you can do other than that, so you leave the mountains, with the knowledge that the chorus that echoes against its walls is hidden by The Great Bison.", ["leave", "leave"]],
@@ -790,12 +801,12 @@
 
                 abandonAnimals_b: ["Mercilessly, they are slaughtered. There is a vibrance of feathers, the dark maroon blood of a horned deer, the severed limbs of now extinct beasts littering the valley. No beast survived. The party of hunters has laid waste to the endlings of their species, and now nothing remains of them, the beasts slaughtered in the same ways as their anscestors. Blood drips down the gravel valley as a hunter approaches you. \"Thanks for the tip. We found some treasures among the corpse-loot. There's a scroll we don't care much for, we'd like you to have it, as payback.\"", ["abandonAnimals_c", "abandonAnimals_c"]],
                 abandonAnimals_c: ["The hunter hands you the scroll and walks away. The magic enscribed summons souls to fight and protect you, taking the form of a grotesque river of malformed bodies, a mixture of wings, legs, horns, guts, and much more the farther you look. You leave, bloodshed trailing behind you. ", ["finale_genocide", "finale_genocide"]],
-                
+
                 saveAnimals_b: ["You sneak off again process the great bison, back to the animals. They are distressed, and the sound of their calls is quiet. At the sight of you, they begin to flee. Stampedes of animals of every size, shape, and color flock out, migrating to somewhere distant. They go somewhere far, away from the killer of their protector. Deep within the cave which held them, you find a scroll, markings of souls carved on it. ", ["saveAnimals_c", "saveAnimals_c"]],
                 saveAnimals_c: ["The scroll summons a small bison, back shaped like a mountain range. It'll protect and defend you for the time it has left. ", ["finale_liberty", "finale_liberty"]],
-                
-                
-                
+
+
+
 
                 leave: "goHub()",
                 finale_genocide: "clearBison(river of blood)",
@@ -1829,7 +1840,7 @@
         }
 
         function clearBison(summonName) {
-            //            document.getElementById('feather').style.display = "inline-flex";
+            document.getElementById('horns-icon').style.display = "inline-flex";
             removeItemAll(player.loadFunctions, "loadBison()")
             player.unlocks.push('BisonClear')
             action7List.hub = ["", ""];
@@ -1840,7 +1851,7 @@
         }
 
         function loadClearBison() {
-            //                document.getElementById('feather').style.display = "inline-flex";
+            document.getElementById('horns-icon').style.display = "inline-flex";
             action7List.hub = ["", ""];
             action5List.fight = ["|5| summon", "summon"]
         }
