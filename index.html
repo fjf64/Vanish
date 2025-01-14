@@ -203,6 +203,7 @@
         .tooltip:hover .tooltiptext {
             visibility: visible;
         }
+
     </style>
 </head>
 
@@ -337,7 +338,7 @@
 
 
     <script>
-        //       respec unlock, new skills, sacrifice unlock, curse unlock, great bison death rework, the witch(curse quest), respec unlock, bird colonizers, hall of statistics, finish extra settings, secret names, floor 500 new names, change gold color in hall, floor 100 great bison
+        //       respec unlock, new skills, sacrifice unlock, curse unlock, great bison death rework, the witch(curse quest), respec unlock, bird colonizers, hall of statistics, finish extra settings, secret names, floor 500 new names, change gold color in hall, floor 100 great bison, use compareOverride with great hall
 
         var r = document.querySelector(':root');
 
@@ -377,6 +378,19 @@
                 return true
             }
             return false;
+        }
+
+        function compareOverride(overwritten, b) {
+            try {
+                if (overwritten !== undefined || b !== undefined) {
+                    if (b > overwritten) {
+                        overwritten = b
+                    }
+                }
+            } catch (e) {
+                console.log(e)
+            }
+            return overwritten
         }
 
         function clamp(number, min, max) {
@@ -591,7 +605,7 @@
             quickEffects: [],
             longEffects: [],
             summonStrength: 1,
-            summonDuration: 10,
+            summonDuration: 5,
             AutoAttackQueue: [],
             fightStalemateMax: 25,
             maxFightRecursion: 100,
@@ -744,13 +758,14 @@
             greatHall: {
                 mainBG: "#0D0B0B",
                 colorBG: "#0f0f0f",
-                colorTrap: "#B1A37F",
+                colorTrap: "black",
                 colorText: "#CFC330",
                 colorHighlights: "#e3ded1",
             },
         }
         var stories = { //1 - text displayed, 2 - increment, 3 - choice sender location, 4 - function (optional)
             // quickname:['text',yes,no] if in "here" do not run as function
+            //StorySkipAround(location)
             flightCityHarpy: { //   :["",["",""]],
                 onclear: 'harpyClear()',
                 currentStoryPosition: "start",
@@ -814,7 +829,9 @@
                 finale_pacifist: "clearBison(endling's soul)",
                 finale_futile: "clearBison(harpy's soul)",
 
-            }
+            },
+            
+            
         }
         var items = [
             ["Charm of Attack", simpleAdd, "attack, 1"],
@@ -1032,9 +1049,9 @@
                 }
                 return
             } catch (e) {
-                console.log(e)
+                //                console.log(e) // REMEMBER
                 if (!(combatLog.includes('Your time has run short at floor'))) {
-                    combatLog += "<br> Your time has run short at floor " + player.floor + ", grow stronger.";
+                    combatLog += "<br> Your time has run short at floor " + player.floor + ", you must overcome your enemies quicker.";
                 }
                 document.getElementById("enemyStatus").innerHTML = enemy.name + "'s Health:" + enemy.health;
                 document.getElementById("playerStatus").innerHTML = "Your Health:" + player.health;
@@ -1062,8 +1079,8 @@
         function strike() {
             if (player.skillUses > 0) {
                 if (enemy.status !== "dead" && enemy.health > 0) {
-                    enemy.health -= Math.ceil((player.attack * player.strikeDamage) / enemy.defense);
-                    combatLog += "<br>You've done " + Math.ceil((player.attack * player.strikeDamage) / enemy.defense) + " damage!";
+                    enemy.health -= Math.ceil((player.attack * player.strikeDamage * 2.5) / enemy.defense);
+                    combatLog += "<br>You've done " + Math.ceil((player.attack * player.strikeDamage * 2.5) / enemy.defense) + " damage!";
                     //                    document.getElementById("combatLog").innerHTML = combatLog;
                     player.skillUses -= 1
 
@@ -1217,11 +1234,11 @@
 
         function summonAttack() {
             if (enemy.status !== "dead" && enemy.health > 0) {
-                enemy.health -= Math.ceil((player.attack * 4 * player.summonStrength) / enemy.defense);
-                player.health += Math.floor(player.defense * player.summonStrength)
-                combatLog += "<br>Your summons have done " + Math.ceil((player.attack * 3 * player.summonStrength) / enemy.defense) + " damage, and healed " + Math.floor(player.defense * player.summonStrength) + " health!";
+                enemy.health -= Math.ceil((player.attack * 5 * player.summonStrength) / enemy.defense);
+                player.health += Math.floor(player.defense * player.summonStrength / 4)
+                combatLog += "<br>Your summons have done " + Math.ceil((player.attack * 5 * player.summonStrength) / enemy.defense) + " damage, and healed " + Math.floor(player.defense * player.summonStrength / 4) + " health!";
             } else if (enemy.status !== 'dead') {
-                enemyDeath()
+                //                enemyDeath()
                 return
             }
         }
@@ -1262,10 +1279,12 @@
                     player.longEffects = []
                     combatLog += '<br>You died on floor ' + player.floor + '!'
                     goHub()
+                    return
                 } else {
                     if (player.AutoAttackQueue.length !== 0) {
                         if (fightStalemateCouter > player.fightStalemateMax) {
                             player.health = 0
+                            goHub()
                         }
                         autoQueue()
 
@@ -1341,7 +1360,8 @@
                         'reach a cliff',
                         'come across a mirror',
                         'come across long brick hallway',
-                        'find a wall made of flesh and bone'
+                        'find a wall made of flesh and bone',
+                        'hear the call of owls',
                     ]
                     let restPrompt2 = [
                         'you do nothing',
@@ -1358,7 +1378,6 @@
                         'you fear the weight of your future',
                         'you sleep',
                         'you sleep for two eternities',
-                        'you fly',
                         'you ingore it',
 
                     ]
@@ -1395,7 +1414,7 @@
                     document.getElementById("activityLog").innerHTML = activityLog;
                     document.getElementById("combatLog").innerHTML = combatLog;
                     document.getElementById("playerStatus").innerHTML = "Your Health:" + player.maxHealth * 5;
-                    saveGame()
+                    saveGame() // maybe?
                     let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
                     for (let x of count_to_8) {
                         renameAction(("action" + x + "List"), "dungeonRest");
@@ -1406,6 +1425,7 @@
                 } else {
                     fightRecursionCounter += 1
                     fight(player.fightLocation)
+                    return
                 }
             }
             return
@@ -1581,7 +1601,6 @@
         function storyIncrement(story, choice = "none") {
             player.storyLocation = story;
             player.choice = true;
-            //            stories[story].currentStoryPosition;
             if (typeof stories[story][stories[story].currentStoryPosition] !== 'string') {
 
                 if (choice == "none") {
@@ -1833,6 +1852,9 @@
         function unlockBison() {
             action7List.hub = ["|7| Enter the Singing Mountains", "storyIncrement", "bisonStory"]
             player.loadFunctions.push('loadBison()')
+            if (!(player.abilities.includes(5))) {
+                player.abilities.push(5)
+            }
         }
 
         function loadBison() {
@@ -1862,11 +1884,20 @@
                 renameAction(("action" + x + "List"), loc);
             }
         }
+        
+        function StorySkipAround(spot) {
+            stories[player.storyLocation].currentStoryPosition = spot
+            document.getElementById("storyLog").innerHTML = stories[player.storyLocation][stories[player.storyLocation].currentStoryPosition][0];
+//            storyIncrement(player.storyLocation, spot);
+        }
         document.body.addEventListener("keydown", logKey);
         loadGame()
         goHub();
         //        unlockAutoAttack()//cheat
         panelsStart()
+
+        
+
     </script>
 
 </body>
