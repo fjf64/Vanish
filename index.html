@@ -176,13 +176,7 @@
             width: 85%;
         }
 
-        .tooltip {
-            /*
-            position: relative;
-            display: inline-block;
-            border-bottom: 1px dotted black;
-*/
-        }
+       
 
         .tooltip .tooltiptext {
             visibility: hidden;
@@ -220,7 +214,7 @@
     </div>
     <!--ICONS-->
     <div style="position: absolute;left:.25%;top:77.5VH;max-width: 1VW;height: 4.5VW; display: none;padding-top: 0VH;overflow: hidden;justify-content: left;text-align: left;min-height: 7VH;" id='feather'>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="float:left; margin-left: auto;margin-right;max-width: 100%;height: auto">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="float:left; margin-left: auto;max-width: 100%;height: auto">
             <defs>
                 <filter id="colorMask1">
                     <feFlood flood-color="var(--colorText)" result="flood" />
@@ -231,7 +225,7 @@
         </svg>
     </div>
     <div style="position: absolute;left:98.1%;top:82.5VH;max-width: 1.25VW;height: 2VW; display: none;padding-top: 0VH;overflow: hidden;justify-content: left;text-align: left;" id='healShield'>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="float:left; margin-left: auto;margin-right;max-width: 100%;height: auto">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="float:left; margin-left: auto;max-width: 100%;height: auto">
             <defs>
                 <filter id="colorMask2">
                     <feFlood flood-color="var(--colorText)" result="flood" />
@@ -242,7 +236,7 @@
         </svg>
     </div>
     <div style="position: absolute;left:.25%;top:65VH;max-width: 1VW;height: 4.5VW;min-height: 7VH; display:none;padding-top: 0VH;overflow: hidden;justify-content: left;text-align: left;" id='autoAttack'>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="float:left; margin-left: auto;margin-right;max-width: 100%;height: auto">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="float:left; margin-left: auto;max-width: 100%;height: auto">
             <defs>
                 <filter id="colorMask3">
                     <feFlood flood-color="var(--colorText)" result="flood" />
@@ -253,7 +247,7 @@
         </svg>
     </div>
     <div style="position: absolute;left:97.96%;top:74.5VH;max-width: 1.5VW;height: 2.1VW;min-height: 4.25VH; display:none;padding-top: 0VH;overflow: hidden;justify-content: left;text-align: left;" id='horns-icon'>
-        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="float:left; margin-left: auto;margin-right;max-width: 100%;height: auto">
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="float:left; margin-left: auto;max-width: 100%;height: auto">
             <defs>
                 <filter id="colorMask4">
                     <feFlood flood-color="var(--colorText)" result="flood" />
@@ -268,14 +262,14 @@
     <div style="position: absolute;left: 23%;top:42VH;width: 6VW;height: 12VH; display: inline-flex;padding-top: 0VH;overflow: hidden;justify-content: center;">
         <p id="enemyStatus" class="inTriangle" style="top: 20%;"></p>
 
-        <hr style="" class="splitline">
+        <hr class="splitline">
 
         <p id="playerStatus" class="inTriangle" style="top: 40%;"></p>
     </div>
     <!--    <div class="line" style="top: 10%;width:30vw;left:34.75%;"></div>-->
 
     <div style="left: 29.75%;top:61%;width: 40VW;height: 15VH;padding-bottom: 1VH;" id="activityLog"></div>
-    <div style="" id="storyLog"></div>
+    <div id="storyLog"></div>
 
     <div style="left: 30%;top:78.75%;width: 40VW;height: 7VH;flex-direction: column;overflow: hidden;border: transparent 4px;background: transparent;">
         <div style="width: 22.5%; float:left;left: 0%;" id="action1" class="divSplit" onclick="clickall(action1List)">
