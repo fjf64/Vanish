@@ -1615,6 +1615,11 @@
             }
         }
 
+        function StorySkipAround(spot) {
+            stories[player.storyLocation].currentStoryPosition = spot
+            document.getElementById("storyLog").innerHTML = stories[player.storyLocation][stories[player.storyLocation].currentStoryPosition][0];
+        }
+        
         function inputEnter() { //push inputbox value
             player.input = document.getElementById("inputBox").value;
             document.getElementById("inputBox").value = "";
@@ -1879,11 +1884,6 @@
             }
         }
         
-        function StorySkipAround(spot) {
-            stories[player.storyLocation].currentStoryPosition = spot
-            document.getElementById("storyLog").innerHTML = stories[player.storyLocation][stories[player.storyLocation].currentStoryPosition][0];
-//            storyIncrement(player.storyLocation, spot);
-        }
         document.body.addEventListener("keydown", logKey);
         loadGame()
         goHub();
