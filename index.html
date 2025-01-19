@@ -707,6 +707,16 @@
         document.body.removeChild(tmp);
       }
 
+      function listFromNumber(start, end) {
+            //goes to number, inclusive
+            let returnList = []
+            for (let x = start; x <= end; x++) {
+                returnList.push(x)
+            }
+            return returnList
+        }
+
+
       function runFunction(functio) {
         functio = functio.split("(");
         let params = functio[1].split(")");
@@ -1003,6 +1013,7 @@
         summonName: "",
         loadFunctions: [],
         unlocks: [],
+        attributeLoopCount:1,
 
         stats: {
           highestFloor: ["Highest floor", 0],
@@ -1030,7 +1041,7 @@
         actionid: "action1",
         hub: ["|1| Enter Dungeon", "fight", "dungeon"],
         fight: ["|1| Attack", "attack"],
-        distrib: ["|1| add to health", "addtohp"],
+        distrib: ["|1| add to health", "addToAtrribute",'hp'],
         flightCity: ["|1| Go to shop", "goShop"],
         settings: ["|1| Save Data", "saveGame"],
         dungeonRest: ["|1| Continue", "fight", "dungeon"],
@@ -1039,7 +1050,7 @@
         actionid: "action2",
         hub: ["|2| Distribute Attribute Points", "attributeDistribute"],
         fight: ["|2| Strike", "strike"],
-        distrib: ["|2| add to defense", "addtodef"],
+        distrib: ["|2| add to defense", "addToAtrribute",'def'],
         flightCity: [
           "|2| investigate a strange water drain",
           "storyIncrement",
@@ -1051,7 +1062,7 @@
         actionid: "action3",
         hub: [" ", ""],
         fight: ["", ""],
-        distrib: ["|3| add to attack", "addtoatt"],
+        distrib: ["|3| add to attack", "addToAtrribute",'att'],
         settings: ["|3| Clear Data", "doubleClickClearGame"],
       };
       var action4List = {
@@ -1059,7 +1070,7 @@
         hub: [" ", ""],
         //            fight: ["|4| Sacrifice", "sacrifice"],
         fight: ["", ""],
-        distrib: ["|4| add to skill uses", "addtosp"],
+        distrib: ["|4| add to skill uses", "addToAtrribute",'sp'],
         settings: ["|4| Extra Settings", "extraSettings"],
       };
       var action5List = {
@@ -1402,7 +1413,6 @@
         for (x in stories) {
           stories[x]["currentStoryPosition"] = "start";
         }
-        player.skillUses = player.skillUsesMax;
         document.getElementById("storyLog").innerHTML = "";
         if (combatLog.split("<br>").length > 20) {
           combatLog = combatLog
@@ -1422,7 +1432,7 @@
             )
             .join("<br>");
         }
-
+        player.skillUses = player.skillUsesMax;
         document.getElementById("activityLog").innerHTML = activityLog;
         document.getElementById("combatLog").innerHTML = combatLog;
         document.getElementById("inputBox").onkeypress = function () {
@@ -2045,49 +2055,27 @@
         refreshStats();
       }
 
-      function addtosp() {
+      function addToAtrribute(tablekey) {
+        var attributeTable = {
+          'def':['defense'],
+          'att':['attack'],
+          'sp':['skillUsesMax'],
+          'hp':['maxHealth']
+        }
+        for (x in listFromNumber(1,player.attributeLoopCount)) {
         if (player.attributePoints > 0) {
           player.attributePoints -= 1;
-          player.skillUsesMax += 1;
+          player[attributeTable[tablekey][0]] += 1;
+          player.attributePointsUsed.push(attributeTable[tablekey][0]);
           player.skillUses = player.skillUsesMax;
-          player.attributePointsUsed.push("skillUses");
           refreshStats();
+          document.getElementById("playerStatus").innerHTML =
+          "Your Health:" + player.maxHealth * 5;2
         } else {
           goHub();
+          return;
         }
       }
-
-      function addtoatt() {
-        if (player.attributePoints > 0) {
-          player.attributePoints -= 1;
-          player.attack += 1;
-          player.attributePointsUsed.push("attack");
-          refreshStats();
-        } else {
-          goHub();
-        }
-      }
-
-      function addtohp() {
-        if (player.attributePoints > 0) {
-          player.attributePoints -= 1;
-          player.maxHealth += 1;
-          player.attributePointsUsed.push("maxHealth");
-          refreshStats();
-        } else {
-          goHub();
-        }
-      }
-
-      function addtodef() {
-        if (player.attributePoints > 0) {
-          player.attributePoints -= 1;
-          player.defense += 1;
-          player.attributePointsUsed.push("defense");
-          refreshStats();
-        } else {
-          goHub();
-        }
       }
 
       function logKey(e) {
@@ -2316,6 +2304,9 @@
           "{2} : Set Starting Floor (range: 1, " +
           player.StartingFloorMax +
           ") (set to 0 for highest floor) ie. {2:2}";
+          combatLog +=
+          "<br>" +
+          "{3} : Set attributes distributed per click (range: 1, 100) ie. {3:2}";
         //            combatLog += "<br>" + '{1} : auto death gate WIP';
         document.getElementById("combatLog").innerHTML = combatLog;
         document.getElementById("inputBox").onkeypress = function () {
@@ -2364,6 +2355,19 @@
             }
             combatLog +=
               "<br>" + "Your Starting Floor: " + player.startingFloor;
+            document.getElementById("combatLog").innerHTML = combatLog;
+          }
+          if (settingChange[0] == 3) {
+            //attribute increment
+            if (isInteger(settingChange[1])) {
+                player.attributeLoopCount = clamp(
+                  parseInt(settingChange[1]),
+                  0,
+                  100
+                );
+            }
+            combatLog +=
+              "<br>" + "Your attribute increment: " + player.attributeLoopCount;
             document.getElementById("combatLog").innerHTML = combatLog;
           }
         } finally {
