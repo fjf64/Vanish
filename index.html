@@ -1787,9 +1787,6 @@
             " damage, and healed " +
             Math.floor((player.defense * player.summonStrength) / 4) +
             " health!";
-        } else if (enemy.status !== "dead") {
-          //                enemyDeath()
-          return;
         }
       }
 
@@ -1866,6 +1863,7 @@
       }
 
       function autoQueue() {
+        if (player.location !== 'hub') {
         //            logKey(player.AutoAttackQueue[(currentAutoAttack - 1).toString()])
         if (currentAutoAttack >= player.AutoAttackQueue.length - 1) {
           currentAutoAttack = 0;
@@ -1874,6 +1872,7 @@
         }
         fightStalemateCouter += 1;
         logKey(player.AutoAttackQueue[currentAutoAttack].toString());
+      }
         return;
       }
 
