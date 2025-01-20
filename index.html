@@ -509,7 +509,7 @@
   </div>
 
   <script>
-    //       respec unlock, new skills, sacrifice unlock, curse unlock, great bison death rework, the witch(curse quest), respec unlock, bird colonizers, hall of statistics, finish extra settings, secret names, floor 500 new names, change gold color in hall, floor 100 great bison, use compareOverride with great hall
+    //       respec unlock, new skills, sacrifice unlock, curse unlock, great bison death rework, the witch(curse quest/sacrifice), respec unlock, secret names, floor 500 new names,  floor 100 great bison, h/m/s time for greathall, set greathall unlock
 
     var r = document.querySelector(":root");
 
@@ -829,12 +829,12 @@
       attributeLoopCount: 1,
       stats: {
         highestFloor: ["Highest floor", 0],
-        totalFloor: ['Total floors', 0],
+        totalFloor: ['Total floors cleared', 0],
         totalDamage: ["Total  damage done", 0],
         totalCompanionDamage: ["Total companion damage done", 0],
         highestHealth: ["Highest health value reached", 0],
         // healTotal: ["Total health healed", 0],
-        totalPlaytime: ["Total seconds of playtime", 0],
+        totalPlaytime: ["Total playtime", 0],
       },
     };
     var playerBackup = JSON.parse(JSON.stringify(player));
@@ -2337,13 +2337,20 @@
     }
 
     function goHall() {
+      saveGame()
       goArea("greatHall");
       remapKeys("greatHall");
       combatLog += '<hr style="border: none;">';
       for (x in player.stats) {
-        combatLog += "<br>" + player.stats[x][0]+": "+player.stats[x][1];
-            document.getElementById("combatLog").innerHTML = combatLog;
+        if (x == 'totalPlaytime') {
+          ;
+          combatLog += "<br>" + new Date(Math.round(player.stats[x][1]) * 1000).toISOString().slice(11, 19)+" : " + player.stats[x][0];
+        } else {
+        combatLog += "<br>" + Math.round(player.stats[x][1])+" : " + player.stats[x][0];
+        }
       }
+      combatLog += '<hr style="border: none;">';
+      document.getElementById("combatLog").innerHTML = combatLog;
       refreshStats();
     }
 
