@@ -571,7 +571,7 @@
       } catch (e) {
         console.log(e);
       }
-      return overwritten;
+      return JSON.parse(JSON.stringify(overwritten));
     }
 
     function clamp(number, min, max) {
@@ -829,6 +829,7 @@
       attributeLoopCount: 1,
       stats: {
         highestFloor: ["Highest floor", 0],
+        totalFloor: ['Total floors', 0],
         totalHarpy: ["Highest attack damage done", 0],
         totalAttack: ["Total attack damage done", 0],
         highestHealth: ["Highest health value reached", 0],
@@ -1737,7 +1738,8 @@
           document.getElementById("activityLog").innerHTML = activityLog;
         }
         player.floor += 1;
-        player.stats.highestFloor = compareOverride(player.stats.highestFloor, player.floor)
+        player.stats.totalFloor[1] += 1
+        player.stats.highestFloor[1] = compareOverride(player.stats.highestFloor[1], player.floor)
         if (fightRecursionCounter > player.maxFightRecursion) {
           //Dungeon Rest
           let restPrompt1 = [
@@ -2323,8 +2325,10 @@
     function goHall() {
       goArea("greatHall");
       remapKeys("greatHall");
+      combatLog += '<hr style="border: none;">';
       for (x in player.stats) {
-        pla
+        combatLog += "<br>" + player.stats[x][0]+": "+player.stats[x][1];
+            document.getElementById("combatLog").innerHTML = combatLog;
       }
       refreshStats();
     }
