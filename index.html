@@ -830,11 +830,11 @@
       stats: {
         highestFloor: ["Highest floor", 0],
         totalFloor: ['Total floors', 0],
-        totalHarpy: ["Highest attack damage done", 0],
-        totalAttack: ["Total attack damage done", 0],
+        totalDamage: ["Total  damage done", 0],
+        totalCompanionDamage: ["Total companion damage done", 0],
         highestHealth: ["Highest health value reached", 0],
-        healTotal: ["Total health healed", 0],
-        totalPlaytime: ["Total playtime", 0],
+        // healTotal: ["Total health healed", 0],
+        totalPlaytime: ["Total seconds of playtime", 0],
       },
     };
     var playerBackup = JSON.parse(JSON.stringify(player));
@@ -842,9 +842,11 @@
     var currentAutoAttack = 0;
     var fightStalemateCouter = 0;
     var fightRecursionCounter = 0;
+    var sessionStartTimeStamp = undefined
 
     var enemy = {
       name: "Filler Mike",
+      maxHealth:1,
       health: 1,
       attack: 1,
       defense: 1,
@@ -1155,6 +1157,12 @@
 
     function saveGame() {
       localStorage.setItem("playerData", JSON.stringify(player));
+      if (sessionStartTimeStamp !== undefined) {
+        player.stats.totalPlaytime[1] += Math.round((new Date().getTime() / 1000) - sessionStartTimeStamp)
+        sessionStartTimeStamp = new Date().getTime() / 1000
+      } else {
+        sessionStartTimeStamp = new Date().getTime() / 1000
+      }
     }
 
     function loadGame() {
@@ -1348,6 +1356,7 @@
         if (enemy.health == 0) {
           enemy.health = 1;
         }
+        enemy.maxHealth = enemy.health
         enemy.attack =
           Math.floor(
             player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)
@@ -1610,6 +1619,9 @@
           " damage, and healed " +
           Math.floor((player.defense * player.summonStrength) / 4) +
           " health!";
+          player.stats.totalCompanionDamage[1] += Math.ceil(
+            (player.attack * 5 * player.summonStrength) / enemy.defense
+          )
       }
     }
 
@@ -1623,6 +1635,9 @@
           (player.coins ** 0.8 * player.harpyDamage) / enemy.defense
         ) +
         " damage!";
+        player.stats.totalCompanionDamage[1] += Math.floor(
+          (player.coins ** 0.8 * player.harpyDamage) / enemy.defense
+        )
     }
 
     function enemyTurn() {
@@ -1639,6 +1654,7 @@
       if (player.unlocks.includes("harpy")) {
         Harpyturn();
       }
+      player.stats.highestHealth[1] = compareOverride(player.stats.highestHealth[1], player.health)
       if (enemy.status !== "dead" && enemy.health > 0) {
         player.health -= Math.floor(enemy.attack / (player.defense * 0.5));
         if (player.AutoAttackQueue.length == 0) {
@@ -1702,7 +1718,7 @@
     function enemyDeath() {
       if (player.fightLocation == "dungeon") {
         enemy.status = "dead";
-
+        player.stats.totalDamage[1] += (enemy.maxHealth - enemy.health)
         player.coins += Math.floor(getRandomInt(0, player.floor));
         player.xp += Math.floor(
           getRandomInt(player.floor * 1, player.floor * 2)
@@ -1959,9 +1975,7 @@
         "bisonStory",
       ];
       player.loadFunctions.push("loadBison()");
-      if (!player.abilities.includes(5)) {
-        player.abilities.push(5);
-      }
+      
     }
 
     function loadBison() {
@@ -2339,6 +2353,9 @@
       player.unlocks.push("BisonClear");
       action7List.hub = ["", ""];
       action5List.fight = ["|5| summon", "summon"];
+      if (!player.abilities.includes(5)) {
+        player.abilities.push(5);
+      }
       player.completedStories.push("bisonStory");
       player.summonName = summonName;
       goHub();
