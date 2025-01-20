@@ -1,230 +1,216 @@
 <!DOCTYPE html>
 <html>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap"
-    rel="stylesheet"
-  />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Protest+Guerrilla&family=Quicksand:wght@300..700&display=swap"
-    rel="stylesheet"
-  />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Protest+Guerrilla&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Protest+Guerrilla&family=Quicksand:wght@300..700&display=swap"
+  rel="stylesheet" />
 
-  <head>
-    <script
-      src="https://code.jquery.com/jquery-3.7.1.js"
-      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-      crossorigin="anonymous"
-    ></script>
+<head>
+  <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+    crossorigin="anonymous"></script>
 
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/800px-Circle_-_black_simple.svg.png"
-    />
-    <style>
-      :root {
-        --mainBG: #1a1817;
-        --colorBG: #1c1918;
-        --colorTrap: #0f0f0f;
-        --colorText: #b33f19;
-        --colorHighlights: #e3ded1;
-      }
+  <link rel="icon" type="image/x-icon"
+    href="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Circle_-_black_simple.svg/800px-Circle_-_black_simple.svg.png" />
+  <style>
+    :root {
+      --mainBG: #1a1817;
+      --colorBG: #1c1918;
+      --colorTrap: #0f0f0f;
+      --colorText: #b33f19;
+      --colorHighlights: #e3ded1;
+    }
 
-      /*hub:{
+    /*hub:{
                 colorBG:"#1c1918",
                 colorTrap:"#0f0f0f",
                 colorHighlights:"#e3ded1",
             },*/
 
-      body {
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-        margin: 0;
-        padding: 0;
-        background: var(--mainBG);
-        color: var(--colorText);
-        font-size: 0.8vw;
-        /*             font-family: "Protest Guerrilla";*/
-        font-family: "Quicksand", sans-serif;
-        font-weight: 600;
+    body {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      margin: 0;
+      padding: 0;
+      background: var(--mainBG);
+      color: var(--colorText);
+      font-size: 0.8vw;
+      /*             font-family: "Protest Guerrilla";*/
+      font-family: "Quicksand", sans-serif;
+      font-weight: 600;
 
-        /*            color: var(--colorText);*/
-      }
+      /*            color: var(--colorText);*/
+    }
 
-      canvas {
-        width: 100vw;
-        height: 100vh;
-        background: var(--colorBG);
-        margin: 2vw;
-        margin-top: 3vh;
-        display: block;
-        border: 4px solid var(--colorTrap);
-      }
+    canvas {
+      width: 100vw;
+      height: 100vh;
+      background: var(--colorBG);
+      margin: 2vw;
+      margin-top: 3vh;
+      display: block;
+      border: 4px solid var(--colorTrap);
+    }
 
-      div {
-        background: var(--colorBG);
-        /*            display: inline-block;*/
-        margin-top: 3vh;
-        /*            float: left;*/
-        position: absolute;
-        left: 25%;
-        width: 50vw;
-        height: 40vh;
-        border: 4px solid var(--colorTrap);
-        overflow-y: auto;
-        overflow-x: auto;
-        display: flex;
-        flex-direction: column-reverse;
-      }
+    div {
+      background: var(--colorBG);
+      /*            display: inline-block;*/
+      margin-top: 3vh;
+      /*            float: left;*/
+      position: absolute;
+      left: 25%;
+      width: 50vw;
+      height: 40vh;
+      border: 4px solid var(--colorTrap);
+      overflow-y: auto;
+      overflow-x: auto;
+      display: flex;
+      flex-direction: column-reverse;
+    }
 
-      .divSplit {
-        background: var(--colorBG);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 0vh;
-        position: inherit;
-        left: 0%;
-        width: 0vw;
-        height: 80%;
-        border: 4px solid var(--colorTrap);
-        overflow-y: auto;
-        overflow-x: hidden;
-        display: flex;
-        flex-direction: column;
-        margin-left: 0vw;
-        margin-right: 0vw;
-        text-align: center;
-        color: var(--colorText);
-      }
+    .divSplit {
+      background: var(--colorBG);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 0vh;
+      position: inherit;
+      left: 0%;
+      width: 0vw;
+      height: 80%;
+      border: 4px solid var(--colorTrap);
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      margin-left: 0vw;
+      margin-right: 0vw;
+      text-align: center;
+      color: var(--colorText);
+    }
 
-      .stats {
-        background: var(--colorBG);
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-top: 0vh;
-        position: inherit;
-        left: 0%;
-        width: 0vw;
-        height: 80%;
-        overflow-y: auto;
-        overflow-x: hidden;
-        display: flex;
-        flex-direction: column;
-        margin-left: 0vw;
-        margin-right: 0vw;
-        text-align: center;
-      }
+    .stats {
+      background: var(--colorBG);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 0vh;
+      position: inherit;
+      left: 0%;
+      width: 0vw;
+      height: 80%;
+      overflow-y: auto;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      margin-left: 0vw;
+      margin-right: 0vw;
+      text-align: center;
+    }
 
-      #activityLog {
-        display: flex;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        flex-direction: column-reverse;
-        margin-left: 0vw;
-        margin-right: 0vw;
-        text-align: center;
-      }
+    #activityLog {
+      display: flex;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      flex-direction: column-reverse;
+      margin-left: 0vw;
+      margin-right: 0vw;
+      text-align: center;
+    }
 
-      #storyLog {
-        display: flex;
-        overflow-y: scroll;
-        overflow-x: hidden;
-        flex-direction: column;
-        margin-left: 0vw;
-        margin-right: 0vw;
-        text-align: center;
-        left: 29.75%;
-        top: 42vh;
-        width: 44.75vw;
-        height: 14.5vh;
-        padding-top: 2vh;
-        padding-bottom: 1vh;
-        padding-left: 1vw;
-        padding-right: 1vw;
-      }
+    #storyLog {
+      display: flex;
+      overflow-y: scroll;
+      overflow-x: hidden;
+      flex-direction: column;
+      margin-left: 0vw;
+      margin-right: 0vw;
+      text-align: center;
+      left: 29.75%;
+      top: 42vh;
+      width: 44.75vw;
+      height: 14.5vh;
+      padding-top: 2vh;
+      padding-bottom: 1vh;
+      padding-left: 1vw;
+      padding-right: 1vw;
+    }
 
-      .triangle {
-        width: 0;
-        background: transparent;
-        border: transparent;
-        border-bottom: 20vh solid var(--colorText);
-        border-left: 5.25vw solid transparent;
-        border-right: 5.25vw solid transparent;
-      }
+    .triangle {
+      width: 0;
+      background: transparent;
+      border: transparent;
+      border-bottom: 20vh solid var(--colorText);
+      border-left: 5.25vw solid transparent;
+      border-right: 5.25vw solid transparent;
+    }
 
-      .inTriangle {
-        left: 50%;
-        margin: 0;
-        text-align: center;
-        position: flex;
-        color: var(--colorText);
-      }
+    .inTriangle {
+      left: 50%;
+      margin: 0;
+      text-align: center;
+      position: flex;
+      color: var(--colorText);
+    }
 
-      .line {
-        width: 0;
-        background: transparent;
-        border: transparent;
-        border-bottom: 0.2vh solid #e3ded1;
-      }
+    .line {
+      width: 0;
+      background: transparent;
+      border: transparent;
+      border-bottom: 0.2vh solid #e3ded1;
+    }
 
-      #inputBox:focus {
-        outline-style: solid;
-        outline-color: var(--colorText);
-      }
+    #inputBox:focus {
+      outline-style: solid;
+      outline-color: var(--colorText);
+    }
 
-      #inputBox::selection {
-        background: #e3ded1;
-      }
+    #inputBox::selection {
+      background: #e3ded1;
+    }
 
-      .splitline {
-        border-style: solid;
-        border-width: 0.01vw;
-        border-color: var(--colorText);
-        width: 85%;
-      }
+    .splitline {
+      border-style: solid;
+      border-width: 0.01vw;
+      border-color: var(--colorText);
+      width: 85%;
+    }
 
-      .tooltip .tooltiptext {
-        visibility: hidden;
-        width: 120px;
-        background-color: black;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 5px 0;
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 120px;
+      background-color: black;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px 0;
 
-        /* Position the tooltip */
-        position: absolute;
-        z-index: 1;
-        top: -5px;
-        left: 105%;
-      }
+      /* Position the tooltip */
+      position: absolute;
+      z-index: 1;
+      top: -5px;
+      left: 105%;
+    }
 
-      .tooltip:hover .tooltiptext {
-        visibility: visible;
-      }
-    </style>
-  </head>
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+    }
+  </style>
+</head>
 
-  <body>
-    <canvas id="canvaLeft" style="width: 20vw; height: 90vh; float: left">
-      Your browser does not support the HTML canvas tag.</canvas
-    >
-    <canvas id="canvaRight" style="width: 20vw; height: 90vh; float: right">
-      Your browser does not support the HTML canvas tag.</canvas
-    >
+<body>
+  <canvas id="canvaLeft" style="width: 20vw; height: 90vh; float: left">
+    Your browser does not support the HTML canvas tag.</canvas>
+  <canvas id="canvaRight" style="width: 20vw; height: 90vh; float: right">
+    Your browser does not support the HTML canvas tag.</canvas>
 
-    <!--LOG-->
-    <div style="left: 23%; width: 53.5vw; height: 40vh">
-      <p id="combatLog"></p>
-    </div>
-    <!--ICONS-->
-    <div
-      style="
+  <!--LOG-->
+  <div style="left: 23%; width: 53.5vw; height: 40vh">
+    <p id="combatLog"></p>
+  </div>
+  <!--ICONS-->
+  <div style="
         position: absolute;
         left: 0.25%;
         top: 77.5vh;
@@ -236,37 +222,19 @@
         justify-content: left;
         text-align: left;
         min-height: 7vh;
-      "
-      id="feather"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        style="float: left; margin-left: auto; max-width: 100%; height: auto"
-      >
-        <defs>
-          <filter id="colorMask1">
-            <feFlood flood-color="var(--colorText)" result="flood" />
-            <feComposite
-              in="SourceGraphic"
-              in2="flood"
-              operator="arithmetic"
-              k1="1"
-              k2="0"
-              k3="0"
-              k4="0"
-            />
-          </filter>
-        </defs>
-        <image
-          width="100%"
-          xlink:href="https://fjf64.github.io/Vanish/Feather.png"
-          filter="url(#colorMask1)"
-        />
-      </svg>
-    </div>
-    <div
-      style="
+      " id="feather">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+      style="float: left; margin-left: auto; max-width: 100%; height: auto">
+      <defs>
+        <filter id="colorMask1">
+          <feFlood flood-color="var(--colorText)" result="flood" />
+          <feComposite in="SourceGraphic" in2="flood" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" />
+        </filter>
+      </defs>
+      <image width="100%" xlink:href="https://fjf64.github.io/Vanish/Feather.png" filter="url(#colorMask1)" />
+    </svg>
+  </div>
+  <div style="
         position: absolute;
         left: 98.1%;
         top: 82.5vh;
@@ -277,37 +245,19 @@
         overflow: hidden;
         justify-content: left;
         text-align: left;
-      "
-      id="healShield"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        style="float: left; margin-left: auto; max-width: 100%; height: auto"
-      >
-        <defs>
-          <filter id="colorMask2">
-            <feFlood flood-color="var(--colorText)" result="flood" />
-            <feComposite
-              in="SourceGraphic"
-              in2="flood"
-              operator="arithmetic"
-              k1="1"
-              k2="0"
-              k3="0"
-              k4="0"
-            />
-          </filter>
-        </defs>
-        <image
-          width="100%"
-          xlink:href="https://fjf64.github.io/Vanish/Shield1.png"
-          filter="url(#colorMask2)"
-        />
-      </svg>
-    </div>
-    <div
-      style="
+      " id="healShield">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+      style="float: left; margin-left: auto; max-width: 100%; height: auto">
+      <defs>
+        <filter id="colorMask2">
+          <feFlood flood-color="var(--colorText)" result="flood" />
+          <feComposite in="SourceGraphic" in2="flood" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" />
+        </filter>
+      </defs>
+      <image width="100%" xlink:href="https://fjf64.github.io/Vanish/Shield1.png" filter="url(#colorMask2)" />
+    </svg>
+  </div>
+  <div style="
         position: absolute;
         left: 0.25%;
         top: 65vh;
@@ -319,37 +269,19 @@
         overflow: hidden;
         justify-content: left;
         text-align: left;
-      "
-      id="autoAttack"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        style="float: left; margin-left: auto; max-width: 100%; height: auto"
-      >
-        <defs>
-          <filter id="colorMask3">
-            <feFlood flood-color="var(--colorText)" result="flood" />
-            <feComposite
-              in="SourceGraphic"
-              in2="flood"
-              operator="arithmetic"
-              k1="1"
-              k2="0"
-              k3="0"
-              k4="0"
-            />
-          </filter>
-        </defs>
-        <image
-          width="100%"
-          xlink:href="https://fjf64.github.io/Vanish/Sword-Icon.png"
-          filter="url(#colorMask3)"
-        />
-      </svg>
-    </div>
-    <div
-      style="
+      " id="autoAttack">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+      style="float: left; margin-left: auto; max-width: 100%; height: auto">
+      <defs>
+        <filter id="colorMask3">
+          <feFlood flood-color="var(--colorText)" result="flood" />
+          <feComposite in="SourceGraphic" in2="flood" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" />
+        </filter>
+      </defs>
+      <image width="100%" xlink:href="https://fjf64.github.io/Vanish/Sword-Icon.png" filter="url(#colorMask3)" />
+    </svg>
+  </div>
+  <div style="
         position: absolute;
         left: 97.96%;
         top: 74.5vh;
@@ -361,39 +293,21 @@
         overflow: hidden;
         justify-content: left;
         text-align: left;
-      "
-      id="horns-icon"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        version="1.1"
-        style="float: left; margin-left: auto; max-width: 100%; height: auto"
-      >
-        <defs>
-          <filter id="colorMask4">
-            <feFlood flood-color="var(--colorText)" result="flood" />
-            <feComposite
-              in="SourceGraphic"
-              in2="flood"
-              operator="arithmetic"
-              k1="1"
-              k2="0"
-              k3="0"
-              k4="0"
-            />
-          </filter>
-        </defs>
-        <image
-          width="100%"
-          xlink:href="https://fjf64.github.io/Vanish/horns.png"
-          filter="url(#colorMask4)"
-        />
-      </svg>
-    </div>
+      " id="horns-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+      style="float: left; margin-left: auto; max-width: 100%; height: auto">
+      <defs>
+        <filter id="colorMask4">
+          <feFlood flood-color="var(--colorText)" result="flood" />
+          <feComposite in="SourceGraphic" in2="flood" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" />
+        </filter>
+      </defs>
+      <image width="100%" xlink:href="https://fjf64.github.io/Vanish/horns.png" filter="url(#colorMask4)" />
+    </svg>
+  </div>
 
-    <!--STATUS-->
-    <div
-      style="
+  <!--STATUS-->
+  <div style="
         position: absolute;
         left: 23%;
         top: 42vh;
@@ -403,30 +317,25 @@
         padding-top: 0vh;
         overflow: hidden;
         justify-content: center;
-      "
-    >
-      <p id="enemyStatus" class="inTriangle" style="top: 20%"></p>
+      ">
+    <p id="enemyStatus" class="inTriangle" style="top: 20%"></p>
 
-      <hr class="splitline" />
+    <hr class="splitline" />
 
-      <p id="playerStatus" class="inTriangle" style="top: 40%"></p>
-    </div>
-    <!--    <div class="line" style="top: 10%;width:30vw;left:34.75%;"></div>-->
+    <p id="playerStatus" class="inTriangle" style="top: 40%"></p>
+  </div>
+  <!--    <div class="line" style="top: 10%;width:30vw;left:34.75%;"></div>-->
 
-    <div
-      style="
+  <div style="
         left: 29.75%;
         top: 61%;
         width: 40vw;
         height: 15vh;
         padding-bottom: 1vh;
-      "
-      id="activityLog"
-    ></div>
-    <div id="storyLog"></div>
+      " id="activityLog"></div>
+  <div id="storyLog"></div>
 
-    <div
-      style="
+  <div style="
         left: 30%;
         top: 78.75%;
         width: 40vw;
@@ -435,43 +344,23 @@
         overflow: hidden;
         border: transparent 4px;
         background: transparent;
-      "
-    >
-      <div
-        style="width: 22.5%; float: left; left: 0%"
-        id="action1"
-        class="divSplit"
-        onclick="clickall(action1List)"
-      >
-        1
-      </div>
-      <div
-        style="width: 22.5%; float: left; left: 25%"
-        id="action2"
-        class="divSplit"
-        onclick="clickall(action2List)"
-      >
-        2
-      </div>
-      <div
-        style="width: 22.5%; float: right; right: 25%; left: auto"
-        id="action3"
-        class="divSplit"
-        onclick="clickall(action3List)"
-      >
-        3
-      </div>
-      <div
-        style="width: 22.5%; float: right; right: 0%; left: auto"
-        id="action4"
-        class="divSplit"
-        onclick="clickall(action4List)"
-      >
-        4
-      </div>
+      ">
+    <div style="width: 22.5%; float: left; left: 0%" id="action1" class="divSplit" onclick="clickall(action1List)">
+      1
     </div>
-    <div
-      style="
+    <div style="width: 22.5%; float: left; left: 25%" id="action2" class="divSplit" onclick="clickall(action2List)">
+      2
+    </div>
+    <div style="width: 22.5%; float: right; right: 25%; left: auto" id="action3" class="divSplit"
+      onclick="clickall(action3List)">
+      3
+    </div>
+    <div style="width: 22.5%; float: right; right: 0%; left: auto" id="action4" class="divSplit"
+      onclick="clickall(action4List)">
+      4
+    </div>
+  </div>
+  <div style="
         left: 30%;
         top: 86%;
         width: 40vw;
@@ -480,44 +369,24 @@
         overflow: hidden;
         border: transparent 4px;
         background: transparent;
-      "
-    >
-      <div
-        style="width: 22.5%; float: left; left: 0%"
-        id="action5"
-        class="divSplit"
-        onclick="clickall(action5List)"
-      >
-        5
-      </div>
-      <div
-        style="width: 22.5%; float: left; left: 25%"
-        id="action6"
-        class="divSplit"
-        onclick="clickall(action6List)"
-      >
-        6
-      </div>
-      <div
-        style="width: 22.5%; float: right; right: 25%; left: auto"
-        id="action7"
-        class="divSplit"
-        onclick="clickall(action7List)"
-      >
-        7
-      </div>
-      <div
-        style="width: 22.5%; float: right; right: 0%; left: auto"
-        id="action8"
-        class="divSplit"
-        onclick="clickall(action8List)"
-      >
-        8
-      </div>
+      ">
+    <div style="width: 22.5%; float: left; left: 0%" id="action5" class="divSplit" onclick="clickall(action5List)">
+      5
     </div>
+    <div style="width: 22.5%; float: left; left: 25%" id="action6" class="divSplit" onclick="clickall(action6List)">
+      6
+    </div>
+    <div style="width: 22.5%; float: right; right: 25%; left: auto" id="action7" class="divSplit"
+      onclick="clickall(action7List)">
+      7
+    </div>
+    <div style="width: 22.5%; float: right; right: 0%; left: auto" id="action8" class="divSplit"
+      onclick="clickall(action8List)">
+      8
+    </div>
+  </div>
 
-    <div
-      style="
+  <div style="
         left: 23%;
         top: 61%;
         width: 6vw;
@@ -525,96 +394,65 @@
         padding-bottom: 1vh;
         padding-top: 1vh;
         flex-direction: column;
-      "
-      id="playerStats"
-    >
-      <div
-        style="
+      " id="playerStats">
+    <div style="
           width: 100%;
           height: 4vh;
           float: left;
           left: 0%;
           border: none;
           position: relative;
-        "
-        id="SU"
-        class="stats"
-      ></div>
-      <div
-        style="
+        " id="SU" class="stats"></div>
+    <div style="
           width: 100%;
           height: 4vh;
           float: left;
           left: 0%;
           border: none;
           position: relative;
-        "
-        id="attack"
-        class="stats"
-      ></div>
-      <div
-        style="
+        " id="attack" class="stats"></div>
+    <div style="
           width: 100%;
           height: 4vh;
           float: left;
           left: 0%;
           border: none;
           position: relative;
-        "
-        id="maxHealth"
-        class="stats"
-      ></div>
-      <div
-        style="
+        " id="maxHealth" class="stats"></div>
+    <div style="
           width: 100%;
           height: 4vh;
           float: left;
           left: 0%;
           border: none;
           position: relative;
-        "
-        id="defense"
-        class="stats"
-      ></div>
-      <div
-        style="
+        " id="defense" class="stats"></div>
+    <div style="
           width: 100%;
           height: 4vh;
           float: left;
           left: 0%;
           border: none;
           position: relative;
-        "
-        id="AP"
-        class="stats"
-      ></div>
-      <div
-        style="
+        " id="AP" class="stats"></div>
+    <div style="
           width: 100%;
           height: 4vh;
           float: left;
           left: 0%;
           border: none;
           position: relative;
-        "
-        id="coins"
-        class="stats"
-      ></div>
-      <div
-        style="
+        " id="coins" class="stats"></div>
+    <div style="
           width: 100%;
           height: 4vh;
           float: left;
           left: 0%;
           border: none;
           position: relative;
-        "
-        id="level"
-        class="stats"
-      ></div>
-    </div>
-    <input
-      style="
+        " id="level" class="stats"></div>
+  </div>
+  <input style="
         left: 23%;
         top: 58.25%;
         width: 6vw;
@@ -625,178 +463,196 @@
         padding: 0;
         padding-top: 1vh;
         padding-bottom: 1vh;
-      "
-      class="divSplit"
-      type="text"
-      id="inputBox"
-      name="inputBox"
-      onkeypress="return true;"
-      placeholder=""
-    />
+      " class="divSplit" type="text" id="inputBox" name="inputBox" onkeypress="return true;" placeholder="" />
 
-    <div
-      style="
+  <div style="
         left: 70.5%;
         top: 61%;
         width: 6vw;
         height: 29vh;
         padding-bottom: 1vh;
-      "
-      id="enemyStats"
-    >
-      <div
-        style="
+      " id="enemyStats">
+    <div style="
           width: 100%;
           height: 4vh;
           float: left;
           left: 0%;
           border: none;
           position: relative;
-        "
-        id="player:floor"
-        class="stats"
-      ></div>
-      <div
-        style="
+        " id="player:floor" class="stats"></div>
+    <div style="
           width: 100%;
           height: 4vh;
           float: left;
           left: 0%;
           border: none;
           position: relative;
-        "
-        id="enemy:attack"
-        class="stats"
-      ></div>
-      <div
-        style="
+        " id="enemy:attack" class="stats"></div>
+    <div style="
           width: 100%;
           height: 4vh;
           float: left;
           left: 0%;
           border: none;
           position: relative;
-        "
-        id="enemy:defense"
-        class="stats"
-      ></div>
-      <div
-        style="
+        " id="enemy:defense" class="stats"></div>
+    <div style="
           width: 100%;
           height: 4vh;
           float: left;
           left: 0%;
           border: none;
           position: relative;
-        "
-        class="stats"
-      >
-        Enemy Stats:
-      </div>
+        " class="stats">
+      Enemy Stats:
     </div>
+  </div>
 
-    <script>
-      //       respec unlock, new skills, sacrifice unlock, curse unlock, great bison death rework, the witch(curse quest), respec unlock, bird colonizers, hall of statistics, finish extra settings, secret names, floor 500 new names, change gold color in hall, floor 100 great bison, use compareOverride with great hall
+  <script>
+    //       respec unlock, new skills, sacrifice unlock, curse unlock, great bison death rework, the witch(curse quest), respec unlock, bird colonizers, hall of statistics, finish extra settings, secret names, floor 500 new names, change gold color in hall, floor 100 great bison, use compareOverride with great hall
 
-      var r = document.querySelector(":root");
+    var r = document.querySelector(":root");
 
-      function blurAll() {
-        var tmp = document.createElement("input");
-        document.body.appendChild(tmp);
-        tmp.focus();
-        document.body.removeChild(tmp);
+    function blurAll() {
+      var tmp = document.createElement("input");
+      document.body.appendChild(tmp);
+      tmp.focus();
+      document.body.removeChild(tmp);
+    }
+
+    function listFromNumber(start, end) {
+      //goes to number, inclusive
+      let returnList = [];
+      for (let x = start; x <= end; x++) {
+        returnList.push(x);
       }
+      return returnList;
+    }
 
-      function listFromNumber(start, end) {
-            //goes to number, inclusive
-            let returnList = []
-            for (let x = start; x <= end; x++) {
-                returnList.push(x)
-            }
-            return returnList
+    function runFunction(functio) {
+      functio = functio.split("(");
+      let params = functio[1].split(")");
+      window[functio[0]](params[0]);
+    }
+
+    function getRandomInt(min, max) {
+      min = Math.ceil(min);
+      max = Math.floor(max);
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function removeItemAll(arr, value) {
+      var i = 0;
+      while (i < arr.length) {
+        if (arr[i] === value) {
+          arr.splice(i, 1);
+        } else {
+          ++i;
         }
+      }
+      return arr;
+    }
 
+    function isInteger(value) {
+      if (parseInt(value, 10).toString() === value) {
+        return true;
+      }
+      return false;
+    }
 
-      function runFunction(functio) {
-        functio = functio.split("(");
-        let params = functio[1].split(")");
-        window[functio[0]](params[0]);
+    function compareOverride(overwritten, b) {
+      //overwritten is the variable being assigned
+      try {
+        if (overwritten !== undefined || b !== undefined) {
+          if (b > overwritten) {
+            overwritten = b;
+          }
+        }
+      } catch (e) {
+        console.log(e);
+      }
+      return overwritten;
+    }
+
+    function clamp(number, min, max) {
+      return Math.max(min, Math.min(number, max));
+    }
+
+    function combatLogAdd(text) {
+      combatLog += text;
+      document.getElementById("combatLog").innerHTML = combatLog;
+    }
+
+    function activityLogAdd(text) {
+      activityLog += text;
+      document.getElementById("activityLog").innerHTML = activityLog;
+    }
+
+    function generateFlames(selectedCanvas) {
+      function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+          x: evt.clientX - rect.left,
+          y: evt.clientY - rect.top,
+        };
       }
 
-      function getRandomInt(min, max) {
-        min = Math.ceil(min);
-        max = Math.floor(max);
-        return Math.floor(Math.random() * (max - min + 1)) + min;
+      function makeMouse(evt) {
+        pos = getMousePos(c, evt);
       }
 
-      function removeItemAll(arr, value) {
-        var i = 0;
-        while (i < arr.length) {
-          if (arr[i] === value) {
-            arr.splice(i, 1);
+      function flameRefresh() {
+        ctx.clearRect(0, 0, c.width, c.height);
+        ctx.beginPath();
+        var region = new Path2D();
+
+        for (let index in flames) {
+          if (flames[index].death == false) {
+            moveFlame(index);
+            flameLifetime(index);
+            region.moveTo(
+              flames[index].path.at(-1)[0],
+              flames[index].path.at(-1)[1]
+            );
+            for (let lencount in flames[index].path) {
+              if (lencount !== flames[index].path.length) {
+                region.lineTo(
+                  flames[index].path.at(lencount)[0],
+                  flames[index].path.at(lencount)[1]
+                );
+              }
+            }
           } else {
-            ++i;
-          }
-        }
-        return arr;
-      }
-
-      function isInteger(value) {
-        if (parseInt(value, 10).toString() === value) {
-          return true;
-        }
-        return false;
-      }
-
-      function compareOverride(overwritten, b) {
-        try {
-          if (overwritten !== undefined || b !== undefined) {
-            if (b > overwritten) {
-              overwritten = b;
-            }
-          }
-        } catch (e) {
-          console.log(e);
-        }
-        return overwritten;
-      }
-
-      function clamp(number, min, max) {
-        return Math.max(min, Math.min(number, max));
-      }
-
-      function combatLogAdd(text) {
-        combatLog += text;
-        document.getElementById("combatLog").innerHTML = combatLog;
-      }
-
-      function activityLogAdd(text) {
-        activityLog += text;
-        document.getElementById("activityLog").innerHTML = activityLog;
-      }
-
-      function generateFlames(selectedCanvas) {
-        function getMousePos(canvas, evt) {
-          var rect = canvas.getBoundingClientRect();
-          return {
-            x: evt.clientX - rect.left,
-            y: evt.clientY - rect.top,
-          };
-        }
-
-        function makeMouse(evt) {
-          pos = getMousePos(c, evt);
-        }
-
-        function flameRefresh() {
-          ctx.clearRect(0, 0, c.width, c.height);
-          ctx.beginPath();
-          var region = new Path2D();
-
-          for (let index in flames) {
-            if (flames[index].death == false) {
-              moveFlame(index);
-              flameLifetime(index);
+            if (flames[index].decayCount <= 0) {
+              for (let x in [...Array(getRandomInt(1, 2)).keys()]) {
+                // DECAY RATE
+                if (flames[index] !== undefined) {
+                  flames[index].path.splice(0, 1);
+                }
+                if (flames[index] !== undefined) {
+                  if (
+                    flames[index].path.length <= 0 &&
+                    flames[index] !== undefined
+                  ) {
+                    flames.splice(index, 1);
+                  } else {
+                    region.moveTo(
+                      flames[index].path.at(-1)[0],
+                      flames[index].path.at(-1)[1]
+                    );
+                    for (let lencount in flames[index].path) {
+                      if (lencount !== flames[index].path.length) {
+                        region.lineTo(
+                          flames[index].path.at(lencount)[0],
+                          flames[index].path.at(lencount)[1]
+                        );
+                      }
+                    }
+                  }
+                }
+              }
+            } else {
+              flames[index].decayCount -= 1;
               region.moveTo(
                 flames[index].path.at(-1)[0],
                 flames[index].path.at(-1)[1]
@@ -809,611 +665,700 @@
                   );
                 }
               }
-            } else {
-              if (flames[index].decayCount <= 0) {
-                for (let x in [...Array(getRandomInt(1, 2)).keys()]) {
-                  // DECAY RATE
-                  if (flames[index] !== undefined) {
-                    flames[index].path.splice(0, 1);
-                  }
-                  if (flames[index] !== undefined) {
-                    if (
-                      flames[index].path.length <= 0 &&
-                      flames[index] !== undefined
-                    ) {
-                      flames.splice(index, 1);
-                    } else {
-                      region.moveTo(
-                        flames[index].path.at(-1)[0],
-                        flames[index].path.at(-1)[1]
-                      );
-                      for (let lencount in flames[index].path) {
-                        if (lencount !== flames[index].path.length) {
-                          region.lineTo(
-                            flames[index].path.at(lencount)[0],
-                            flames[index].path.at(lencount)[1]
-                          );
-                        }
-                      }
-                    }
-                  }
-                }
-              } else {
-                flames[index].decayCount -= 1;
-                region.moveTo(
-                  flames[index].path.at(-1)[0],
-                  flames[index].path.at(-1)[1]
-                );
-                for (let lencount in flames[index].path) {
-                  if (lencount !== flames[index].path.length) {
-                    region.lineTo(
-                      flames[index].path.at(lencount)[0],
-                      flames[index].path.at(lencount)[1]
-                    );
-                  }
-                }
-              }
             }
           }
-
-          if (getRandomInt(1, 75) == 1) {
-            for (let x in [...Array(getRandomInt(1, 2)).keys()]) {
-              createFlame();
-            }
-          }
-          //                document.getElementById("combatLog").innerHTML = JSON.stringify(flames);
-          region.closePath();
-          if (areaTraits[player.location] !== undefined) {
-            var fillColor = areaTraits[player.location].colorText;
-          } else {
-            var fillColor = areaTraits.hub.colorText;
-          }
-          ctx.globalAlpha = 0.75;
-          ctx.fillStyle = fillColor;
-          ctx.fill(region); //, "evenodd"
         }
 
-        function createFlame() {
-          let pathA = getRandomInt(0, c.width);
-          if (flames.length < 5) {
-            flames.push({
-              path: [
-                [pathA, c.height + 1],
-                [pathA, c.height + 1],
-              ],
-              color: "rgb(71, 138, 161)",
-              //                    color:
-              speedx: 0,
-              speedy: getRandomInt(5, 8),
-              acceleration: 0,
-              acceleration_scalar: 2,
-              maxHeight: 0,
-              limit: 75,
-              death: false,
-              decayCount: 10,
-            });
+        if (getRandomInt(1, 75) == 1) {
+          for (let x in [...Array(getRandomInt(1, 2)).keys()]) {
+            createFlame();
           }
         }
-
-        function moveFlame(index) {
-          //                flames[index].acceleration = getRandomInt(0, flames[index].acceleration_scalar) - (flames[index].acceleration_scalar / 2.5);
-          if (getRandomInt(1, 3) == 3) {
-            flames[index].acceleration += getRandomInt(
-              flames[index].acceleration_scalar * -1,
-              flames[index].acceleration_scalar * 1
-            );
-          }
-          flames[index].speedx += flames[index].acceleration;
-
-          if (
-            flames[index].speedx >= flames[index].limit ||
-            flames[index].speedx <= -1 * flames[index].limit
-          ) {
-            flames[index].speedx = 0;
-            flames[index].acceleration = 0;
-          }
-          var rx = flames[index].speedx;
-          var ry = flames[index].speedy;
-
-          moveFlamePosAttacher = [];
-          moveFlamePosAttacher[0] = flames[index].path.at(-1)[0] + rx;
-          moveFlamePosAttacher[1] =
-            flames[index].path.at(-1)[1] -
-            ry +
-            Math.sign(pos.y - flames[index].path.at(-1)[1]) *
-              (c.height / 1000) *
-              Math.log(Math.abs(pos.y - flames[index].path.at(-1)[1])) *
-              1;
-          flames[index].path.push(moveFlamePosAttacher);
-        }
-
-        function flameLifetime(index) {
-          if (
-            flames[index].path.at(-1)[1] <=
-              Math.floor(flames[index].maxHeight) ||
-            flames[index].path.at(-1)[1] >= c.height ||
-            flames[index].path.at(-1)[0] <= 0 ||
-            flames[index].path.at(-1)[0] >= c.width
-          ) {
-            flames[index].death = true;
-          }
-        }
-        var pos = {
-          x: 0,
-          y: 0,
-        };
-        const flames = [];
-        var c = document.getElementById(selectedCanvas);
-        c.width = window.innerWidth;
-        c.height = window.innerHeight;
-        createFlame();
-        var ctx = c.getContext("2d");
-        flameIntervals.push(setInterval(flameRefresh, 50));
-      }
-      var flameIntervals = [];
-      generateFlames("canvaLeft");
-      generateFlames("canvaRight");
-
-      var dungeonNameList = [
-        "slime",
-        "Josh",
-        "George",
-        "ogre",
-        "cheese rat",
-        "hellhound",
-        "goblin",
-        "hemo-goblin",
-        "land shark",
-        "psychopath",
-        "cultist",
-        "rat pile",
-        "Filler Mike",
-      ];
-      var combatLog = "";
-      var activityLog = "";
-      var player = {
-        panelsToggle: true,
-        abilities: [1, 2],
-        xp: 0,
-        neededXp: 5,
-        maxHealth: 1,
-        health: 5,
-        attack: 1,
-        defense: 1,
-        skillUsesMax: 3,
-        skillUses: 3,
-        attributePoints: 3,
-        attributePointsUsed: [],
-        location: "hub",
-        subArea: "",
-        fightLocation: "",
-        coins: 0,
-        floor: 1,
-        level: 1,
-        startingFloor: 0,
-        startingFloorMax: 1,
-        choice: false,
-        completedStories: [],
-        storyLocation: "",
-        items: [],
-        input: "",
-        harpy: false,
-        harpyDamage: 1,
-        strikeDamage: 7.5,
-        heal: 1,
-        curseStrength: 1,
-        sacrificeStrength: 1,
-        quickEffects: [],
-        longEffects: [],
-        summonStrength: 1,
-        summonDuration: 5,
-        AutoAttackQueue: [],
-        fightStalemateMax: 25,
-        maxFightRecursion: 100,
-        summonName: "",
-        loadFunctions: [],
-        unlocks: [],
-        attributeLoopCount:1,
-
-        stats: {
-          highestFloor: ["Highest floor", 0],
-          totalHarpy: ["Highest attack damage done", 0],
-          totalAttack: ["Total attack damage done", 0],
-          highestHealth: ["Highest health value reached", 0],
-          healTotal: ["Total health healed", 0],
-          totalPlaytime: ["Total playtime", 0],
-        },
-      };
-      var playerBackup = JSON.parse(JSON.stringify(player));
-      var doubleClickCheck = false;
-      var currentAutoAttack = 0;
-      var fightStalemateCouter = 0;
-      var fightRecursionCounter = 0;
-
-      var enemy = {
-        name: "Filler Mike",
-        health: 1,
-        attack: 1,
-        defense: 1,
-        status: "dead",
-      };
-      var action1List = {
-        actionid: "action1",
-        hub: ["|1| Enter Dungeon", "fight", "dungeon"],
-        fight: ["|1| Attack", "attack"],
-        distrib: ["|1| add to health", "addToAtrribute",'hp'],
-        flightCity: ["|1| Go to shop", "goShop"],
-        settings: ["|1| Save Data", "saveGame"],
-        dungeonRest: ["|1| Continue", "fight", "dungeon"],
-      };
-      var action2List = {
-        actionid: "action2",
-        hub: ["|2| Distribute Attribute Points", "attributeDistribute"],
-        fight: ["|2| Strike", "strike"],
-        distrib: ["|2| add to defense", "addToAtrribute",'def'],
-        flightCity: [
-          "|2| investigate a strange water drain",
-          "storyIncrement",
-          "flightCityHarpy",
-        ],
-        settings: ["|2| Load Data", "loadGame"],
-      };
-      var action3List = {
-        actionid: "action3",
-        hub: [" ", ""],
-        fight: ["", ""],
-        distrib: ["|3| add to attack", "addToAtrribute",'att'],
-        settings: ["|3| Clear Data", "doubleClickClearGame"],
-      };
-      var action4List = {
-        actionid: "action4",
-        hub: [" ", ""],
-        //            fight: ["|4| Sacrifice", "sacrifice"],
-        fight: ["", ""],
-        distrib: ["|4| add to skill uses", "addToAtrribute",'sp'],
-        settings: ["|4| Extra Settings", "extraSettings"],
-      };
-      var action5List = {
-        actionid: "action5",
-        hub: [" ", ""],
-        fight: [" ", ""],
-        //            fight: ["|5| summon", "summon"],
-        settings: ["|5| Toggle Decorative Panels", "togglePanels"],
-      };
-      var action6List = {
-        actionid: "action6",
-        hub: [" ", ""],
-        fight: [" ", ""],
-      };
-      var action7List = {
-        actionid: "action7",
-        //            hub: ["Enter the Singing Mountains, "storyIncrement", "flightCityHarpy"],
-        fight: [" ", ""],
-      };
-      var action8List = {
-        actionid: "action8",
-        hub: ["|8| Settings", "goSettings"],
-        fight: ["|8| Exit Dungeon", "goHub"],
-        flightCity: ["|8| Go to Hub", "goHub"],
-        settings: ["|8| Go to Hub", "goHub"],
-        distrib: ["|8| Exit", "goHub"],
-        dungeonRest: ["|8| Exit Dungeon", "goHub"],
-        greatHall: ["|8| Exit", "goHub"],
-      };
-
-      var levelMilestones = {
-        3: [
-          "Heal! This ability heals you based on your defense, and ignores your max health!",
-          "unlockHeal",
-        ],
-        6: ["Caelum Civitatem, Holy City of Flight!", "unlockFlightCity"],
-        //            12:sacrifice = damage
-      };
-      var floorMilestones = {
-        2: ["You've unlocked The Great Hall.", "unlockHall()"],
-        5: ["You've unlocked The Singing Mountains.", "unlockBison()", "harpy"],
-        75: [
-          "You've unlocked auto attacking, found in the extra settings.",
-          "unlockAutoAttack()",
-        ],
-      };
-
-      var fightAreas = {
-        dungeon: [dungeonNameList, [8, 12]],
-      };
-      var areaTraits = {
-        hub: {
-          mainBG: "#1a1817",
-          colorBG: "#1c1918",
-          colorTrap: "#0f0f0f",
-          colorText: "#e3ded1",
-          colorHighlights: "#e3ded1",
-        },
-        fight: {
-          mainBG: "#1a1817",
-          colorBG: "#181615",
-          colorTrap: "#0f0f0f",
-          colorText: "#b33f19",
-          colorHighlights: "#e3ded1",
-        },
-        //            uhhh: {
-        //                mainBG: "#1a1817",
-        //                colorBG: "#1c1918",
-        //                colorTrap: "#0f0f0f",
-        //                colorText: "white",
-        //                colorHighlights: "#e3ded1",
-        //            },
-        flightCity: {
-          mainBG: "black",
-          colorBG: "#040E1F",
-          colorTrap: "black",
-          colorText: "white",
-          colorHighlights: "#e3ded1",
-        },
-        shop: {
-          mainBG: "black",
-          colorBG: "#040E1F",
-          colorTrap: "black",
-          colorText: "white",
-          colorHighlights: "#e3ded1",
-        },
-        dungeonRest: {
-          mainBG: "#1a1817",
-          colorBG: "#161312",
-          colorTrap: "#0f0f0f",
-          colorText: "#83a475",
-          colorHighlights: "#e3ded1",
-        },
-        greatHall: {
-          mainBG: "#0D0B0B",
-          colorBG: "#0f0f0f",
-          colorTrap: "black",
-          colorText: "#CFC330",
-          colorHighlights: "#e3ded1",
-        },
-      };
-      var stories = {
-        //1 - text displayed, 2 - increment, 3 - choice sender location, 4 - function (optional)
-        // quickname:['text',yes,no] if in "here" do not run as function
-        //StorySkipAround(location)
-        flightCityHarpy: {
-          //   :["",["",""]],
-          onclear: "harpyClear()",
-          currentStoryPosition: "start",
-          start: [
-            "You find a suspicious water drain in the floating city, elevated, and serving no purpose. Do you choose to enter it? [y/n to continue]",
-            ["enterGutter", "leave"],
-          ],
-          enterGutter: [
-            "You crawl into the drain. It opens up into a larger tunnel. walking through it, the air feels heavy. Eventually you approach an opening, a large space with a shrine to a harpy, wings folded over its eyes. Do you kneel to it?",
-            ["kneel", "dontkneel"],
-          ],
-          dontkneel: [
-            "You do nothing, and leave the way you came. ",
-            ["leave", "leave"],
-          ],
-          leave: "goHub()",
-          kneel: [
-            "You kneel, and it feels as if the shrine to the harpy, it's massive stone carvings, become alive, breathing. It is suffering, and wants to be released, yet it cannot feel, and knows not of pain. The wings open, revealing a cage within its skull. Hidden in a dark corner, lays a feeble adolescent harpy with clipped wings, malnourished and dying. Do you choose to help it?",
-            ["helpharpy", "donthelpharpy"],
-          ],
-          donthelpharpy: [
-            "You do not help the harpy. You leave, feeling nothing. Have you ever felt guilt over this void of empathy?",
-            ["leave", "leave"],
-          ],
-          helpharpy: [
-            "You climb the statue of the large shrine, tearing out the rusted bars of the cage. Grabbing the harpy, you return to your domain, and nurse it back to health.",
-            ["finale", "finale"],
-          ],
-          finale: "addHarpy()",
-        },
-
-        bisonStory: {
-          onclear: "loadClearBison()",
-          currentStoryPosition: "start",
-
-          start: [
-            "You the singing mountains. True to their namesake, a sound can be heard. From afar, it is a dull roar, one that could be heard many miles away. The closer you get, the more you can decern the sound. It is made of animal calls, hundreds upon hundreds of different animals all alien to your ears. You track the sound to a single ridge, oddly shaped, as if it is leaning on another mountain. Do you choose to investigate? [y/n to continue]",
-            ["investigate", "noInvestigate"],
-          ],
-
-          noInvestigate: [
-            "You do not investigate. There is nothing else special about this mountain range, just dull hills and gravel filled canyons, so you leave.",
-            ["leave", "leave"],
-          ],
-          investigate: [
-            "As you begin to approach the mountain with your harpy companion, it shifts. The entire ridge moves into the form of a bison, towering above you. The shadows it casts are so great it blots out the sun, its form so mighty its breath alone moved boulders. It speaks, in a great and bellowing tone, \"Who are you, to tame an endling of mine, the last of her kind. You have her on a leash and make her spill blood for your own sake? Your feathered slave is the only one left of her kind. Release her.\" [y: discuss the harpy's free will. | n: challenge the bison's dominion.]",
-            ["freeWill", "challengeDominion"],
-          ],
-
-          freeWill: [
-            "You explain The bison's mistake. The harpy is free, and could leave anytime. She chooses to help, and could go her own way anytime. The bison doubts this. \"And yet her pinions are pruned, feathers trimmed like hedges. Who am I to assume that wasn't your doing?\" [y: explain how you found the harpy. | n: run]",
-            ["explainHarpy", "run"],
-          ],
-          challengeDominion: [
-            'You tell The bison he has no say over the harpy. He responds, angrier. "And who is to say you do? You have no control over her, every bit of connection between you is fleeting. Nothing holds you together but the glint of the coins in your purse. Let her choose." [y/n]',
-            ["harpychoice", "run"],
-          ],
-
-          explainHarpy: [
-            'You explain how you met the harpy, deep within the floating city. The bison donned a look of understanding. "The history of harpies is long indeed. The floating city was originally made by the harpies, as a safe haven in the sky. But people saw it as a place of riches, and it was raided again and again, until there was nothing left. The harpies that remained after ran, but were either captured or killed. It was to my understanding that they were extinct, to see one with my old eyes is a blessing."',
-            ["endlingExplination", "endlingExplination"],
-          ],
-
-          harpychoice: [
-            'You throw the coins you have toward the bison and signal the harpy to come over. She decides to go to the coin purse. Before the titanic bison could retort, the harpy returns to you, handing the coin purse to you. "Curious, Maybe you aren\'t what I thought you were."',
-            ["endlingExplination", "endlingExplination"],
-          ], // finish
-
-          run: [
-            "With a short signal to the harpy, you run. The bison begins to move behind you, a the sound of thunder following closely behind. The animal calls get louder. Looking back, the bison exposed the cliff face, and from it, hundreds of coves are seen, each filled with unique animals. You escape, as the large beast struggles to pass the bends of the mountain valleys without complete destruction of its hiding place. After you escape, you find a nearby town. There, a hunting party looking for the source of the mountain's calls buys information. Do you decide to join their discussion? [y/n]",
-            ["joinDiscussion", "noDiscussion"],
-          ],
-
-          endlingExplination: [
-            "\"I had better explain myself, to make up for the rude introduction. I am a singing auroch, the last of my kind. We were hunted for our meat and horns, as titans of the lands, we were like a treasure trove to the humans. It didn't last long. Soon, we went into hiding. I had found other endlings, those who may have the last of their kind, and decided to use my strength, to call for those who couldn't, to try and save their species. We terminarchs are alone, so we might as well live out the rest of our days together, hiding in caves my body shields.\" [y: agree | n: disagree]",
-            ["leaveEndlings", "runEndlings"],
-          ],
-          // connect colonisation with harpychoice for endling expanation
-
-          leaveEndlings: [
-            'You agree. The last members of their species should be protected, with at least a surrogate family to surround them. The beast looks peaceful, and seems to have decided on something. "I would like to grant you a scroll, to help protect you and your companion. It will summon lost souls, in the form of the deceased harpies, to protect you two. Farewell on your journey, I hope you keep the harpy company, she\'ll need it."',
-            ["finale_futile", "finale_futile"],
-          ],
-
-          runEndlings: [
-            "You disagree. The endlings should be free to roam, to live out their last days among the skies and fresh meadows if they so choose, not trapped within caves, cowering in fear until they die and rot. The beast thinks, and lets out a sigh. \"You might be right, in some way of thinking. I'm in my older years, and while I can still live to watch kingdoms rise and fall, and I can't protect my penultimate kin forever. If there's nothing left for them, they might as well live life to their best ability.\"",
-            ["runEndlings_b", "runEndlings_b"],
-          ],
-          runEndlings_b: [
-            '"I can turn my attention to endlings that are in peril then, in the meantime. For your help, I\'ll gift you an old scroll. It summons the spirits of the dead, taking the form of the last members of their respective species. With it, you can protect what is alive, now. Go, I hope you make good use of it."',
-            ["finale_pacifist", "finale_pacifist"],
-          ],
-
-          joinDiscussion: [
-            'You walk up to the table and tell them what you saw. One hunter gives you an explanation as to why they are hunting the beast. "These bisons, who have named themselves singing aurochs, create earthquakes that can level towns by the mere act of walking. their singing frightens game away, making food scarce. They kill on sight, and while intelligent, they are arrogant, and difficult to reason with. But their meat is plentiful due to their size, and their horns are incredibly sturdy. Since you\'re guiding us tomorrow, you can watch us take it down!"',
-            ["joinDiscussion_b", "joinDiscussion_b"],
-          ],
-          joinDiscussion_b: [
-            "The next day, they bring together weapons, to kill the bison, and the animals it hides.  Will you take action to save the helpless beasts that hide behind the great bison? [y/n]",
-            ["saveAnimals", "abandonAnimals"],
-          ],
-          noDiscussion: [
-            "You do not join the discussion. There isn't much you can do other than that, so you leave the mountains, with the knowledge that the chorus that echoes against its walls is hidden by The Great Bison.",
-            ["leave", "leave"],
-          ],
-
-          abandonAnimals: [
-            "You choose inaction. The hunters reach the bison, and you follow. The beast awakens, and roars with a thousand calls. It is no match for the hunters, their weapons designed for big game, hammers and large machinery in tow. It falls, and the animals who cowered behind its corpse try to escape. ",
-            ["abandonAnimals_b", "abandonAnimals_b"],
-          ],
-          saveAnimals: [
-            "You sneak away from the hunters while the they make camp. Awakening the bison, it chases after you to bring you further from the defenseless animals. You make sure to keep it in sight, and soon enough you reach the hunting party. They fight, and the bison stands no chance. The hunters quickly dispatch the titan with powerful explosives embedded in their blades and projectiles, downing it. They process the body, chopping off its huge horns that could fit a house, removing its hoves that could crush tens of people in one step. The beast's great hide is defiled with blood and metal, as it lays to rest in a bed of crimson gravel. ",
-            ["saveAnimals_b", "saveAnimals_b"],
-          ],
-
-          abandonAnimals_b: [
-            "Mercilessly, they are slaughtered. There is a vibrance of feathers, the dark maroon blood of a horned deer, the severed limbs of now extinct beasts littering the valley. No beast survived. The party of hunters has laid waste to the endlings of their species, and now nothing remains of them, the beasts slaughtered in the same ways as their anscestors. Blood drips down the gravel valley as a hunter approaches you. \"Thanks for the tip. We found some treasures among the corpse-loot. There's a scroll we don't care much for, we'd like you to have it, as payback.\"",
-            ["abandonAnimals_c", "abandonAnimals_c"],
-          ],
-          abandonAnimals_c: [
-            "The hunter hands you the scroll and walks away. The magic enscribed summons souls to fight and protect you, taking the form of a grotesque river of malformed bodies, a mixture of wings, legs, horns, guts, and much more the farther you look. You leave, bloodshed trailing behind you. ",
-            ["finale_genocide", "finale_genocide"],
-          ],
-
-          saveAnimals_b: [
-            "You sneak off again process the great bison, back to the animals. They are distressed, and the sound of their calls is quiet. At the sight of you, they begin to flee. Stampedes of animals of every size, shape, and color flock out, migrating to somewhere distant. They go somewhere far, away from the killer of their protector. Deep within the cave which held them, you find a scroll, markings of souls carved on it. ",
-            ["saveAnimals_c", "saveAnimals_c"],
-          ],
-          saveAnimals_c: [
-            "The scroll summons a small bison, back shaped like a mountain range. It'll protect and defend you for the time it has left. ",
-            ["finale_liberty", "finale_liberty"],
-          ],
-
-          leave: "goHub()",
-          finale_genocide: "clearBison(river of blood)",
-          finale_liberty: "clearBison('bison's soul)",
-          finale_pacifist: "clearBison(endling's soul)",
-          finale_futile: "clearBison(harpy's soul)",
-        },
-        witch: {
-          //   :["",["",""]],
-          onclear: "witchClear()", //persistent
-          currentStoryPosition: "start",
-          leave: "goHub()",
-          start: ["witch WIP [y/n to continue]", ["enterGutter", "leave"]],
-          WIP: ["WIP", ["finale", "finale"]],
-          finale: "witchFirstClear()", //once
-        },
-      };
-      var items = [
-        ["Charm of Attack", simpleAdd, "attack, 1"],
-        ["Charm of Defense", simpleAdd, "defense, 1"],
-        ["Charm of Health", simpleAdd, "maxHealth, 1"],
-        ["Charm of Skill", simpleAdd, "skillUsesMax, 1"],
-        ["Perch", simpleAdd, "harpyDamage, 1"],
-        ["Striking Blade", simpleAdd, "strikeDamage, 2.5"],
-        ["Healing Charm", simpleAdd, "heal, .5"],
-        ["Motivating Tonic", simpleAdd, "attributePoints, 1"],
-        ["Compass", simpleAdd, "startingFloorMax, 4"],
-        ["Explorer's Map", simpleAdd, "startingFloorMax, 5"],
-        ["Hunter's Map", simpleAdd, "startingFloorMax, 5"],
-      ];
-
-      function saveGame() {
-        localStorage.setItem("playerData", JSON.stringify(player));
-      }
-
-      function loadGame() {
-        if (localStorage.getItem("playerData") !== null) {
-          player = JSON.parse(localStorage.getItem("playerData"));
-          //PLAYER:DEFAULT-PLAYER CROSS CHECKER
-          for (let x of Object.keys(playerBackup)) {
-            if (!Object.keys(player).includes(x)) player[x] = playerBackup[x];
-          }
-
-          for (let x of player.completedStories) {
-            runFunction(stories[x].onclear);
-          }
-          for (let x of Object.keys(levelMilestones)) {
-            if (player.level >= parseInt(x)) {
-              // && Object.keys(levelMilestones).includes(player.level.toString())
-              //                        activityLog += "<br> You've unlocked " + levelMilestones[player.level][0];
-              window[levelMilestones[x][1]]();
-            }
-          }
-          for (let x of player.loadFunctions) {
-            runFunction(x);
-          }
-          cleanShop();
-          refreshStats();
-        }
-      }
-
-      function clearGame() {
-        localStorage.clear();
-        location.reload();
-      }
-
-      function renameAction(actionlist, location) {
-        actionlist = window[actionlist];
-        if (actionlist[location] !== undefined) {
-          document.getElementById(actionlist.actionid).innerHTML =
-            actionlist[location][0];
+        //                document.getElementById("combatLog").innerHTML = JSON.stringify(flames);
+        region.closePath();
+        if (areaTraits[player.location] !== undefined) {
+          var fillColor = areaTraits[player.location].colorText;
         } else {
-          document.getElementById(actionlist.actionid).innerHTML = "";
+          var fillColor = areaTraits.hub.colorText;
+        }
+        ctx.globalAlpha = 0.75;
+        ctx.fillStyle = fillColor;
+        ctx.fill(region); //, "evenodd"
+      }
+
+      function createFlame() {
+        let pathA = getRandomInt(0, c.width);
+        if (flames.length < 5) {
+          flames.push({
+            path: [
+              [pathA, c.height + 1],
+              [pathA, c.height + 1],
+            ],
+            color: "rgb(71, 138, 161)",
+            //                    color:
+            speedx: 0,
+            speedy: getRandomInt(5, 8),
+            acceleration: 0,
+            acceleration_scalar: 2,
+            maxHeight: 0,
+            limit: 75,
+            death: false,
+            decayCount: 10,
+          });
         }
       }
 
-      function goArea(loc) {
-        player.location = loc;
-        if (areaTraits[loc] == undefined) {
-          loc = "hub";
+      function moveFlame(index) {
+        //                flames[index].acceleration = getRandomInt(0, flames[index].acceleration_scalar) - (flames[index].acceleration_scalar / 2.5);
+        if (getRandomInt(1, 3) == 3) {
+          flames[index].acceleration += getRandomInt(
+            flames[index].acceleration_scalar * -1,
+            flames[index].acceleration_scalar * 1
+          );
         }
+        flames[index].speedx += flames[index].acceleration;
 
-        for (x of Object.keys(areaTraits[loc])) {
-          r.style.setProperty("--" + x, areaTraits[loc][x]);
+        if (
+          flames[index].speedx >= flames[index].limit ||
+          flames[index].speedx <= -1 * flames[index].limit
+        ) {
+          flames[index].speedx = 0;
+          flames[index].acceleration = 0;
         }
+        var rx = flames[index].speedx;
+        var ry = flames[index].speedy;
+
+        moveFlamePosAttacher = [];
+        moveFlamePosAttacher[0] = flames[index].path.at(-1)[0] + rx;
+        moveFlamePosAttacher[1] =
+          flames[index].path.at(-1)[1] -
+          ry +
+          Math.sign(pos.y - flames[index].path.at(-1)[1]) *
+          (c.height / 1000) *
+          Math.log(Math.abs(pos.y - flames[index].path.at(-1)[1])) *
+          1;
+        flames[index].path.push(moveFlamePosAttacher);
       }
 
-      function goHub() {
-        goArea("hub");
-        (action3List.settings = ["|3| Clear Data", "doubleClickClearGame"]),
-          //action_List.distrib = ["|5| Respec_", "doubleClickRespec"],
-          (player.choice = false);
-        doubleClickCheck = false;
-        player.storyLocation = "";
-        player.fightLocation = "";
-        player.subArea = "";
-        player.longEffects = [];
+      function flameLifetime(index) {
+        if (
+          flames[index].path.at(-1)[1] <=
+          Math.floor(flames[index].maxHeight) ||
+          flames[index].path.at(-1)[1] >= c.height ||
+          flames[index].path.at(-1)[0] <= 0 ||
+          flames[index].path.at(-1)[0] >= c.width
+        ) {
+          flames[index].death = true;
+        }
+      }
+      var pos = {
+        x: 0,
+        y: 0,
+      };
+      const flames = [];
+      var c = document.getElementById(selectedCanvas);
+      c.width = window.innerWidth;
+      c.height = window.innerHeight;
+      createFlame();
+      var ctx = c.getContext("2d");
+      flameIntervals.push(setInterval(flameRefresh, 50));
+    }
+    var flameIntervals = [];
+    generateFlames("canvaLeft");
+    generateFlames("canvaRight");
+
+    var dungeonNameList = [
+      "slime",
+      "Josh",
+      "George",
+      "ogre",
+      "cheese rat",
+      "hellhound",
+      "goblin",
+      "hemo-goblin",
+      "land shark",
+      "psychopath",
+      "cultist",
+      "rat pile",
+      "Filler Mike",
+    ];
+    var combatLog = "";
+    var activityLog = "";
+    var player = {
+      panelsToggle: true,
+      abilities: [1, 2],
+      xp: 0,
+      neededXp: 5,
+      maxHealth: 1,
+      health: 5,
+      attack: 1,
+      defense: 1,
+      skillUsesMax: 3,
+      skillUses: 3,
+      attributePoints: 3,
+      attributePointsUsed: [],
+      location: "hub",
+      subArea: "",
+      fightLocation: "",
+      coins: 0,
+      floor: 1,
+      level: 1,
+      startingFloor: 0,
+      startingFloorMax: 1,
+      choice: false,
+      completedStories: [],
+      storyLocation: "",
+      items: [],
+      input: "",
+      harpy: false,
+      harpyDamage: 1,
+      strikeDamage: 7.5,
+      heal: 1,
+      curseStrength: 1,
+      sacrificeStrength: 1,
+      quickEffects: [],
+      longEffects: [],
+      summonStrength: 1,
+      summonDuration: 5,
+      AutoAttackQueue: [],
+      fightStalemateMax: 25,
+      maxFightRecursion: 100,
+      summonName: "",
+      loadFunctions: [],
+      unlocks: [],
+      attributeLoopCount: 1,
+      stats: {
+        highestFloor: ["Highest floor", 0],
+        totalHarpy: ["Highest attack damage done", 0],
+        totalAttack: ["Total attack damage done", 0],
+        highestHealth: ["Highest health value reached", 0],
+        healTotal: ["Total health healed", 0],
+        totalPlaytime: ["Total playtime", 0],
+      },
+    };
+    var playerBackup = JSON.parse(JSON.stringify(player));
+    var doubleClickCheck = false;
+    var currentAutoAttack = 0;
+    var fightStalemateCouter = 0;
+    var fightRecursionCounter = 0;
+
+    var enemy = {
+      name: "Filler Mike",
+      health: 1,
+      attack: 1,
+      defense: 1,
+      status: "dead",
+    };
+    var action1List = {
+      actionid: "action1",
+      hub: ["|1| Enter Dungeon", "fight", "dungeon"],
+      fight: ["|1| Attack", "attack"],
+      distrib: ["|1| add to health", "addToAtrribute", "hp"],
+      flightCity: ["|1| Go to shop", "goShop"],
+      settings: ["|1| Save Data", "saveGame"],
+      dungeonRest: ["|1| Continue", "fight", "dungeon"],
+    };
+    var action2List = {
+      actionid: "action2",
+      hub: ["|2| Distribute Attribute Points", "attributeDistribute"],
+      fight: ["|2| Strike", "strike"],
+      distrib: ["|2| add to defense", "addToAtrribute", "def"],
+      flightCity: [
+        "|2| investigate a strange water drain",
+        "storyIncrement",
+        "flightCityHarpy",
+      ],
+      settings: ["|2| Load Data", "loadGame"],
+    };
+    var action3List = {
+      actionid: "action3",
+      hub: [" ", ""],
+      fight: ["", ""],
+      distrib: ["|3| add to attack", "addToAtrribute", "att"],
+      settings: ["|3| Clear Data", "doubleClickClearGame"],
+    };
+    var action4List = {
+      actionid: "action4",
+      hub: [" ", ""],
+      //            fight: ["|4| Sacrifice", "sacrifice"],
+      fight: ["", ""],
+      distrib: ["|4| add to skill uses", "addToAtrribute", "sp"],
+      settings: ["|4| Extra Settings", "extraSettings"],
+    };
+    var action5List = {
+      actionid: "action5",
+      hub: [" ", ""],
+      fight: [" ", ""],
+      //            fight: ["|5| summon", "summon"],
+      settings: ["|5| Toggle Decorative Panels", "togglePanels"],
+    };
+    var action6List = {
+      actionid: "action6",
+      hub: [" ", ""],
+      fight: [" ", ""],
+    };
+    var action7List = {
+      actionid: "action7",
+      //            hub: ["Enter the Singing Mountains, "storyIncrement", "flightCityHarpy"],
+      fight: [" ", ""],
+    };
+    var action8List = {
+      actionid: "action8",
+      hub: ["|8| Settings", "goSettings"],
+      fight: ["|8| Exit Dungeon", "goHub"],
+      flightCity: ["|8| Go to Hub", "goHub"],
+      settings: ["|8| Go to Hub", "goHub"],
+      distrib: ["|8| Exit", "goHub"],
+      dungeonRest: ["|8| Exit Dungeon", "goHub"],
+      greatHall: ["|8| Exit", "goHub"],
+    };
+
+    var levelMilestones = {
+      3: [
+        "Heal! This ability heals you based on your defense, and ignores your max health!",
+        "unlockHeal",
+      ],
+      6: ["Caelum Civitatem, Holy City of Flight!", "unlockFlightCity"],
+      //            12:sacrifice = damage
+    };
+    var floorMilestones = {
+      2: ["You've unlocked The Great Hall.", "unlockHall()"],
+      5: ["You've unlocked The Singing Mountains.", "unlockBison()", "harpy"],
+      75: [
+        "You've unlocked auto attacking, found in the extra settings.",
+        "unlockAutoAttack()",
+      ],
+    };
+
+    var fightAreas = {
+      dungeon: [dungeonNameList, [8, 12]],
+    };
+    var areaTraits = {
+      hub: {
+        mainBG: "#1a1817",
+        colorBG: "#1c1918",
+        colorTrap: "#0f0f0f",
+        colorText: "#e3ded1",
+        colorHighlights: "#e3ded1",
+      },
+      fight: {
+        mainBG: "#1a1817",
+        colorBG: "#181615",
+        colorTrap: "#0f0f0f",
+        colorText: "#b33f19",
+        colorHighlights: "#e3ded1",
+      },
+      //            uhhh: {
+      //                mainBG: "#1a1817",
+      //                colorBG: "#1c1918",
+      //                colorTrap: "#0f0f0f",
+      //                colorText: "white",
+      //                colorHighlights: "#e3ded1",
+      //            },
+      flightCity: {
+        mainBG: "black",
+        colorBG: "#040E1F",
+        colorTrap: "black",
+        colorText: "white",
+        colorHighlights: "#e3ded1",
+      },
+      shop: {
+        mainBG: "black",
+        colorBG: "#040E1F",
+        colorTrap: "black",
+        colorText: "white",
+        colorHighlights: "#e3ded1",
+      },
+      dungeonRest: {
+        mainBG: "#1a1817",
+        colorBG: "#161312",
+        colorTrap: "#0f0f0f",
+        colorText: "#83a475",
+        colorHighlights: "#e3ded1",
+      },
+      greatHall: {
+        mainBG: "#0D0B0B",
+        colorBG: "#0f0f0f",
+        colorTrap: "black",
+        colorText: "#CFC330",
+        colorHighlights: "#e3ded1",
+      },
+    };
+    var stories = {
+      //1 - text displayed, 2 - increment, 3 - choice sender location, 4 - function (optional)
+      // quickname:['text',yes,no] if in "here" do not run as function
+      //StorySkipAround(location)
+      flightCityHarpy: {
+        //   :["",["",""]],
+        onclear: "harpyClear()",
+        currentStoryPosition: "start",
+        start: [
+          "You find a suspicious water drain in the floating city, elevated, and serving no purpose. Do you choose to enter it? [y/n to continue]",
+          ["enterGutter", "leave"],
+        ],
+        enterGutter: [
+          "You crawl into the drain. It opens up into a larger tunnel. walking through it, the air feels heavy. Eventually you approach an opening, a large space with a shrine to a harpy, wings folded over its eyes. Do you kneel to it?",
+          ["kneel", "dontkneel"],
+        ],
+        dontkneel: [
+          "You do nothing, and leave the way you came. ",
+          ["leave", "leave"],
+        ],
+        leave: "goHub()",
+        kneel: [
+          "You kneel, and it feels as if the shrine to the harpy, it's massive stone carvings, become alive, breathing. It is suffering, and wants to be released, yet it cannot feel, and knows not of pain. The wings open, revealing a cage within its skull. Hidden in a dark corner, lays a feeble adolescent harpy with clipped wings, malnourished and dying. Do you choose to help it?",
+          ["helpharpy", "donthelpharpy"],
+        ],
+        donthelpharpy: [
+          "You do not help the harpy. You leave, feeling nothing. Have you ever felt guilt over this void of empathy?",
+          ["leave", "leave"],
+        ],
+        helpharpy: [
+          "You climb the statue of the large shrine, tearing out the rusted bars of the cage. Grabbing the harpy, you return to your domain, and nurse it back to health.",
+          ["finale", "finale"],
+        ],
+        finale: "addHarpy()",
+      },
+
+      bisonStory: {
+        onclear: "loadClearBison()",
+        currentStoryPosition: "start",
+
+        start: [
+          "You the singing mountains. True to their namesake, a sound can be heard. From afar, it is a dull roar, one that could be heard many miles away. The closer you get, the more you can decern the sound. It is made of animal calls, hundreds upon hundreds of different animals all alien to your ears. You track the sound to a single ridge, oddly shaped, as if it is leaning on another mountain. Do you choose to investigate? [y/n to continue]",
+          ["investigate", "noInvestigate"],
+        ],
+
+        noInvestigate: [
+          "You do not investigate. There is nothing else special about this mountain range, just dull hills and gravel filled canyons, so you leave.",
+          ["leave", "leave"],
+        ],
+        investigate: [
+          "As you begin to approach the mountain with your harpy companion, it shifts. The entire ridge moves into the form of a bison, towering above you. The shadows it casts are so great it blots out the sun, its form so mighty its breath alone moved boulders. It speaks, in a great and bellowing tone, \"Who are you, to tame an endling of mine, the last of her kind. You have her on a leash and make her spill blood for your own sake? Your feathered slave is the only one left of her kind. Release her.\" [y: discuss the harpy's free will. | n: challenge the bison's dominion.]",
+          ["freeWill", "challengeDominion"],
+        ],
+
+        freeWill: [
+          "You explain The bison's mistake. The harpy is free, and could leave anytime. She chooses to help, and could go her own way anytime. The bison doubts this. \"And yet her pinions are pruned, feathers trimmed like hedges. Who am I to assume that wasn't your doing?\" [y: explain how you found the harpy. | n: run]",
+          ["explainHarpy", "run"],
+        ],
+        challengeDominion: [
+          'You tell The bison he has no say over the harpy. He responds, angrier. "And who is to say you do? You have no control over her, every bit of connection between you is fleeting. Nothing holds you together but the glint of the coins in your purse. Let her choose." [y/n]',
+          ["harpychoice", "run"],
+        ],
+
+        explainHarpy: [
+          'You explain how you met the harpy, deep within the floating city. The bison donned a look of understanding. "The history of harpies is long indeed. The floating city was originally made by the harpies, as a safe haven in the sky. But people saw it as a place of riches, and it was raided again and again, until there was nothing left. The harpies that remained after ran, but were either captured or killed. It was to my understanding that they were extinct, to see one with my old eyes is a blessing."',
+          ["endlingExplination", "endlingExplination"],
+        ],
+
+        harpychoice: [
+          'You throw the coins you have toward the bison and signal the harpy to come over. She decides to go to the coin purse. Before the titanic bison could retort, the harpy returns to you, handing the coin purse to you. "Curious, Maybe you aren\'t what I thought you were."',
+          ["endlingExplination", "endlingExplination"],
+        ], // finish
+
+        run: [
+          "With a short signal to the harpy, you run. The bison begins to move behind you, a the sound of thunder following closely behind. The animal calls get louder. Looking back, the bison exposed the cliff face, and from it, hundreds of coves are seen, each filled with unique animals. You escape, as the large beast struggles to pass the bends of the mountain valleys without complete destruction of its hiding place. After you escape, you find a nearby town. There, a hunting party looking for the source of the mountain's calls buys information. Do you decide to join their discussion? [y/n]",
+          ["joinDiscussion", "noDiscussion"],
+        ],
+
+        endlingExplination: [
+          "\"I had better explain myself, to make up for the rude introduction. I am a singing auroch, the last of my kind. We were hunted for our meat and horns, as titans of the lands, we were like a treasure trove to the humans. It didn't last long. Soon, we went into hiding. I had found other endlings, those who may have the last of their kind, and decided to use my strength, to call for those who couldn't, to try and save their species. We terminarchs are alone, so we might as well live out the rest of our days together, hiding in caves my body shields.\" [y: agree | n: disagree]",
+          ["leaveEndlings", "runEndlings"],
+        ],
+        // connect colonisation with harpychoice for endling expanation
+
+        leaveEndlings: [
+          'You agree. The last members of their species should be protected, with at least a surrogate family to surround them. The beast looks peaceful, and seems to have decided on something. "I would like to grant you a scroll, to help protect you and your companion. It will summon lost souls, in the form of the deceased harpies, to protect you two. Farewell on your journey, I hope you keep the harpy company, she\'ll need it."',
+          ["finale_futile", "finale_futile"],
+        ],
+
+        runEndlings: [
+          "You disagree. The endlings should be free to roam, to live out their last days among the skies and fresh meadows if they so choose, not trapped within caves, cowering in fear until they die and rot. The beast thinks, and lets out a sigh. \"You might be right, in some way of thinking. I'm in my older years, and while I can still live to watch kingdoms rise and fall, and I can't protect my penultimate kin forever. If there's nothing left for them, they might as well live life to their best ability.\"",
+          ["runEndlings_b", "runEndlings_b"],
+        ],
+        runEndlings_b: [
+          '"I can turn my attention to endlings that are in peril then, in the meantime. For your help, I\'ll gift you an old scroll. It summons the spirits of the dead, taking the form of the last members of their respective species. With it, you can protect what is alive, now. Go, I hope you make good use of it."',
+          ["finale_pacifist", "finale_pacifist"],
+        ],
+
+        joinDiscussion: [
+          'You walk up to the table and tell them what you saw. One hunter gives you an explanation as to why they are hunting the beast. "These bisons, who have named themselves singing aurochs, create earthquakes that can level towns by the mere act of walking. their singing frightens game away, making food scarce. They kill on sight, and while intelligent, they are arrogant, and difficult to reason with. But their meat is plentiful due to their size, and their horns are incredibly sturdy. Since you\'re guiding us tomorrow, you can watch us take it down!"',
+          ["joinDiscussion_b", "joinDiscussion_b"],
+        ],
+        joinDiscussion_b: [
+          "The next day, they bring together weapons, to kill the bison, and the animals it hides.  Will you take action to save the helpless beasts that hide behind the great bison? [y/n]",
+          ["saveAnimals", "abandonAnimals"],
+        ],
+        noDiscussion: [
+          "You do not join the discussion. There isn't much you can do other than that, so you leave the mountains, with the knowledge that the chorus that echoes against its walls is hidden by The Great Bison.",
+          ["leave", "leave"],
+        ],
+
+        abandonAnimals: [
+          "You choose inaction. The hunters reach the bison, and you follow. The beast awakens, and roars with a thousand calls. It is no match for the hunters, their weapons designed for big game, hammers and large machinery in tow. It falls, and the animals who cowered behind its corpse try to escape. ",
+          ["abandonAnimals_b", "abandonAnimals_b"],
+        ],
+        saveAnimals: [
+          "You sneak away from the hunters while the they make camp. Awakening the bison, it chases after you to bring you further from the defenseless animals. You make sure to keep it in sight, and soon enough you reach the hunting party. They fight, and the bison stands no chance. The hunters quickly dispatch the titan with powerful explosives embedded in their blades and projectiles, downing it. They process the body, chopping off its huge horns that could fit a house, removing its hoves that could crush tens of people in one step. The beast's great hide is defiled with blood and metal, as it lays to rest in a bed of crimson gravel. ",
+          ["saveAnimals_b", "saveAnimals_b"],
+        ],
+
+        abandonAnimals_b: [
+          "Mercilessly, they are slaughtered. There is a vibrance of feathers, the dark maroon blood of a horned deer, the severed limbs of now extinct beasts littering the valley. No beast survived. The party of hunters has laid waste to the endlings of their species, and now nothing remains of them, the beasts slaughtered in the same ways as their anscestors. Blood drips down the gravel valley as a hunter approaches you. \"Thanks for the tip. We found some treasures among the corpse-loot. There's a scroll we don't care much for, we'd like you to have it, as payback.\"",
+          ["abandonAnimals_c", "abandonAnimals_c"],
+        ],
+        abandonAnimals_c: [
+          "The hunter hands you the scroll and walks away. The magic enscribed summons souls to fight and protect you, taking the form of a grotesque river of malformed bodies, a mixture of wings, legs, horns, guts, and much more the farther you look. You leave, bloodshed trailing behind you. ",
+          ["finale_genocide", "finale_genocide"],
+        ],
+
+        saveAnimals_b: [
+          "You sneak off again process the great bison, back to the animals. They are distressed, and the sound of their calls is quiet. At the sight of you, they begin to flee. Stampedes of animals of every size, shape, and color flock out, migrating to somewhere distant. They go somewhere far, away from the killer of their protector. Deep within the cave which held them, you find a scroll, markings of souls carved on it. ",
+          ["saveAnimals_c", "saveAnimals_c"],
+        ],
+        saveAnimals_c: [
+          "The scroll summons a small bison, back shaped like a mountain range. It'll protect and defend you for the time it has left. ",
+          ["finale_liberty", "finale_liberty"],
+        ],
+
+        leave: "goHub()",
+        finale_genocide: "clearBison(river of blood)",
+        finale_liberty: "clearBison('bison's soul)",
+        finale_pacifist: "clearBison(endling's soul)",
+        finale_futile: "clearBison(harpy's soul)",
+      },
+      witch: {
+        //   :["",["",""]],
+        onclear: "witchClear()", //persistent
+        currentStoryPosition: "start",
+        leave: "goHub()",
+        start: ["witch WIP [y/n to continue]", ["enterGutter", "leave"]],
+        WIP: ["WIP", ["finale", "finale"]],
+        finale: "witchFirstClear()", //once
+      },
+    };
+    var items = [
+      ["Charm of Attack", simpleAdd, "attack, 1"],
+      ["Charm of Defense", simpleAdd, "defense, 1"],
+      ["Charm of Health", simpleAdd, "maxHealth, 1"],
+      ["Charm of Skill", simpleAdd, "skillUsesMax, 1"],
+      ["Perch", simpleAdd, "harpyDamage, 1"],
+      ["Striking Blade", simpleAdd, "strikeDamage, 2.5"],
+      ["Healing Charm", simpleAdd, "heal, .5"],
+      ["Motivating Tonic", simpleAdd, "attributePoints, 1"],
+      ["Compass", simpleAdd, "startingFloorMax, 4"],
+      ["Explorer's Map", simpleAdd, "startingFloorMax, 5"],
+      ["Hunter's Map", simpleAdd, "startingFloorMax, 5"],
+    ];
+
+    function saveGame() {
+      localStorage.setItem("playerData", JSON.stringify(player));
+    }
+
+    function loadGame() {
+      if (localStorage.getItem("playerData") !== null) {
+        player = JSON.parse(localStorage.getItem("playerData"));
+        //PLAYER:DEFAULT-PLAYER CROSS CHECKER
+        for (let x of Object.keys(playerBackup)) {
+          if (!Object.keys(player).includes(x)) player[x] = playerBackup[x];
+        }
+
+        for (let x of player.completedStories) {
+          runFunction(stories[x].onclear);
+        }
+        for (let x of Object.keys(levelMilestones)) {
+          if (player.level >= parseInt(x)) {
+            // && Object.keys(levelMilestones).includes(player.level.toString())
+            //                        activityLog += "<br> You've unlocked " + levelMilestones[player.level][0];
+            window[levelMilestones[x][1]]();
+          }
+        }
+        for (let x of player.loadFunctions) {
+          runFunction(x);
+        }
+        cleanShop();
+        refreshStats();
+      }
+    }
+
+    function clearGame() {
+      localStorage.clear();
+      location.reload();
+    }
+
+    function renameAction(actionlist, location) {
+      actionlist = window[actionlist];
+      if (actionlist[location] !== undefined) {
+        document.getElementById(actionlist.actionid).innerHTML =
+          actionlist[location][0];
+      } else {
+        document.getElementById(actionlist.actionid).innerHTML = "";
+      }
+    }
+
+    function goArea(loc) {
+      player.location = loc;
+      if (areaTraits[loc] == undefined) {
+        loc = "hub";
+      }
+
+      for (x of Object.keys(areaTraits[loc])) {
+        r.style.setProperty("--" + x, areaTraits[loc][x]);
+      }
+    }
+
+    function goHub() {
+      goArea("hub");
+      (action3List.settings = ["|3| Clear Data", "doubleClickClearGame"]),
+        //action_List.distrib = ["|5| Respec_", "doubleClickRespec"],
+        (player.choice = false);
+      doubleClickCheck = false;
+      player.storyLocation = "";
+      player.fightLocation = "";
+      player.subArea = "";
+      player.longEffects = [];
+      currentAutoAttack = 0;
+      fightStalemateCouter = 0;
+      fightRecursionCounter = 0;
+      player.quickEffects = [];
+      for (x in stories) {
+        stories[x]["currentStoryPosition"] = "start";
+      }
+      document.getElementById("storyLog").innerHTML = "";
+      if (combatLog.split("<br>").length > 20) {
+        combatLog = combatLog
+          .split("<br>")
+          .splice(
+            combatLog.split("<br>").length - 20,
+            combatLog.split("<br>").length
+          )
+          .join("<br>");
+      }
+      if (activityLog.split("<br>").length > 8) {
+        activityLog = activityLog
+          .split("<br>")
+          .splice(
+            activityLog.split("<br>").length - 8,
+            activityLog.split("<br>").length
+          )
+          .join("<br>");
+      }
+      player.skillUses = player.skillUsesMax;
+      document.getElementById("activityLog").innerHTML = activityLog;
+      document.getElementById("combatLog").innerHTML = combatLog;
+      document.getElementById("inputBox").onkeypress = function () {
+        return false;
+      };
+      document.getElementById("inputBox").placeholder = " X X X X X X X X ";
+      document.getElementById("inputBox").innerHTML = "";
+      document.getElementById("inputBox").value = "";
+      if (player.startingFloor !== 0) {
+        player.floor = player.startingFloor;
+      } else {
+        player.floor = player.startingFloorMax;
+      }
+      let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+      for (let x of count_to_8) {
+        renameAction("action" + x + "List", "hub");
+      }
+      refreshStats();
+      document.getElementById("playerStatus").innerHTML =
+        "Your Health:" + player.maxHealth * 5;
+      saveGame();
+
+      //            document.getElementById("playerStatus").innerHTML = "You are currently in the Hub. The path ahead is yours to define.";
+    }
+
+    function clickall(actionlist) {
+      if (
+        actionlist !== undefined &&
+        actionlist[player.location] !== undefined
+      ) {
+        y = player.location;
+        let funcname = actionlist[y][1];
+        if (funcname !== "") {
+          if (actionlist[y].length >= 3) {
+            window[funcname](actionlist[y][2]);
+          } else {
+            window[funcname]();
+          }
+        }
+      }
+    }
+
+    function refreshStats() {
+      let myElement = document.getElementById("playerStats");
+      for (let child of myElement.children) {
+        let idname = child.id;
+        if (idname == "SU") {
+          child.innerHTML = idname + ": " + player.skillUses;
+        } else if (idname == "AP") {
+          child.innerHTML = idname + ": " + player.attributePoints;
+        } else if (idname == "AP") {
+          // uh, filler
+          child.innerHTML = idname + ": " + player.attributePoints;
+        } else if (idname == "maxHealth") {
+          child.innerHTML = "Max Hp: " + player.maxHealth * 5;
+        } else {
+          child.innerHTML = idname + ": " + player[idname];
+        }
+      }
+      myElement = document.getElementById("enemyStats");
+      for (let child of myElement.children) {
+        if (child.id !== "") {
+          let idname = child.id.split(":");
+          child.innerHTML =
+            idname[1] + ": " + Math.floor(window[idname[0]][idname[1]]);
+        }
+      }
+      document.getElementById("playerStatus").innerHTML =
+        "Your Health:" + player.health;
+      if (player.location == "fight") {
+        document.getElementById("enemyStatus").innerHTML =
+          enemy.name + "'s Health:" + enemy.health;
+      }
+    }
+
+    function fight(loc) {
+      try {
+        player.fightLocation = loc;
+        player.xp += 0.2;
+        var bounds = [
+          fightAreas[player.fightLocation][1][0],
+          fightAreas[player.fightLocation][1][1],
+        ];
+        enemy.name =
+          fightAreas[player.fightLocation][0][
+          Math.floor(
+            Math.random() * fightAreas[player.fightLocation][0].length
+          )
+          ];
+        player.health = player.maxHealth * 5;
+        player.fightLocation = loc;
+        player.skillUses = player.skillUsesMax;
+        enemy.status = "alive";
         currentAutoAttack = 0;
         fightStalemateCouter = 0;
-        fightRecursionCounter = 0;
-        player.quickEffects = [];
-        for (x in stories) {
-          stories[x]["currentStoryPosition"] = "start";
+        enemy.health =
+          Math.floor(
+            player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)
+          ) * 3;
+        if (enemy.health == 0) {
+          enemy.health = 1;
         }
-        document.getElementById("storyLog").innerHTML = "";
+        enemy.attack =
+          Math.floor(
+            player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)
+          ) ** 1.5;
+        enemy.defense = Math.floor(
+          player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)
+        );
+        if (enemy.defense == 0) {
+          enemy.defense = 1;
+        }
+        goArea("fight");
+
         if (combatLog.split("<br>").length > 20) {
           combatLog = combatLog
             .split("<br>")
@@ -1432,448 +1377,315 @@
             )
             .join("<br>");
         }
-        player.skillUses = player.skillUsesMax;
-        document.getElementById("activityLog").innerHTML = activityLog;
-        document.getElementById("combatLog").innerHTML = combatLog;
-        document.getElementById("inputBox").onkeypress = function () {
-          return false;
-        };
-        document.getElementById("inputBox").placeholder = " X X X X X X X X ";
-        document.getElementById("inputBox").innerHTML = "";
-        document.getElementById("inputBox").value = "";
-        if (player.startingFloor !== 0) {
-          player.floor = player.startingFloor;
-        } else {
-          player.floor = player.startingFloorMax;
-        }
-        let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
-        for (let x of count_to_8) {
-          renameAction("action" + x + "List", "hub");
-        }
-        refreshStats();
-        document.getElementById("playerStatus").innerHTML =
-          "Your Health:" + player.maxHealth * 5;
-        saveGame();
-
-        //            document.getElementById("playerStatus").innerHTML = "You are currently in the Hub. The path ahead is yours to define.";
-      }
-
-      function clickall(actionlist) {
-        if (
-          actionlist !== undefined &&
-          actionlist[player.location] !== undefined
-        ) {
-          y = player.location;
-          let funcname = actionlist[y][1];
-          if (funcname !== "") {
-            if (actionlist[y].length >= 3) {
-              window[funcname](actionlist[y][2]);
-            } else {
-              window[funcname]();
-            }
-          }
-        }
-      }
-
-      function refreshStats() {
-        let myElement = document.getElementById("playerStats");
-        for (let child of myElement.children) {
-          let idname = child.id;
-          if (idname == "SU") {
-            child.innerHTML = idname + ": " + player.skillUses;
-          } else if (idname == "AP") {
-            child.innerHTML = idname + ": " + player.attributePoints;
-          } else if (idname == "AP") {
-            // uh, filler
-            child.innerHTML = idname + ": " + player.attributePoints;
-          } else if (idname == "maxHealth") {
-            child.innerHTML = "Max Hp: " + player.maxHealth * 5;
-          } else {
-            child.innerHTML = idname + ": " + player[idname];
-          }
-        }
-        myElement = document.getElementById("enemyStats");
-        for (let child of myElement.children) {
-          if (child.id !== "") {
-            let idname = child.id.split(":");
-            child.innerHTML =
-              idname[1] + ": " + Math.floor(window[idname[0]][idname[1]]);
-          }
-        }
-        document.getElementById("playerStatus").innerHTML =
-          "Your Health:" + player.health;
-        if (player.location == "fight") {
-          document.getElementById("enemyStatus").innerHTML =
-            enemy.name + "'s Health:" + enemy.health;
-        }
-      }
-
-      function fight(loc) {
-        try {
-          player.fightLocation = loc;
-          player.xp += 0.2;
-          var bounds = [
-            fightAreas[player.fightLocation][1][0],
-            fightAreas[player.fightLocation][1][1],
-          ];
-          enemy.name =
-            fightAreas[player.fightLocation][0][
-              Math.floor(
-                Math.random() * fightAreas[player.fightLocation][0].length
-              )
-            ];
-          player.health = player.maxHealth * 5;
-          player.fightLocation = loc;
-          player.skillUses = player.skillUsesMax;
-          enemy.status = "alive";
-          currentAutoAttack = 0;
-          fightStalemateCouter = 0;
-          enemy.health =
-            Math.floor(
-              player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)
-            ) * 3;
-          if (enemy.health == 0) {
-            enemy.health = 1;
-          }
-          enemy.attack =
-            Math.floor(
-              player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)
-            ) ** 1.5;
-          enemy.defense = Math.floor(
-            player.floor * (getRandomInt(bounds[0], bounds[1]) / 10)
-          );
-          if (enemy.defense == 0) {
-            enemy.defense = 1;
-          }
-          goArea("fight");
-
-          if (combatLog.split("<br>").length > 20) {
-            combatLog = combatLog
-              .split("<br>")
-              .splice(
-                combatLog.split("<br>").length - 20,
-                combatLog.split("<br>").length
-              )
-              .join("<br>");
-          }
-          if (activityLog.split("<br>").length > 8) {
-            activityLog = activityLog
-              .split("<br>")
-              .splice(
-                activityLog.split("<br>").length - 8,
-                activityLog.split("<br>").length
-              )
-              .join("<br>");
-          }
-          combatLog +=
-            "<br> You've encountered " +
-            enemy.name +
-            " on floor " +
-            player.floor +
-            "!";
-          if (player.AutoAttackQueue.length == 0) {
-            refreshStats();
-            document.getElementById("combatLog").innerHTML = combatLog;
-            document.getElementById("playerStatus").innerHTML =
-              "Your Health:" + player.health;
-            document.getElementById("enemyStatus").innerHTML =
-              enemy.name + "'s Health:" + enemy.health;
-            let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
-            for (let x of count_to_8) {
-              renameAction("action" + x + "List", "fight");
-            }
-          }
-          if (player.AutoAttackQueue.length !== 0) {
-            autoQueue();
-          }
-          return;
-        } catch (e) {
-          //                console.log(e) // REMEMBER
-          if (!combatLog.includes("Your time has run short at floor")) {
-            combatLog +=
-              "<br> Your time has run short at floor " +
-              player.floor +
-              ", you must overcome your enemies quicker.";
-          }
-          document.getElementById("enemyStatus").innerHTML =
-            enemy.name + "'s Health:" + enemy.health;
+        combatLog +=
+          "<br> You've encountered " +
+          enemy.name +
+          " on floor " +
+          player.floor +
+          "!";
+        if (player.AutoAttackQueue.length == 0) {
+          refreshStats();
+          document.getElementById("combatLog").innerHTML = combatLog;
           document.getElementById("playerStatus").innerHTML =
             "Your Health:" + player.health;
-          document.getElementById("combatLog").innerHTML = combatLog;
-          goHub();
-          return;
+          document.getElementById("enemyStatus").innerHTML =
+            enemy.name + "'s Health:" + enemy.health;
+          let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+          for (let x of count_to_8) {
+            renameAction("action" + x + "List", "fight");
+          }
         }
+        if (player.AutoAttackQueue.length !== 0) {
+          autoQueue();
+        }
+        return;
+      } catch (e) {
+        //                console.log(e) // REMEMBER
+        if (!combatLog.includes("Your time has run short at floor")) {
+          combatLog +=
+            "<br> Your time has run short at floor " +
+            player.floor +
+            ", you must overcome your enemies quicker.";
+        }
+        document.getElementById("enemyStatus").innerHTML =
+          enemy.name + "'s Health:" + enemy.health;
+        document.getElementById("playerStatus").innerHTML =
+          "Your Health:" + player.health;
+        document.getElementById("combatLog").innerHTML = combatLog;
+        goHub();
+        return;
       }
+    }
 
-      function attack() {
+    function attack() {
+      if (enemy.status !== "dead" && enemy.health > 0) {
+        enemy.health -= Math.ceil((player.attack * 3) / enemy.defense);
+        combatLog +=
+          "<br>You've done " +
+          Math.ceil((player.attack * 3) / enemy.defense) +
+          " damage!";
+        //                document.getElementById("combatLog").innerHTML = combatLog;
+        enemyTurn();
+        return;
+      } else {
+        enemyDeath();
+        return;
+      }
+    }
+
+    function strike() {
+      if (player.skillUses > 0) {
         if (enemy.status !== "dead" && enemy.health > 0) {
-          enemy.health -= Math.ceil((player.attack * 3) / enemy.defense);
+          enemy.health -= Math.ceil(
+            (player.attack * player.strikeDamage * 2.5) / enemy.defense
+          );
           combatLog +=
             "<br>You've done " +
-            Math.ceil((player.attack * 3) / enemy.defense) +
+            Math.ceil(
+              (player.attack * player.strikeDamage * 2.5) / enemy.defense
+            ) +
             " damage!";
-          //                document.getElementById("combatLog").innerHTML = combatLog;
+          //                    document.getElementById("combatLog").innerHTML = combatLog;
+          player.skillUses -= 1;
+
           enemyTurn();
           return;
         } else {
           enemyDeath();
           return;
         }
-      }
-
-      function strike() {
-        if (player.skillUses > 0) {
-          if (enemy.status !== "dead" && enemy.health > 0) {
-            enemy.health -= Math.ceil(
-              (player.attack * player.strikeDamage * 2.5) / enemy.defense
-            );
-            combatLog +=
-              "<br>You've done " +
-              Math.ceil(
-                (player.attack * player.strikeDamage * 2.5) / enemy.defense
-              ) +
-              " damage!";
-            //                    document.getElementById("combatLog").innerHTML = combatLog;
-            player.skillUses -= 1;
-
-            enemyTurn();
-            return;
-          } else {
-            enemyDeath();
-            return;
-          }
-        } else {
-          if (enemy.status !== "dead" && enemy.health > 0) {
-            combatLog +=
-              "<br>Not enough skill points, defaulting to basic attack.";
-            attack();
-            return;
-            //                    document.getElementById("combatLog").innerHTML = combatLog;
-          } else {
-            enemyDeath();
-            return;
-          }
-        }
-      }
-
-      function heal() {
-        if (player.skillUses > 0) {
-          if (enemy.status !== "dead" && enemy.health > 0) {
-            player.health += Math.floor(player.defense * 2.5 * player.heal);
-            combatLog +=
-              "<br>You've healed " +
-              Math.floor(player.defense * 2.5 * player.heal) +
-              " health!";
-            player.skillUses -= 1;
-
-            enemyTurn();
-            return;
-          } else {
-            enemyDeath();
-            return;
-          }
-        } else {
-          if (enemy.status !== "dead" && enemy.health > 0) {
-            combatLog +=
-              "<br>Not enough skill points, defaulting to basic attack.";
-            attack();
-            return;
-            //                    document.getElementById("combatLog").innerHTML = combatLog;
-          } else {
-            enemyDeath();
-            return;
-          }
-        }
-      }
-
-      function curse() {
-        if (player.skillUses > 0) {
-          if (enemy.status !== "dead" && enemy.health > 0) {
-            enemy.defense =
-              Math.floor(
-                ((enemy.defense * 2) / (player.curseStrength * player.attack)) *
-                  100
-              ) / 100;
-            refreshStats();
-            combatLog +=
-              "<br>The enemy's defense is now " + enemy.defense + "!";
-            player.skillUses -= 1;
-
-            enemyTurn();
-            return;
-          } else {
-            enemyDeath();
-            return;
-          }
-        } else {
-          if (enemy.status !== "dead" && enemy.health > 0) {
-            combatLog +=
-              "<br>Not enough skill points, defaulting to basic attack.";
-            attack();
-            return;
-            //                    document.getElementById("combatLog").innerHTML = combatLog;
-          } else {
-            enemyDeath();
-            return;
-          }
-        }
-      }
-
-      function sacrifice() {
-        if (player.skillUses > 0 && player.health >= 2) {
-          if (enemy.status !== "dead" && enemy.health > 0) {
-            player.health = Math.floor(player.health / 2);
-            let buff = player.health * player.sacrificeStrength;
-            player.attack += buff;
-            player.quickEffects.push("simpleAdd(attack, " + -buff + ")");
-            combatLog +=
-              "<br>You've lost " +
-              Math.floor(player.health / 2) +
-              " health, and gained " +
-              buff +
-              " attack!";
-            //                    document.getElementById("combatLog").innerHTML = combatLog;
-            player.skillUses -= 1;
-
-            enemyTurn();
-            return;
-          } else {
-            enemyDeath();
-            return;
-          }
-        } else {
-          if (enemy.status !== "dead" && enemy.health > 0) {
-            combatLog += "<br>Not enough, defaulting to basic attack.";
-            attack();
-            //                    document.getElementById("combatLog").innerHTML = combatLog;
-          } else {
-            enemyDeath();
-            return;
-          }
-        }
-      }
-
-      function summon() {
-        if (player.skillUses > 0) {
-          if (enemy.status !== "dead" && enemy.health > 0) {
-            player.longEffects.push(["summonAttack()", player.summonDuration]);
-            combatLog += "<br>You've summoned a " + player.summonName + "!";
-            //                    document.getElementById("combatLog").innerHTML = combatLog;
-            player.skillUses -= 1;
-
-            enemyTurn();
-            return;
-          } else {
-            enemyDeath();
-            return;
-          }
-        } else {
-          if (enemy.status !== "dead" && enemy.health > 0) {
-            combatLog +=
-              "<br>Not enough skill points, defaulting to basic attack.";
-            attack();
-            return;
-            //                    document.getElementById("combatLog").innerHTML = combatLog;
-          } else {
-            enemyDeath();
-            return;
-          }
-        }
-      }
-
-      function summonAttack() {
+      } else {
         if (enemy.status !== "dead" && enemy.health > 0) {
-          enemy.health -= Math.ceil(
-            (player.attack * 5 * player.summonStrength) / enemy.defense
-          );
-          player.health += Math.floor(
-            (player.defense * player.summonStrength) / 4
-          );
           combatLog +=
-            "<br>Your summons have done " +
-            Math.ceil(
-              (player.attack * 5 * player.summonStrength) / enemy.defense
-            ) +
-            " damage, and healed " +
-            Math.floor((player.defense * player.summonStrength) / 4) +
-            " health!";
-        }
-      }
-
-      function Harpyturn() {
-        enemy.health -= Math.floor(
-          (player.coins ** 0.8 * player.harpyDamage) / enemy.defense
-        );
-        combatLog +=
-          "<br>Your harpy has done " +
-          Math.floor(
-            (player.coins ** 0.8 * player.harpyDamage) / enemy.defense
-          ) +
-          " damage!";
-      }
-
-      function enemyTurn() {
-        for (let x in player.longEffects) {
-          if (player.longEffects[x][0] == "summonAttack()") {
-            if (player.longEffects[x][1] >= 1) {
-              runFunction(player.longEffects[x][0]);
-              player.longEffects[x][1] -= 1;
-            } else {
-              player.longEffects.splice(x, 1);
-            }
-          }
-        }
-        if (player.unlocks.includes("harpy")) {
-          Harpyturn();
-        }
-        if (enemy.status !== "dead" && enemy.health > 0) {
-          player.health -= Math.floor(enemy.attack / (player.defense * 0.5));
-          if (player.AutoAttackQueue.length == 0) {
-            document.getElementById("enemyStatus").innerHTML =
-              enemy.name + "'s Health:" + enemy.health;
-            document.getElementById("playerStatus").innerHTML =
-              "Your Health:" + player.health;
-            combatLog +=
-              "<br>Your opponent has done " +
-              Math.floor(Math.floor(enemy.attack / player.defense)) +
-              " damage!";
-            document.getElementById("combatLog").innerHTML = combatLog;
-          }
-          if (player.health <= 0) {
-            levelUpCheck();
-            for (let x of player.quickEffects) {
-              runFunction(x);
-            }
-            player.quickEffects = [];
-            player.longEffects = [];
-            combatLog += "<br>You died on floor " + player.floor + "!";
-            goHub();
-            return;
-          } else {
-            if (player.AutoAttackQueue.length !== 0) {
-              if (fightStalemateCouter > player.fightStalemateMax) {
-                player.health = 0;
-                goHub();
-              }
-              autoQueue();
-            } else {
-              refreshStats();
-            }
-          }
+            "<br>Not enough skill points, defaulting to basic attack.";
+          attack();
+          return;
+          //                    document.getElementById("combatLog").innerHTML = combatLog;
         } else {
-          if (player.AutoAttackQueue.length == 0) {
-            document.getElementById("enemyStatus").innerHTML =
-              enemy.name + "'s Health:" + enemy.health;
-            document.getElementById("playerStatus").innerHTML =
-              "Your Health:" + player.health;
-          }
           enemyDeath();
           return;
         }
       }
+    }
 
-      function autoQueue() {
-        if (player.location !== 'hub') {
+    function heal() {
+      if (player.skillUses > 0) {
+        if (enemy.status !== "dead" && enemy.health > 0) {
+          player.health += Math.floor(player.defense * 2.5 * player.heal);
+          combatLog +=
+            "<br>You've healed " +
+            Math.floor(player.defense * 2.5 * player.heal) +
+            " health!";
+          player.skillUses -= 1;
+
+          enemyTurn();
+          return;
+        } else {
+          enemyDeath();
+          return;
+        }
+      } else {
+        if (enemy.status !== "dead" && enemy.health > 0) {
+          combatLog +=
+            "<br>Not enough skill points, defaulting to basic attack.";
+          attack();
+          return;
+          //                    document.getElementById("combatLog").innerHTML = combatLog;
+        } else {
+          enemyDeath();
+          return;
+        }
+      }
+    }
+
+    function curse() {
+      if (player.skillUses > 0) {
+        if (enemy.status !== "dead" && enemy.health > 0) {
+          enemy.defense =
+            Math.floor(
+              ((enemy.defense * 2) / (player.curseStrength * player.attack)) *
+              100
+            ) / 100;
+          refreshStats();
+          combatLog +=
+            "<br>The enemy's defense is now " + enemy.defense + "!";
+          player.skillUses -= 1;
+
+          enemyTurn();
+          return;
+        } else {
+          enemyDeath();
+          return;
+        }
+      } else {
+        if (enemy.status !== "dead" && enemy.health > 0) {
+          combatLog +=
+            "<br>Not enough skill points, defaulting to basic attack.";
+          attack();
+          return;
+          //                    document.getElementById("combatLog").innerHTML = combatLog;
+        } else {
+          enemyDeath();
+          return;
+        }
+      }
+    }
+
+    function sacrifice() {
+      if (player.skillUses > 0 && player.health >= 2) {
+        if (enemy.status !== "dead" && enemy.health > 0) {
+          player.health = Math.floor(player.health / 2);
+          let buff = player.health * player.sacrificeStrength;
+          player.attack += buff;
+          player.quickEffects.push("simpleAdd(attack, " + -buff + ")");
+          combatLog +=
+            "<br>You've lost " +
+            Math.floor(player.health / 2) +
+            " health, and gained " +
+            buff +
+            " attack!";
+          //                    document.getElementById("combatLog").innerHTML = combatLog;
+          player.skillUses -= 1;
+
+          enemyTurn();
+          return;
+        } else {
+          enemyDeath();
+          return;
+        }
+      } else {
+        if (enemy.status !== "dead" && enemy.health > 0) {
+          combatLog += "<br>Not enough, defaulting to basic attack.";
+          attack();
+          //                    document.getElementById("combatLog").innerHTML = combatLog;
+        } else {
+          enemyDeath();
+          return;
+        }
+      }
+    }
+
+    function summon() {
+      if (player.skillUses > 0) {
+        if (enemy.status !== "dead" && enemy.health > 0) {
+          player.longEffects.push(["summonAttack()", player.summonDuration]);
+          combatLog += "<br>You've summoned a " + player.summonName + "!";
+          //                    document.getElementById("combatLog").innerHTML = combatLog;
+          player.skillUses -= 1;
+
+          enemyTurn();
+          return;
+        } else {
+          enemyDeath();
+          return;
+        }
+      } else {
+        if (enemy.status !== "dead" && enemy.health > 0) {
+          combatLog +=
+            "<br>Not enough skill points, defaulting to basic attack.";
+          attack();
+          return;
+          //                    document.getElementById("combatLog").innerHTML = combatLog;
+        } else {
+          enemyDeath();
+          return;
+        }
+      }
+    }
+
+    function summonAttack() {
+      if (enemy.status !== "dead" && enemy.health > 0) {
+        enemy.health -= Math.ceil(
+          (player.attack * 5 * player.summonStrength) / enemy.defense
+        );
+        player.health += Math.floor(
+          (player.defense * player.summonStrength) / 4
+        );
+        combatLog +=
+          "<br>Your summons have done " +
+          Math.ceil(
+            (player.attack * 5 * player.summonStrength) / enemy.defense
+          ) +
+          " damage, and healed " +
+          Math.floor((player.defense * player.summonStrength) / 4) +
+          " health!";
+      }
+    }
+
+    function Harpyturn() {
+      enemy.health -= Math.floor(
+        (player.coins ** 0.8 * player.harpyDamage) / enemy.defense
+      );
+      combatLog +=
+        "<br>Your harpy has done " +
+        Math.floor(
+          (player.coins ** 0.8 * player.harpyDamage) / enemy.defense
+        ) +
+        " damage!";
+    }
+
+    function enemyTurn() {
+      for (let x in player.longEffects) {
+        if (player.longEffects[x][0] == "summonAttack()") {
+          if (player.longEffects[x][1] >= 1) {
+            runFunction(player.longEffects[x][0]);
+            player.longEffects[x][1] -= 1;
+          } else {
+            player.longEffects.splice(x, 1);
+          }
+        }
+      }
+      if (player.unlocks.includes("harpy")) {
+        Harpyturn();
+      }
+      if (enemy.status !== "dead" && enemy.health > 0) {
+        player.health -= Math.floor(enemy.attack / (player.defense * 0.5));
+        if (player.AutoAttackQueue.length == 0) {
+          document.getElementById("enemyStatus").innerHTML =
+            enemy.name + "'s Health:" + enemy.health;
+          document.getElementById("playerStatus").innerHTML =
+            "Your Health:" + player.health;
+          combatLog +=
+            "<br>Your opponent has done " +
+            Math.floor(Math.floor(enemy.attack / player.defense)) +
+            " damage!";
+          document.getElementById("combatLog").innerHTML = combatLog;
+        }
+        if (player.health <= 0) {
+          levelUpCheck();
+          for (let x of player.quickEffects) {
+            runFunction(x);
+          }
+          player.quickEffects = [];
+          player.longEffects = [];
+          combatLog += "<br>You died on floor " + player.floor + "!";
+          goHub();
+          return;
+        } else {
+          if (player.AutoAttackQueue.length !== 0) {
+            if (fightStalemateCouter > player.fightStalemateMax) {
+              player.health = 0;
+              goHub();
+            }
+            autoQueue();
+          } else {
+            refreshStats();
+          }
+        }
+      } else {
+        if (player.AutoAttackQueue.length == 0) {
+          document.getElementById("enemyStatus").innerHTML =
+            enemy.name + "'s Health:" + enemy.health;
+          document.getElementById("playerStatus").innerHTML =
+            "Your Health:" + player.health;
+        }
+        enemyDeath();
+        return;
+      }
+    }
+
+    function autoQueue() {
+      if (player.location !== "hub") {
         //            logKey(player.AutoAttackQueue[(currentAutoAttack - 1).toString()])
         if (currentAutoAttack >= player.AutoAttackQueue.length - 1) {
           currentAutoAttack = 0;
@@ -1883,186 +1695,187 @@
         fightStalemateCouter += 1;
         logKey(player.AutoAttackQueue[currentAutoAttack].toString());
       }
-        return;
-      }
+      return;
+    }
 
-      function enemyDeath() {
-        if (player.fightLocation == "dungeon") {
-          enemy.status = "dead";
+    function enemyDeath() {
+      if (player.fightLocation == "dungeon") {
+        enemy.status = "dead";
 
-          player.coins += Math.floor(getRandomInt(0, player.floor));
-          player.xp += Math.floor(
-            getRandomInt(player.floor * 1, player.floor * 2)
-          );
-          currentAutoAttack = 0;
-          combatLog +=
-            "<br>You have " +
-            Math.floor(player.xp) +
-            " / " +
-            player.neededXp +
-            " xp!";
-          if (player.AutoAttackQueue.length == 0) {
-            document.getElementById("enemyStatus").innerHTML =
-              enemy.name + "'s Health:" + enemy.health;
-            document.getElementById("playerStatus").innerHTML =
-              "Your Health:" + player.health;
-            document.getElementById("combatLog").innerHTML = combatLog;
-          }
-          levelUpCheck();
-          for (let x of player.quickEffects) {
-            runFunction(x);
-          }
-          player.quickEffects = [];
-          if (
-            Object.keys(floorMilestones).includes(player.floor.toString()) &&
-            !player.unlocks.includes(floorMilestones[player.floor][1]) &&
-            (player.unlocks.includes(floorMilestones[player.floor][2]) ||
-              floorMilestones[player.floor][2] == undefined)
-          ) {
-            activityLog += "<br>" + floorMilestones[player.floor][0];
-            player.unlocks.push(floorMilestones[player.floor][1]);
-            runFunction(floorMilestones[player.floor][1]);
-            document.getElementById("activityLog").innerHTML = activityLog;
-          }
-          player.floor += 1;
-          if (fightRecursionCounter > player.maxFightRecursion) {
-            //Dungeon Rest
-            let restPrompt1 = [
-              "find a house among the caverns",
-              "find an opening in the cavern",
-              "find an opening in the cavern, covered in verdant moss,",
-              "find an opening in the cavern, covered in crimson moss,",
-              "find an small hole in the cavern, filled with skulls,",
-              "come across an abondoned house, the yard littered with graves,",
-              "enter a clearing filled with sword grass,",
-              "see a sword embedded in the ground, its height dwarfing giants,",
-              "hear music, a slow waltz,",
-              "hear music, an upbeat tempo,",
-              "find a sandwich, placed on a pedestal,",
-              "see marble pillars",
-              "reach ancient ruins",
-              "come across a bridge",
-              "come across the statue of a beast",
-              "reach a cliff",
-              "come across a mirror",
-              "come across long brick hallway",
-              "find a wall made of flesh and bone",
-              "hear the call of owls",
-            ];
-            let restPrompt2 = [
-              "you do nothing",
-              "you investigate",
-              "you run",
-              "you dance",
-              "you walk",
-              "you hide",
-              "you trudge your way through",
-              "you hike",
-              "you burn the area",
-              "you flee",
-              "you feel as if you are drowning",
-              "you fear the weight of your future",
-              "you sleep",
-              "you sleep for two eternities",
-              "you ingore it",
-            ];
-            let restPrompt3 = [
-              "leaving unburdened. ",
-              "leaving quietly. ",
-              "leaving alone. ",
-              "leaving without knowledge. ",
-              "leaving in fear. ",
-              "leaving happily. ",
-              "leaving joylessly. ",
-              "leaving without burden. ",
-              "leaving with great burdens. ",
-              "escaping with your life. ",
-              "escaping without the burden of knowledge. ",
-              "escaping with the burden of knowledge. ",
-              "escaping with the burden of eldritch knowledge. ",
-              "almost staying forever. ",
-              "leaving alert. ",
-              "leaving well-rested. ",
-              "leaving strengthened. ",
-              "leaving shaken. ",
-              "leaving in fear what you unearthed. ",
-              "continuing unsure of yourself. ",
-            ];
-            let restPrompt4 = ["and", "but", "yet", "so"];
-            fightRecursionCounter = 0;
-            goArea("dungeonRest");
-            document.getElementById("activityLog").innerHTML = activityLog;
-            document.getElementById("combatLog").innerHTML = combatLog;
-            document.getElementById("playerStatus").innerHTML =
-              "Your Health:" + player.maxHealth * 5;
-            saveGame(); // maybe?
-            let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
-            for (let x of count_to_8) {
-              renameAction("action" + x + "List", "dungeonRest");
-              document.getElementById("storyLog").innerHTML =
-                "You " +
-                restPrompt1[getRandomInt(0, restPrompt1.length - 1)] +
-                " " +
-                restPrompt4[getRandomInt(0, restPrompt4.length - 1)] +
-                " " +
-                restPrompt2[getRandomInt(0, restPrompt2.length - 1)] +
-                ", " +
-                restPrompt3[getRandomInt(0, restPrompt3.length - 1)];
-            }
-            refreshStats();
-            // Dungeon Rest //
-          } else {
-            fightRecursionCounter += 1;
-            fight(player.fightLocation);
-            return;
-          }
+        player.coins += Math.floor(getRandomInt(0, player.floor));
+        player.xp += Math.floor(
+          getRandomInt(player.floor * 1, player.floor * 2)
+        );
+        currentAutoAttack = 0;
+        combatLog +=
+          "<br>You have " +
+          Math.floor(player.xp) +
+          " / " +
+          player.neededXp +
+          " xp!";
+        if (player.AutoAttackQueue.length == 0) {
+          document.getElementById("enemyStatus").innerHTML =
+            enemy.name + "'s Health:" + enemy.health;
+          document.getElementById("playerStatus").innerHTML =
+            "Your Health:" + player.health;
+          document.getElementById("combatLog").innerHTML = combatLog;
         }
-        return;
-      }
-
-      function levelUpCheck() {
-        if (player.xp >= player.neededXp) {
-          player.xp -= player.neededXp;
-          player.neededXp += 10;
-          player.level += 1;
-          player.attributePoints += 3;
-          activityLog +=
-            "<br> You've leveled up to level " + player.level + "!";
-          for (let x of Object.keys(levelMilestones)) {
-            if (player.level.toString() == x) {
-              activityLog +=
-                "<br> You've unlocked " + levelMilestones[player.level][0];
-              window[levelMilestones[player.level][1]]();
-            }
-          }
+        levelUpCheck();
+        for (let x of player.quickEffects) {
+          runFunction(x);
+        }
+        player.quickEffects = [];
+        if (
+          Object.keys(floorMilestones).includes(player.floor.toString()) &&
+          !player.unlocks.includes(floorMilestones[player.floor][1]) &&
+          (player.unlocks.includes(floorMilestones[player.floor][2]) ||
+            floorMilestones[player.floor][2] == undefined)
+        ) {
+          activityLog += "<br>" + floorMilestones[player.floor][0];
+          player.unlocks.push(floorMilestones[player.floor][1]);
+          runFunction(floorMilestones[player.floor][1]);
           document.getElementById("activityLog").innerHTML = activityLog;
         }
-      }
-
-      function attributeDistribute() {
-        goArea("distrib");
-        if (player.attributePoints > 0 || action5List !== undefined) {
+        player.floor += 1;
+        player.stats.highestFloor = compareOverride(player.stats.highestFloor, player.floor)
+        if (fightRecursionCounter > player.maxFightRecursion) {
+          //Dungeon Rest
+          let restPrompt1 = [
+            "find a house among the caverns",
+            "find an opening in the cavern",
+            "find an opening in the cavern, covered in verdant moss,",
+            "find an opening in the cavern, covered in crimson moss,",
+            "find an small hole in the cavern, filled with skulls,",
+            "come across an abondoned house, the yard littered with graves,",
+            "enter a clearing filled with sword grass,",
+            "see a sword embedded in the ground, its height dwarfing giants,",
+            "hear music, a slow waltz,",
+            "hear music, an upbeat tempo,",
+            "find a sandwich, placed on a pedestal,",
+            "see marble pillars",
+            "reach ancient ruins",
+            "come across a bridge",
+            "come across the statue of a beast",
+            "reach a cliff",
+            "come across a mirror",
+            "come across long brick hallway",
+            "find a wall made of flesh and bone",
+            "hear the call of owls",
+          ];
+          let restPrompt2 = [
+            "you do nothing",
+            "you investigate",
+            "you run",
+            "you dance",
+            "you walk",
+            "you hide",
+            "you trudge your way through",
+            "you hike",
+            "you burn the area",
+            "you flee",
+            "you feel as if you are drowning",
+            "you fear the weight of your future",
+            "you sleep",
+            "you sleep for two eternities",
+            "you ingore it",
+          ];
+          let restPrompt3 = [
+            "leaving unburdened. ",
+            "leaving quietly. ",
+            "leaving alone. ",
+            "leaving without knowledge. ",
+            "leaving in fear. ",
+            "leaving happily. ",
+            "leaving joylessly. ",
+            "leaving without burden. ",
+            "leaving with great burdens. ",
+            "escaping with your life. ",
+            "escaping without the burden of knowledge. ",
+            "escaping with the burden of knowledge. ",
+            "escaping with the burden of eldritch knowledge. ",
+            "almost staying forever. ",
+            "leaving alert. ",
+            "leaving well-rested. ",
+            "leaving strengthened. ",
+            "leaving shaken. ",
+            "leaving in fear what you unearthed. ",
+            "continuing unsure of yourself. ",
+          ];
+          let restPrompt4 = ["and", "but", "yet", "so"];
+          fightRecursionCounter = 0;
+          goArea("dungeonRest");
+          document.getElementById("activityLog").innerHTML = activityLog;
+          document.getElementById("combatLog").innerHTML = combatLog;
+          document.getElementById("playerStatus").innerHTML =
+            "Your Health:" + player.maxHealth * 5;
+          saveGame(); // maybe?
           let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
           for (let x of count_to_8) {
-            renameAction("action" + x + "List", "distrib");
+            renameAction("action" + x + "List", "dungeonRest");
+            document.getElementById("storyLog").innerHTML =
+              "You " +
+              restPrompt1[getRandomInt(0, restPrompt1.length - 1)] +
+              " " +
+              restPrompt4[getRandomInt(0, restPrompt4.length - 1)] +
+              " " +
+              restPrompt2[getRandomInt(0, restPrompt2.length - 1)] +
+              ", " +
+              restPrompt3[getRandomInt(0, restPrompt3.length - 1)];
+          }
+          refreshStats();
+          // Dungeon Rest //
+        } else {
+          fightRecursionCounter += 1;
+          fight(player.fightLocation);
+          return;
+        }
+      }
+      return;
+    }
+
+    function levelUpCheck() {
+      if (player.xp >= player.neededXp) {
+        player.xp -= player.neededXp;
+        player.neededXp += 10;
+        player.level += 1;
+        player.attributePoints += 3;
+        activityLog +=
+          "<br> You've leveled up to level " + player.level + "!";
+        for (let x of Object.keys(levelMilestones)) {
+          if (player.level.toString() == x) {
+            activityLog +=
+              "<br> You've unlocked " + levelMilestones[player.level][0];
+            window[levelMilestones[player.level][1]]();
           }
         }
+        document.getElementById("activityLog").innerHTML = activityLog;
       }
+    }
 
-      function simpleAdd(params) {
-        params = params.split(", ");
-        player[params[0]] += parseFloat(params[1]);
-        refreshStats();
-      }
-
-      function addToAtrribute(tablekey) {
-        var attributeTable = {
-          'def':['defense'],
-          'att':['attack'],
-          'sp':['skillUsesMax'],
-          'hp':['maxHealth']
+    function attributeDistribute() {
+      goArea("distrib");
+      if (player.attributePoints > 0 || action5List !== undefined) {
+        let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+        for (let x of count_to_8) {
+          renameAction("action" + x + "List", "distrib");
         }
-        for (x in listFromNumber(1,player.attributeLoopCount)) {
+      }
+    }
+
+    function simpleAdd(params) {
+      params = params.split(", ");
+      player[params[0]] += parseFloat(params[1]);
+      refreshStats();
+    }
+
+    function addToAtrribute(tablekey) {
+      var attributeTable = {
+        def: ["defense"],
+        att: ["attack"],
+        sp: ["skillUsesMax"],
+        hp: ["maxHealth"],
+      };
+      for (x in listFromNumber(1, player.attributeLoopCount)) {
         if (player.attributePoints > 0) {
           player.attributePoints -= 1;
           player[attributeTable[tablekey][0]] += 1;
@@ -2070,477 +1883,482 @@
           player.skillUses = player.skillUsesMax;
           refreshStats();
           document.getElementById("playerStatus").innerHTML =
-          "Your Health:" + player.maxHealth * 5;2
+            "Your Health:" + player.maxHealth * 5;
+          2;
         } else {
           goHub();
           return;
         }
       }
-      }
+    }
 
-      function logKey(e) {
-        if (typeof e == "string") {
-          let keycodesub = e.charCodeAt(0);
-          e = {};
-          e.keyCode = keycodesub;
-        }
-        if (
-          (String.fromCharCode(e.keyCode) == "Y" ||
-            String.fromCharCode(e.keyCode) == "N") &&
-          player.choice == true &&
-          player.location !== "shop"
-        ) {
-          if (String.fromCharCode(e.keyCode) == "Y") {
-            choiceYes();
-          } else {
-            choiceNo();
-          }
-        } else if (
-          String.fromCharCode(e.keyCode) in
-            [1, 2, 3, 4, 5, 6, 7, 8, 9].map(String) &&
-          player.choice == false &&
-          player.location !== "shop"
-        ) {
-          if (player.location == "hub") {
-            if (e.repeat) {
-              return;
-            }
-          }
-          clickall(window["action" + String.fromCharCode(e.keyCode) + "List"]);
-          return;
+    function logKey(e) {
+      if (typeof e == "string") {
+        let keycodesub = e.charCodeAt(0);
+        e = {};
+        e.keyCode = keycodesub;
+      }
+      if (
+        (String.fromCharCode(e.keyCode) == "Y" ||
+          String.fromCharCode(e.keyCode) == "N") &&
+        player.choice == true &&
+        player.location !== "shop"
+      ) {
+        if (String.fromCharCode(e.keyCode) == "Y") {
+          choiceYes();
         } else {
-          // CHEAT
-          player.xp += 1000;
-          player.coins += 1000;
+          choiceNo();
         }
-      }
-
-      let box = document.getElementById("inputBox");
-      box.addEventListener("keydown", function (e) {
-        if (e.keyCode === 13) {
-          inputEnter(e);
+      } else if (
+        String.fromCharCode(e.keyCode) in
+        [1, 2, 3, 4, 5, 6, 7, 8, 9].map(String) &&
+        player.choice == false &&
+        player.location !== "shop"
+      ) {
+        if (player.location == "hub") {
+          if (e.repeat) {
+            return;
+          }
         }
-      });
+        clickall(window["action" + String.fromCharCode(e.keyCode) + "List"]);
+        return;
+      } else {
+        // CHEAT
+        player.xp += 1000;
+        player.coins += 1000;
+      }
+    }
 
-      function unlockHeal() {
-        if (!player.abilities.includes(3)) {
-          player.abilities.push(3);
+    let box = document.getElementById("inputBox");
+    box.addEventListener("keydown", function (e) {
+      if (e.keyCode === 13) {
+        inputEnter(e);
+      }
+    });
+
+    function unlockHeal() {
+      if (!player.abilities.includes(3)) {
+        player.abilities.push(3);
+      }
+      action3List.fight = ["|3| Heal", "heal"];
+      document.getElementById("healShield").style.display = "inline-flex";
+    }
+
+    function unlockFlightCity() {
+      action6List.hub = [
+        "|6| Caelum Civitatem, Holy City of Flight",
+        "goFlightCity",
+      ];
+    }
+    function unlockBison() {
+      action7List.hub = [
+        "|7| Enter the Singing Mountains",
+        "storyIncrement",
+        "bisonStory",
+      ];
+      player.loadFunctions.push("loadBison()");
+      if (!player.abilities.includes(5)) {
+        player.abilities.push(5);
+      }
+    }
+
+    function loadBison() {
+      action7List.hub = [
+        "|7| Enter the Singing Mountains",
+        "storyIncrement",
+        "bisonStory",
+      ];
+    }
+    function unlockAutoAttack() {
+      player.unlocks.push("autoAttack");
+      player.loadFunctions.push("loadAutoAttackIcon()");
+      loadAutoAttackIcon();
+    }
+
+    function loadAutoAttackIcon() {
+      //icon
+      document.getElementById("autoAttack").style.display = "inline-flex";
+    }
+
+    function goFlightCity() {
+      goArea("flightCity");
+      let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+      for (let x of count_to_8) {
+        renameAction("action" + x + "List", "flightCity");
+      }
+    }
+
+    function addHarpy() {
+      player.unlocks.push("harpy");
+      action2List.flightCity = ["", ""];
+      document.getElementById("feather").style.display = "inline-flex";
+      player.completedStories.push("flightCityHarpy");
+      goHub();
+    }
+
+    function harpyClear() {
+      document.getElementById("feather").style.display = "inline-flex";
+      action2List.flightCity = ["", ""];
+    }
+
+    function choiceYes() {
+      storyIncrement(player.storyLocation, "y");
+    }
+
+    function choiceNo() {
+      storyIncrement(player.storyLocation, "n");
+    }
+
+    function storyIncrement(story, choice = "none") {
+      player.storyLocation = story;
+      player.choice = true;
+      if (
+        typeof stories[story][stories[story].currentStoryPosition] !==
+        "string"
+      ) {
+        if (choice == "none") {
+          document.getElementById("storyLog").innerHTML =
+            stories[story][stories[story].currentStoryPosition][0];
+          //                    stories[story].currentStoryPosition = stories[story][stories[story].currentStoryPosition][1][0]
+        } else if (choice == "y") {
+          stories[story].currentStoryPosition =
+            stories[story][stories[story].currentStoryPosition][1][0];
+        } else if (choice == "n") {
+          stories[story].currentStoryPosition =
+            stories[story][stories[story].currentStoryPosition][1][1];
         }
-        action3List.fight = ["|3| Heal", "heal"];
-        document.getElementById("healShield").style.display = "inline-flex";
-      }
-
-      function unlockFlightCity() {
-        action6List.hub = [
-          "|6| Caelum Civitatem, Holy City of Flight",
-          "goFlightCity",
-        ];
-      }
-      function unlockBison() {
-        action7List.hub = [
-          "|7| Enter the Singing Mountains",
-          "storyIncrement",
-          "bisonStory",
-        ];
-        player.loadFunctions.push("loadBison()");
-        if (!player.abilities.includes(5)) {
-          player.abilities.push(5);
-        }
-      }
-
-      function loadBison() {
-        action7List.hub = [
-          "|7| Enter the Singing Mountains",
-          "storyIncrement",
-          "bisonStory",
-        ];
-      }
-      function unlockAutoAttack() {
-        player.unlocks.push("autoAttack");
-        player.loadFunctions.push("loadAutoAttackIcon()");
-        loadAutoAttackIcon();
-      }
-
-      function loadAutoAttackIcon() {
-        //icon
-        document.getElementById("autoAttack").style.display = "inline-flex";
-      }
-
-      function goFlightCity() {
-        goArea("flightCity");
-        let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
-        for (let x of count_to_8) {
-          renameAction("action" + x + "List", "flightCity");
-        }
-      }
-
-      function addHarpy() {
-        player.unlocks.push("harpy");
-        action2List.flightCity = ["", ""];
-        document.getElementById("feather").style.display = "inline-flex";
-        player.completedStories.push("flightCityHarpy");
-        goHub();
-      }
-
-      function harpyClear() {
-        document.getElementById("feather").style.display = "inline-flex";
-        action2List.flightCity = ["", ""];
-      }
-
-      function choiceYes() {
-        storyIncrement(player.storyLocation, "y");
-      }
-
-      function choiceNo() {
-        storyIncrement(player.storyLocation, "n");
-      }
-
-      function storyIncrement(story, choice = "none") {
-        player.storyLocation = story;
-        player.choice = true;
         if (
           typeof stories[story][stories[story].currentStoryPosition] !==
           "string"
         ) {
-          if (choice == "none") {
-            document.getElementById("storyLog").innerHTML =
-              stories[story][stories[story].currentStoryPosition][0];
-            //                    stories[story].currentStoryPosition = stories[story][stories[story].currentStoryPosition][1][0]
-          } else if (choice == "y") {
-            stories[story].currentStoryPosition =
-              stories[story][stories[story].currentStoryPosition][1][0];
-          } else if (choice == "n") {
-            stories[story].currentStoryPosition =
-              stories[story][stories[story].currentStoryPosition][1][1];
-          }
-          if (
-            typeof stories[story][stories[story].currentStoryPosition] !==
-            "string"
-          ) {
-            document.getElementById("storyLog").innerHTML =
-              stories[story][stories[story].currentStoryPosition][0];
-          } else {
-            runFunction(stories[story][stories[story].currentStoryPosition]);
-          }
+          document.getElementById("storyLog").innerHTML =
+            stories[story][stories[story].currentStoryPosition][0];
         } else {
           runFunction(stories[story][stories[story].currentStoryPosition]);
         }
+      } else {
+        runFunction(stories[story][stories[story].currentStoryPosition]);
       }
+    }
 
-      function StorySkipAround(spot) {
-        stories[player.storyLocation].currentStoryPosition = spot;
-        document.getElementById("storyLog").innerHTML =
-          stories[player.storyLocation][
-            stories[player.storyLocation].currentStoryPosition
-          ][0];
+    function StorySkipAround(spot) {
+      stories[player.storyLocation].currentStoryPosition = spot;
+      document.getElementById("storyLog").innerHTML =
+        stories[player.storyLocation][
+        stories[player.storyLocation].currentStoryPosition
+        ][0];
+    }
+
+    function inputEnter() {
+      //push inputbox value
+      player.input = document.getElementById("inputBox").value;
+      document.getElementById("inputBox").value = "";
+      if (player.location == "shop") {
+        buyShopItem();
+        blurAll();
+        goFlightCity();
       }
+      if (player.location == "extra settings") {
+        editExtraSettings();
+        blurAll();
+        goHub();
+      }
+    }
 
-      function inputEnter() {
-        //push inputbox value
-        player.input = document.getElementById("inputBox").value;
-        document.getElementById("inputBox").value = "";
-        if (player.location == "shop") {
-          buyShopItem();
-          blurAll();
-          goFlightCity();
+    function resolveAfterSeconds(sec) {
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          resolve("resolved");
+        }, sec);
+      });
+    }
+
+    async function goShop() {
+      cleanShop();
+      let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+      for (let x of count_to_8) {
+        renameAction("action" + x + "List", "shop");
+      }
+      goArea("shop");
+      activityLog += "<br>" + "Buy Items 50 Coins each, use Input Box";
+      document.getElementById("activityLog").innerHTML = activityLog;
+
+      combatLog += '<hr style="border: none;">';
+      for (let index of items) {
+        if (index !== "") {
+          combatLog += "<br>" + (items.indexOf(index) + 1) + ": " + index[0];
+          document.getElementById("combatLog").innerHTML = combatLog;
         }
-        if (player.location == "extra settings") {
-          editExtraSettings();
-          blurAll();
-          goHub();
-        }
       }
+      document.getElementById("inputBox").onkeypress = function () {
+        return true;
+      };
+      document.getElementById("inputBox").placeholder = "-|-|-";
+      document.getElementById("inputBox").innerHTML = "";
+      const result = await resolveAfterSeconds(1);
+      document.getElementById("inputBox").focus();
+    }
 
-      function resolveAfterSeconds(sec) {
-        return new Promise((resolve) => {
-          setTimeout(() => {
-            resolve("resolved");
-          }, sec);
-        });
+    async function extraSettings() {
+      let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+      for (let x of count_to_8) {
+        renameAction("action" + x + "List", "extra settings");
       }
+      goArea("extra settings");
+      activityLog +=
+        "<br>" + 'Enter requests with "{Setting number}:{Value}"';
+      document.getElementById("activityLog").innerHTML = activityLog;
 
-      async function goShop() {
-        cleanShop();
-        let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
-        for (let x of count_to_8) {
-          renameAction("action" + x + "List", "shop");
-        }
-        goArea("shop");
-        activityLog += "<br>" + "Buy Items 50 Coins each, use Input Box";
-        document.getElementById("activityLog").innerHTML = activityLog;
+      combatLog += '<hr style="border: none;">';
+      if (player.unlocks.includes("autoAttack")) {
+        combatLog += "<br>" + "{1} : Auto Attack Queue (ie. {1:3,2,2})";
+      }
+      combatLog +=
+        "<br>" +
+        "{2} : Set Starting Floor (range: 1, " +
+        player.StartingFloorMax +
+        ") (set to 0 for highest floor) ie. {2:2}";
+      combatLog +=
+        "<br>" +
+        "{3} : Set attributes distributed per click (range: 1, 100) ie. {3:2}";
+      //            combatLog += "<br>" + '{1} : auto death gate WIP';
+      document.getElementById("combatLog").innerHTML = combatLog;
+      document.getElementById("inputBox").onkeypress = function () {
+        return true;
+      };
+      document.getElementById("inputBox").placeholder = "-|-|-";
+      document.getElementById("inputBox").innerHTML = "";
+      const result = await resolveAfterSeconds(1);
+      document.getElementById("inputBox").focus();
+    }
 
-        combatLog += '<hr style="border: none;">';
-        for (let index of items) {
-          if (index !== "") {
-            combatLog += "<br>" + (items.indexOf(index) + 1) + ": " + index[0];
-            document.getElementById("combatLog").innerHTML = combatLog;
+    function editExtraSettings() {
+      try {
+        let settingChange = player.input.split(":");
+        if (settingChange[0] == 1 && player.unlocks.includes("autoAttack")) {
+          //attack queue
+          player.AutoAttackQueue = [];
+          for (x of settingChange[1].split(",")) {
+            if (isInteger(x)) {
+              if (player.abilities.includes(parseInt(x))) {
+                player.AutoAttackQueue.push(parseInt(x));
+              }
+            }
           }
-        }
-        document.getElementById("inputBox").onkeypress = function () {
-          return true;
-        };
-        document.getElementById("inputBox").placeholder = "-|-|-";
-        document.getElementById("inputBox").innerHTML = "";
-        const result = await resolveAfterSeconds(1);
-        document.getElementById("inputBox").focus();
-      }
-
-      async function extraSettings() {
-        let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
-        for (let x of count_to_8) {
-          renameAction("action" + x + "List", "extra settings");
-        }
-        goArea("extra settings");
-        activityLog +=
-          "<br>" + 'Enter requests with "{Setting number}:{Value}"';
-        document.getElementById("activityLog").innerHTML = activityLog;
-
-        combatLog += '<hr style="border: none;">';
-        if (player.unlocks.includes("autoAttack")) {
-          combatLog += "<br>" + "{1} : Auto Attack Queue (ie. {1:3,2,2})";
-        }
-        combatLog +=
-          "<br>" +
-          "{2} : Set Starting Floor (range: 1, " +
-          player.StartingFloorMax +
-          ") (set to 0 for highest floor) ie. {2:2}";
           combatLog +=
-          "<br>" +
-          "{3} : Set attributes distributed per click (range: 1, 100) ie. {3:2}";
-        //            combatLog += "<br>" + '{1} : auto death gate WIP';
-        document.getElementById("combatLog").innerHTML = combatLog;
-        document.getElementById("inputBox").onkeypress = function () {
-          return true;
-        };
-        document.getElementById("inputBox").placeholder = "-|-|-";
-        document.getElementById("inputBox").innerHTML = "";
-        const result = await resolveAfterSeconds(1);
-        document.getElementById("inputBox").focus();
-      }
-
-      function editExtraSettings() {
-        try {
-          let settingChange = player.input.split(":");
-          if (settingChange[0] == 1 && player.unlocks.includes("autoAttack")) {
-            //attack queue
-            player.AutoAttackQueue = [];
-            for (x of settingChange[1].split(",")) {
-              if (isInteger(x)) {
-                if (player.abilities.includes(parseInt(x))) {
-                  player.AutoAttackQueue.push(parseInt(x));
-                }
-              }
-            }
-            combatLog +=
-              "<br>" +
-              "Your auto attack queue is: " +
-              JSON.stringify(player.AutoAttackQueue);
-            document.getElementById("combatLog").innerHTML = combatLog;
-          }
-          if (settingChange[0] == 2) {
-            //starting floor
-            if (isInteger(settingChange[1])) {
-              if (
-                clamp(parseInt(settingChange[1]), 0, player.startingFloorMax) ==
+            "<br>" +
+            "Your auto attack queue is: " +
+            JSON.stringify(player.AutoAttackQueue);
+          document.getElementById("combatLog").innerHTML = combatLog;
+        }
+        if (settingChange[0] == 2) {
+          //starting floor
+          if (isInteger(settingChange[1])) {
+            if (
+              clamp(parseInt(settingChange[1]), 0, player.startingFloorMax) ==
+              player.startingFloorMax
+            ) {
+              player.startingFloor = 0;
+            } else {
+              player.startingFloor = clamp(
+                parseInt(settingChange[1]),
+                0,
                 player.startingFloorMax
-              ) {
-                player.startingFloor = 0;
-              } else {
-                player.startingFloor = clamp(
-                  parseInt(settingChange[1]),
-                  0,
-                  player.startingFloorMax
-                );
-              }
+              );
             }
-            combatLog +=
-              "<br>" + "Your Starting Floor: " + player.startingFloor;
+          }
+          combatLog +=
+            "<br>" + "Your Starting Floor: " + player.startingFloor;
+          document.getElementById("combatLog").innerHTML = combatLog;
+        }
+        if (settingChange[0] == 3) {
+          //attribute increment
+          if (isInteger(settingChange[1])) {
+            player.attributeLoopCount = clamp(
+              parseInt(settingChange[1]),
+              0,
+              100
+            );
+          }
+          combatLog +=
+            "<br>" + "Your attribute increment: " + player.attributeLoopCount;
+          document.getElementById("combatLog").innerHTML = combatLog;
+        }
+      } finally {
+        return;
+      }
+    }
+
+    function buyShopItem() {
+      if (isInteger(player.input)) {
+        // fix
+        boughtitem = parseInt(player.input) - 1;
+        if (
+          player.coins >= 50 &&
+          boughtitem >= 0 &&
+          boughtitem < items.length
+        ) {
+          if (items[boughtitem] !== "") {
+            if (items[boughtitem][2] !== "") {
+              items[boughtitem][1](items[boughtitem][2]);
+            } else {
+              items[boughtitem][1]();
+            }
+            player.items.push(boughtitem);
+            player.coins -= 50;
+            combatLog += "<br>" + items[boughtitem][0] + " Bought.";
             document.getElementById("combatLog").innerHTML = combatLog;
-          }
-          if (settingChange[0] == 3) {
-            //attribute increment
-            if (isInteger(settingChange[1])) {
-                player.attributeLoopCount = clamp(
-                  parseInt(settingChange[1]),
-                  0,
-                  100
-                );
-            }
-            combatLog +=
-              "<br>" + "Your attribute increment: " + player.attributeLoopCount;
-            document.getElementById("combatLog").innerHTML = combatLog;
-          }
-        } finally {
-          return;
-        }
-      }
-
-      function buyShopItem() {
-        if (isInteger(player.input)) {
-          // fix
-          boughtitem = parseInt(player.input) - 1;
-          if (
-            player.coins >= 50 &&
-            boughtitem >= 0 &&
-            boughtitem < items.length
-          ) {
-            if (items[boughtitem] !== "") {
-              if (items[boughtitem][2] !== "") {
-                items[boughtitem][1](items[boughtitem][2]);
-              } else {
-                items[boughtitem][1]();
-              }
-              player.items.push(boughtitem);
-              player.coins -= 50;
-              combatLog += "<br>" + items[boughtitem][0] + " Bought.";
-              document.getElementById("combatLog").innerHTML = combatLog;
-              document.getElementById("enemyStatus").innerHTML =
-                "Coins:" + player.coins;
-              refreshStats();
-            }
+            document.getElementById("enemyStatus").innerHTML =
+              "Coins:" + player.coins;
+            refreshStats();
           }
         }
       }
+    }
 
-      function cleanShop() {
-        if (player.items !== undefined) {
-          for (let item of player.items) {
-            items[item] = "";
-          }
+    function cleanShop() {
+      if (player.items !== undefined) {
+        for (let item of player.items) {
+          items[item] = "";
         }
       }
+    }
 
-      function respecAttributes() {
-        for (let x of player.attributePointsUsed) {
-          player[x] -= 1;
-          player.attributePoints += 1;
-        }
-        player.attributePointsUsed = [];
-        refreshStats();
+    function respecAttributes() {
+      for (let x of player.attributePointsUsed) {
+        player[x] -= 1;
+        player.attributePoints += 1;
       }
+      player.attributePointsUsed = [];
+      refreshStats();
+    }
 
-      function goSettings() {
-        goArea("settings");
-        let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
-        for (let x of count_to_8) {
-          renameAction("action" + x + "List", "settings");
-        }
+    function goSettings() {
+      goArea("settings");
+      let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+      for (let x of count_to_8) {
+        renameAction("action" + x + "List", "settings");
       }
+    }
 
-      function togglePanels() {
-        if (player.panelsToggle) {
-          clearInterval(flameIntervals[0]);
-          clearInterval(flameIntervals[1]);
-          flameIntervals = [];
-          player.panelsToggle = false;
-          document
-            .getElementById("canvaLeft")
-            .getContext("2d")
-            .clearRect(0, 0, window.innerWidth, window.innerHeight);
-          document
-            .getElementById("canvaRight")
-            .getContext("2d")
-            .clearRect(0, 0, window.innerWidth, window.innerHeight);
-          document.getElementById("canvaLeft").style.display = "none";
-          document.getElementById("canvaRight").style.display = "none";
-        } else {
-          generateFlames("canvaLeft");
-          generateFlames("canvaRight");
-          player.panelsToggle = true;
-          document.getElementById("canvaLeft").style.display = "block";
-          document.getElementById("canvaRight").style.display = "block";
-        }
-        goHub();
+    function togglePanels() {
+      if (player.panelsToggle) {
+        clearInterval(flameIntervals[0]);
+        clearInterval(flameIntervals[1]);
+        flameIntervals = [];
+        player.panelsToggle = false;
+        document
+          .getElementById("canvaLeft")
+          .getContext("2d")
+          .clearRect(0, 0, window.innerWidth, window.innerHeight);
+        document
+          .getElementById("canvaRight")
+          .getContext("2d")
+          .clearRect(0, 0, window.innerWidth, window.innerHeight);
+        document.getElementById("canvaLeft").style.display = "none";
+        document.getElementById("canvaRight").style.display = "none";
+      } else {
+        generateFlames("canvaLeft");
+        generateFlames("canvaRight");
+        player.panelsToggle = true;
+        document.getElementById("canvaLeft").style.display = "block";
+        document.getElementById("canvaRight").style.display = "block";
       }
-
-      function panelsStart() {
-        if (!player.panelsToggle) {
-          clearInterval(flameIntervals[0]);
-          clearInterval(flameIntervals[1]);
-          flameIntervals = [];
-          document
-            .getElementById("canvaLeft")
-            .getContext("2d")
-            .clearRect(0, 0, window.innerWidth, window.innerHeight);
-          document
-            .getElementById("canvaRight")
-            .getContext("2d")
-            .clearRect(0, 0, window.innerWidth, window.innerHeight);
-          document.getElementById("canvaLeft").style.display = "none";
-          document.getElementById("canvaRight").style.display = "none";
-        }
-      }
-
-      function doubleClickClearGame() {
-        if (doubleClickCheck == false) {
-          action3List.settings = ["|3| Are you sure?", "doubleClickClearGame"];
-          doubleClickCheck = true;
-          let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
-          for (let x of count_to_8) {
-            renameAction("action" + x + "List", player.location);
-          }
-        } else {
-          clearGame();
-        }
-      }
-
-      function doubleClickRespec() {
-        if (doubleClickCheck == false) {
-          action3List.settings = ["|_| Are you sure?", "doubleClickClearGame"];
-          doubleClickCheck = true;
-          let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
-          for (let x of count_to_8) {
-            renameAction("action" + x + "List", player.location);
-          }
-        } else {
-          respecAttributes();
-        }
-      }
-
-      function unlockHall() {
-        action5List.hub = ["|5| Enter The Great Hall", "goHall"];
-        player.loadFunctions.push("loadHall()");
-      }
-
-      function loadHall() {
-        action5List.hub = ["|5| Enter The Great Hall", "goHall"];
-      }
-
-      function goHall() {
-        goArea("greatHall");
-        remapKeys("greatHall");
-        refreshStats();
-      }
-
-      function clearBison(summonName) {
-        document.getElementById("horns-icon").style.display = "inline-flex";
-        removeItemAll(player.loadFunctions, "loadBison()");
-        player.unlocks.push("BisonClear");
-        action7List.hub = ["", ""];
-        action5List.fight = ["|5| summon", "summon"];
-        player.completedStories.push("bisonStory");
-        player.summonName = summonName;
-        goHub();
-      }
-
-      function loadClearBison() {
-        document.getElementById("horns-icon").style.display = "inline-flex";
-        action7List.hub = ["", ""];
-        action5List.fight = ["|5| summon", "summon"];
-      }
-
-      function remapKeys(loc) {
-        let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
-        for (let x of count_to_8) {
-          renameAction("action" + x + "List", loc);
-        }
-      }
-
-      document.body.addEventListener("keydown", logKey);
-      loadGame();
       goHub();
-      //        unlockAutoAttack()//cheat
-      panelsStart();
-    </script>
-  </body>
+    }
+
+    function panelsStart() {
+      if (!player.panelsToggle) {
+        clearInterval(flameIntervals[0]);
+        clearInterval(flameIntervals[1]);
+        flameIntervals = [];
+        document
+          .getElementById("canvaLeft")
+          .getContext("2d")
+          .clearRect(0, 0, window.innerWidth, window.innerHeight);
+        document
+          .getElementById("canvaRight")
+          .getContext("2d")
+          .clearRect(0, 0, window.innerWidth, window.innerHeight);
+        document.getElementById("canvaLeft").style.display = "none";
+        document.getElementById("canvaRight").style.display = "none";
+      }
+    }
+
+    function doubleClickClearGame() {
+      if (doubleClickCheck == false) {
+        action3List.settings = ["|3| Are you sure?", "doubleClickClearGame"];
+        doubleClickCheck = true;
+        let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+        for (let x of count_to_8) {
+          renameAction("action" + x + "List", player.location);
+        }
+      } else {
+        clearGame();
+      }
+    }
+
+    function doubleClickRespec() {
+      if (doubleClickCheck == false) {
+        action3List.settings = ["|_| Are you sure?", "doubleClickClearGame"];
+        doubleClickCheck = true;
+        let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+        for (let x of count_to_8) {
+          renameAction("action" + x + "List", player.location);
+        }
+      } else {
+        respecAttributes();
+      }
+    }
+
+    function unlockHall() {
+      action5List.hub = ["|5| Enter The Great Hall", "goHall"];
+      player.loadFunctions.push("loadHall()");
+    }
+
+    function loadHall() {
+      action5List.hub = ["|5| Enter The Great Hall", "goHall"];
+    }
+
+    function goHall() {
+      goArea("greatHall");
+      remapKeys("greatHall");
+      for (x in player.stats) {
+        pla
+      }
+      refreshStats();
+    }
+
+    function clearBison(summonName) {
+      document.getElementById("horns-icon").style.display = "inline-flex";
+      removeItemAll(player.loadFunctions, "loadBison()");
+      player.unlocks.push("BisonClear");
+      action7List.hub = ["", ""];
+      action5List.fight = ["|5| summon", "summon"];
+      player.completedStories.push("bisonStory");
+      player.summonName = summonName;
+      goHub();
+    }
+
+    function loadClearBison() {
+      document.getElementById("horns-icon").style.display = "inline-flex";
+      action7List.hub = ["", ""];
+      action5List.fight = ["|5| summon", "summon"];
+    }
+
+    function remapKeys(loc) {
+      let count_to_8 = [1, 2, 3, 4, 5, 6, 7, 8].map(String);
+      for (let x of count_to_8) {
+        renameAction("action" + x + "List", loc);
+      }
+    }
+
+    document.body.addEventListener("keydown", logKey);
+    loadGame();
+    goHub();
+    //        unlockAutoAttack()//cheat
+    panelsStart();
+  </script>
+</body>
+
 </html>
