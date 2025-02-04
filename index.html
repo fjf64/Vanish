@@ -209,6 +209,31 @@
   <div style="left: 23%; width: 53.5vw; height: 30vh">
     <p id="combatLog"></p>
   </div>
+  <!-- DECAL -->
+  <div style="
+  position: absolute;
+  left: 97.96%;
+  top: 74.5vh;
+  max-width: 1.5vw;
+  height: 2.1vw;
+  min-height: 4.25vh;
+  display: none;
+  padding-top: 0vh;
+  overflow: hidden;
+  justify-content: left;
+  text-align: left;
+" id="horns-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+      style="float: left; margin-left: auto; max-width: 100%; height: auto">
+      <defs>
+        <filter id="colorMask4">
+          <feFlood flood-color="var(--colorText)" result="flood" />
+          <feComposite in="SourceGraphic" in2="flood" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" />
+        </filter>
+      </defs>
+      <image width="100%" xlink:href="https://fjf64.github.io/Vanish/horns.png" filter="url(#colorMask4)" />
+    </svg>
+  </div>
   <!--ICONS-->
   <div style="
         position: absolute;
@@ -847,7 +872,7 @@
 
     var enemy = {
       name: "Filler Mike",
-      maxHealth:1,
+      maxHealth: 1,
       health: 1,
       attack: 1,
       defense: 1,
@@ -1620,9 +1645,9 @@
           " damage, and healed " +
           Math.floor((player.defense * player.summonStrength) / 4) +
           " health!";
-          player.stats.totalCompanionDamage[1] += Math.ceil(
-            (player.attack * 5 * player.summonStrength) / enemy.defense
-          )
+        player.stats.totalCompanionDamage[1] += Math.ceil(
+          (player.attack * 5 * player.summonStrength) / enemy.defense
+        )
       }
     }
 
@@ -1636,9 +1661,9 @@
           (player.coins ** 0.8 * player.harpyDamage) / enemy.defense
         ) +
         " damage!";
-        player.stats.totalCompanionDamage[1] += Math.floor(
-          (player.coins ** 0.8 * player.harpyDamage) / enemy.defense
-        )
+      player.stats.totalCompanionDamage[1] += Math.floor(
+        (player.coins ** 0.8 * player.harpyDamage) / enemy.defense
+      )
     }
 
     function enemyTurn() {
@@ -1976,7 +2001,7 @@
         "bisonStory",
       ];
       player.loadFunctions.push("loadBison()");
-      
+
     }
 
     function loadBison() {
@@ -2345,9 +2370,9 @@
       for (x in player.stats) {
         if (x == 'totalPlaytime') {
           ;
-          combatLog += "<br>" + new Date(Math.round(player.stats[x][1]) * 1000).toISOString().slice(11, 19)+" : " + player.stats[x][0];
+          combatLog += "<br>" + new Date(Math.round(player.stats[x][1]) * 1000).toISOString().slice(11, 19) + " : " + player.stats[x][0];
         } else {
-        combatLog += "<br>" + Math.round(player.stats[x][1])+" : " + player.stats[x][0];
+          combatLog += "<br>" + Math.round(player.stats[x][1]) + " : " + player.stats[x][0];
         }
       }
       combatLog += '<hr style="border: none;">';
