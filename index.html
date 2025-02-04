@@ -128,7 +128,7 @@
       margin-right: 0vw;
       text-align: center;
       left: 29.75%;
-      top: 31.5vh;
+      top: 31.75vh;
       width: 44.75vw;
       height: 14.5vh;
       padding-top: 2vh;
@@ -212,26 +212,29 @@
   <!-- DECAL -->
   <div style="
   position: absolute;
-  left: 97.96%;
-  top: 74.5vh;
-  max-width: 1.5vw;
-  height: 2.1vw;
-  min-height: 4.25vh;
-  display: none;
+  left: 23%;
+  top: 50vh;
+  width: 53.5vw;
+  height: 2.7vw;
+  min-height: 13vh;
+  display: inline-block;
   padding-top: 0vh;
   overflow: hidden;
   justify-content: left;
   text-align: left;
+  z-index: -1;
+  background-color: transparent;
+  border: none;
 " id="horns-icon">
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
-      style="float: left; margin-left: auto; max-width: 100%; height: auto">
+      style="float:left; margin-left: auto; height: 100%; width: 100%;">
       <defs>
-        <filter id="colorMask4">
+        <filter id="colorMask5">
           <feFlood flood-color="var(--colorText)" result="flood" />
           <feComposite in="SourceGraphic" in2="flood" operator="arithmetic" k1="1" k2="0" k3="0" k4="0" />
         </filter>
       </defs>
-      <image width="100%" xlink:href="https://fjf64.github.io/Vanish/horns.png" filter="url(#colorMask4)" />
+      <image width="100%" xlink:href="https://fjf64.github.io/Vanish/bird-decal.png" filter="url(#colorMask5)" />
     </svg>
   </div>
   <!--ICONS-->
@@ -335,7 +338,7 @@
   <div style="
         position: absolute;
         left: 23%;
-        top: 31.5vh;
+        top: 31.75vh;
         width: 6vw;
         height: 12vh;
         display: inline-flex;
@@ -479,7 +482,7 @@
   </div>
   <input style="
         left: 23%;
-        top: 47.75%;
+        top: 48%;
         width: 6vw;
         height: 2vh;
         padding-bottom: 1vh;
