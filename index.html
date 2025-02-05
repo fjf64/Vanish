@@ -127,10 +127,10 @@
       margin-left: 0vw;
       margin-right: 0vw;
       text-align: center;
-      left: 29.75%;
+      left: 29.5%;
       top: 31.75vh;
       width: 44.75vw;
-      height: 14.5vh;
+      /* height: 24.5vh; */
       padding-top: 2vh;
       padding-bottom: 1vh;
       padding-left: 1vw;
@@ -361,7 +361,7 @@
         height: 15vh;
         padding-bottom: 1vh;
       " id="activityLog"></div>
-  <div id="storyLog"></div>
+  <div id="storyLog" style="height: 14.25vh;"></div>
 
   <div style="
         left: 30%;
@@ -980,13 +980,13 @@
         colorText: "#b33f19",
         colorHighlights: "#e3ded1",
       },
-      //            uhhh: {
-      //                mainBG: "#1a1817",
-      //                colorBG: "#1c1918",
-      //                colorTrap: "#0f0f0f",
-      //                colorText: "white",
-      //                colorHighlights: "#e3ded1",
-      //            },
+                //  uhhh: {
+                    //  mainBG: "#1a1817",
+                    //  colorBG: "#1c1918",
+                    //  colorTrap: "#0f0f0f",
+                    //  colorText: "white",
+                    //  colorHighlights: "#e3ded1",
+                //  },
       flightCity: {
         mainBG: "black",
         colorBG: "#040E1F",
@@ -1282,6 +1282,7 @@
           )
           .join("<br>");
       }
+      document.getElementById('storyLog').style.height = '14.25vh';
       player.skillUses = player.skillUsesMax;
       document.getElementById("activityLog").innerHTML = activityLog;
       document.getElementById("combatLog").innerHTML = combatLog;
@@ -2056,6 +2057,7 @@
 
     function storyIncrement(story, choice = "none") {
       player.storyLocation = story;
+      document.getElementById('storyLog').style.height = '24.5vh';
       player.choice = true;
       if (
         typeof stories[story][stories[story].currentStoryPosition] !==
