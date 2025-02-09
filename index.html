@@ -217,7 +217,7 @@
   width: 53.5vw;
   max-height: 13vh;
   /* min-height: 13vh; */
-  display: inline-block;
+  display: none;
   padding-top: 0vh;
   overflow: hidden;
   justify-content: left;
@@ -225,7 +225,7 @@
   z-index: -1;
   background-color: transparent;
   border: none;
-" id="horns-icon">
+" id="bird-decal-icon">
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
       style="float:left; margin-left: auto; height: 100%; width: 100%;">
       <defs>
@@ -2360,11 +2360,13 @@
 
     function unlockHall() {
       action5List.hub = ["|5| Enter The Great Hall", "goHall"];
+      document.getElementById("bird-decal-icon").style.display = "inline-block";
       player.loadFunctions.push("loadHall()");
     }
 
     function loadHall() {
       action5List.hub = ["|5| Enter The Great Hall", "goHall"];
+      document.getElementById("bird-decal-icon").style.display = "inline-block";;
     }
 
     function goHall() {
